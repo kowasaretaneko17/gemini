@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestControllerAdvice;
  * 作者:weiyimeng
  * 邮箱:weiyimeng@ddjf.com.cn
  * 日期:2019/1/23
- * 功能说明：
+ * 功能说明：全局异常处理
  */
 @RestControllerAdvice
 public class ExceptionController {

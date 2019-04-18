@@ -17,6 +17,8 @@ import java.util.HashSet;
 import java.util.Set;
 import java.util.concurrent.TimeUnit;
 
+import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_LOGIN;
+
 /**
  * 构建组：大道金服科技部
  * 作者:weiyimeng
@@ -63,7 +65,7 @@ public class CustomRealm extends AuthorizingRealm {
         String password = userInfoVo.getPassword();
         log.info("username:{},password:{}",token.toString(),password);
         if ((null == password) ||(!password.equals(new String((char[]) token.getCredentials())))) {
-            throw new AccountException("用户名或密码不正确");
+            throw new AccountException(AUTH_LOGIN.getDesc());
         } else{
             AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(token.getPrincipal(), password, getName());
             SecurityUtils.getSubject().getSession().setAttribute("currentUser",userInfoVo);

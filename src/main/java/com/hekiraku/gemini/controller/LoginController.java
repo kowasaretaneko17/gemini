@@ -18,7 +18,9 @@ import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.concurrent.TimeUnit;
+import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_LOGIN;
+import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_ROLE;
+import static com.hekiraku.gemini.common.enums.ExceptionResultEnums.E_LOGIN;
 
 /**
  * 构建组：大道金服科技部
@@ -43,19 +45,13 @@ public class LoginController {
     @ApiOperation(value = "未登录", notes = "未登录")
     @GetMapping("/notLogin")
     public ApiResult notLogin() {
-        return ApiResult.buildFail("-9999", "您尚未登陆！");
+        return ApiResult.successMsg("您尚未登陆");
     }
 
     @ApiOperation(value = "无权限", notes = "无权限")
     @GetMapping("/notRole")
     public ApiResult notRole() {
         return ApiResult.successMsg("您没有权限！");
-    }
-
-    @ApiOperation(value = "主页", notes = "主页")
-    @GetMapping("/index")
-    public ApiResult index() {
-        return ApiResult.successMsg("欢迎来到登录成功后的主页！");
     }
 
     @ApiOperation(value = "登出", notes = "登出")
@@ -78,7 +74,7 @@ public class LoginController {
     @ApiOperation(value = "登录", notes = "用户登录接口")
     public ApiResult login(String username, String password) {
         if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return ApiResult.buildFail("-9999", "用户名/密码不能为空！");
+            return ApiResult.buildFail(AUTH_LOGIN.getCode(), AUTH_LOGIN.getDesc());
         }
         // 从SecurityUtils里边创建一个 subject
         Subject subject = SecurityUtils.getSubject();
@@ -90,15 +86,15 @@ public class LoginController {
             //根据权限，指定返回数据
             String role = userMapper.selectAllByUserName(username).getRoleName();
             if ("user".equals(role)) {
-                return ApiResult.buildSuccessNormal("200", "欢迎登陆", subject.getSession().getId());
+                return ApiResult.buildSuccessNormal("欢迎登陆", subject.getSession().getId());
             }
             if ("admin".equals(role)) {
-                return ApiResult.buildSuccessNormal("200", "欢迎来到管理员页面", subject.getSession().getId());
+                return ApiResult.buildSuccessNormal("欢迎来到管理员页面", subject.getSession().getId());
             }
-            return ApiResult.buildFail("-9999", "权限错误！");
+            return ApiResult.buildFail(AUTH_ROLE.getCode(), AUTH_ROLE.getDesc());
         } catch (Exception e) {
-            log.info("{}",e);
-            return ApiResult.buildFail("-9999", "登录异常！");
+            log.info("登录异常：{}",e);
+            return ApiResult.buildFail(E_LOGIN.getCode(), E_LOGIN.getDesc());
         }finally {
             LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectAllByUserName(username).getUserNum(),LogActiveNameEnums.LOG_LOGIN,"登录");
         }

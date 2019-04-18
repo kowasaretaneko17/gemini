@@ -1,6 +1,8 @@
 package com.hekiraku.gemini.common;
+import lombok.Data;
 
 import java.io.Serializable;
+import static com.hekiraku.gemini.common.enums.NormalResultEnums.N_SUCCESS;
 
 /**
  * 构建组：大道金服科技部
@@ -9,6 +11,7 @@ import java.io.Serializable;
  * 日期:2019/1/22
  * 功能说明：
  */
+@Data
 public class ApiResult<T> implements Serializable {
 
     /**
@@ -35,38 +38,6 @@ public class ApiResult<T> implements Serializable {
         super();
     }
 
-    public Boolean getSuccess() {
-        return success;
-    }
-
-    public void setSuccess(Boolean success) {
-        this.success = success;
-    }
-
-    public String getCode() {
-        return code;
-    }
-
-    public void setCode(String code) {
-        this.code = code;
-    }
-
-    public String getMessage() {
-        return message;
-    }
-
-    public void setMessage(String message) {
-        this.message = message;
-    }
-
-    public T getData() {
-        return data;
-    }
-
-    public void setData(T data) {
-        this.data = data;
-    }
-
     public ApiResult(Boolean success, String message) {
         super();
         this.success = success;
@@ -76,11 +47,11 @@ public class ApiResult<T> implements Serializable {
     /**
      * 构建成功对象，拼装一个正常的返回
      */
-    public static <T> ApiResult<T> buildSuccessNormal(String code, String msg, T data) {
+    public static <T> ApiResult<T> buildSuccessNormal(String msg, T data) {
         ApiResult<T> apiResultDto = new ApiResult<T>();
         apiResultDto.setSuccess(Boolean.TRUE);
         apiResultDto.setMessage(msg);
-        apiResultDto.setCode(code);
+        apiResultDto.setCode(N_SUCCESS.getCode());
         apiResultDto.setData(data);
         return apiResultDto;
     }
@@ -91,11 +62,10 @@ public class ApiResult<T> implements Serializable {
     public static ApiResult successMsg(String msg) {
         ApiResult apiResultDto = new ApiResult();
         apiResultDto.setSuccess(Boolean.TRUE);
-        apiResultDto.setCode("0000");
+        apiResultDto.setCode(N_SUCCESS.getCode());
         apiResultDto.setMessage(msg);
         return apiResultDto;
     }
-
     public static ApiResult buildFail(String code, String message) {
         ApiResult apiResultDto = new ApiResult();
         apiResultDto.setSuccess(Boolean.FALSE);

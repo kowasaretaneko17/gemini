@@ -72,7 +72,7 @@ public class TextRecordServiceImpl implements TextRecordService {
     @Override
     public ApiResult selectTextByDayUsrChar(TextRecordDto textRecordDto) {
         TextRecordEntity recordEntity = textRecordManager.selectTextByDayUsrChar(textRecordDto);
-        return ApiResult.buildSuccessNormal("200","查询成功",recordEntity);
+        return ApiResult.buildSuccessNormal("查询成功",recordEntity);
     }
 
     @Override
@@ -118,7 +118,7 @@ public class TextRecordServiceImpl implements TextRecordService {
         }else if(recordEntities.isEmpty()){
             return ApiResult.buildFail("100","当天没有日记");
         }
-        return ApiResult.buildSuccessNormal("200","成功获取日记",recordEntities);
+        return ApiResult.buildSuccessNormal("成功获取日记",recordEntities);
 
     }
 }

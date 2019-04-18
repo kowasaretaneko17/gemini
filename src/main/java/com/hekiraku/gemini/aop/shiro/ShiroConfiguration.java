@@ -112,9 +112,7 @@ public class ShiroConfiguration {
     @Bean(name = "customRealm")
     public CustomRealm myRealm() {
         CustomRealm myShiroRealm = new CustomRealm();
-        //        myShiroRealm.setCredentialsMatcher(hashedCredentialsMatcher());
         myShiroRealm.setCachingEnabled(true);
-        //        myShiroRealm.setCacheManager(redisCacheManager());
         return myShiroRealm;
     }
 
@@ -126,16 +124,6 @@ public class ShiroConfiguration {
         securityManager.setCacheManager(redisCacheManager);
         return securityManager;
     }
-
-//    @Bean(name = "kickoutSessionControlFilter")
-//    public KickoutSessionControlFilter jwtFilter(SessionManager sessionManager, RedisTemplate redisTemplate) {
-//        KickoutSessionControlFilter kickoutSessionControlFilter = new KickoutSessionControlFilter();
-//        kickoutSessionControlFilter.setSessionManager(sessionManager);
-//        kickoutSessionControlFilter.setRedisTemplate(redisTemplate);
-//        kickoutSessionControlFilter.setKickoutPrefix(kickoutPrefix);
-//        return kickoutSessionControlFilter;
-//    }
-
     @Bean(name = "shiroFilter")
     public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
         ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
@@ -144,12 +132,6 @@ public class ShiroConfiguration {
         shiroFilterFactoryBean.setFilters(filters);
         //注意拦截链配置顺序 不能颠倒
         Map<String, String> filterChainDefinitionMap = new LinkedHashMap();
-        /**setLoginUrl如果不设置值，默认会自动寻找web工程根目录下的/login映射,或者/login.jsp。未登录页面*/
-        shiroFilterFactoryBean.setLoginUrl("/notLogin");
-        /**设置无权限时跳转的url*/
-        shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
-        /**登陆成功后跳转页面*/
-        shiroFilterFactoryBean.setSuccessUrl("/index");
         /**以下是不会被拦截的连接*/
         /**druid+swagger平台*/
         filterChainDefinitionMap.put("/swagger-ui.html", "anon");
@@ -191,16 +173,6 @@ public class ShiroConfiguration {
     }
 
     /**
-     * 加这个本类@Values取不到值...cao
-     *
-     * @return
-     */
-    //    @Bean(name = "lifecycleBeanPostProcessor")
-    //    public LifecycleBeanPostProcessor lifecycleBeanPostProcessor() {
-    //        return new LifecycleBeanPostProcessor();
-    //    }
-
-    /**
      * 下面2个支持controller层注解实现权限控制
      *
      * @return
@@ -219,55 +191,4 @@ public class ShiroConfiguration {
         authorizationAttributeSourceAdvisor.setSecurityManager( securityManager);
         return authorizationAttributeSourceAdvisor;
     }
-    /**
-     * ShiroFilterFactoryBean 处理拦截资源文件问题。
-     * 注意：单独一个ShiroFilterFactoryBean配置是或报错的，因为在
-     * 初始化ShiroFilterFactoryBean的时候需要注入：SecurityManager
-     * <p>
-     * Filter Chain定义说明
-     * 1、一个URL可以配置多个Filter，使用逗号分隔
-     * 2、当设置多个过滤器时，全部验证通过，才视为通过
-     * 3、部分过滤器可指定参数，如perms，roles
-     */
-//    @Bean(name = "shiroFilter")
-//    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-//        log.info("进入shiroFilter");
-//        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-//        /**必须设置 SecurityManager*/
-//        shiroFilterFactoryBean.setSecurityManager(securityManager);
-//        /**setLoginUrl如果不设置值，默认会自动寻找web工程根目录下的/login映射,或者/login.jsp。未登录页面*/
-//        shiroFilterFactoryBean.setLoginUrl("/notLogin");
-//        /**设置无权限时跳转的url*/
-//        shiroFilterFactoryBean.setUnauthorizedUrl("/notRole");
-//        /**登陆成功后跳转页面*/
-//        shiroFilterFactoryBean.setSuccessUrl("/index");
-//
-//        //拦截器.
-//        Map<String, String> filterChainDefinitionMap = new LinkedHashMap<>();
-//        /**以下是不会被拦截的连接*/
-//        /**druid+swagger平台*/
-//        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
-//        filterChainDefinitionMap.put("/doc.html", "anon");
-//        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-//        filterChainDefinitionMap.put("/swagger/**", "anon");
-//        filterChainDefinitionMap.put("/v2/api-docs", "anon");
-//        filterChainDefinitionMap.put("/webjars/**", "anon");
-//        filterChainDefinitionMap.put("/druid/**", "anon");
-//        /**游客，开发权限*/
-//        filterChainDefinitionMap.put("/guest/**", "anon");
-//        /**防止登录成功之后下载favicon.ico(不显示那个图标)*/
-//        filterChainDefinitionMap.put("/favicon.ico", "anon");
-//        filterChainDefinitionMap.put("/static/**", "anon");
-//        /**开放登录接口*/
-//        filterChainDefinitionMap.put("/login", "anon");
-//        /**用户，需要角色权限“user”*/
-//        filterChainDefinitionMap.put("/user/**", "roles[user]");
-//        /**管理员，需要角色权限“admin”*/
-//        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
-//        /**其余接口一律拦截。要设置在所有权限设置的最后，不然会导致所有url都被拦截的*/
-//        filterChainDefinitionMap.put("/**", "authc");
-//        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-//        log.info("退出shiroFilter");
-//        return shiroFilterFactoryBean;
-//    }
 }

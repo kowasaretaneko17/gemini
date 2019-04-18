@@ -29,16 +29,6 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @ApiOperation(value="通过id获取用户信息", notes = "通过id获取用户信息")
-    @GetMapping("/selectUserById")
-    public ApiResult selectUserById(){
-        try {
-            return userService.selectUserById("1");
-        }catch (Exception e){
-            log.error("{}",e);
-            return ApiResult.buildFail("-9999","失败");
-        }
-    }
     @ApiOperation(value="通过名字获取用户信息", notes = "通过名字获取用户信息")
     @GetMapping("/selectAllByUserName")
     public ApiResult selectAllByUserName(String username){
@@ -53,6 +43,6 @@ public class UserController {
     @GetMapping("/token")
     public ApiResult selectAllByToken(@RequestHeader("Authorization") String token){
         UserInfoVo userInfoVo = userService.selectUserByToken(token);
-        return ApiResult.buildSuccessNormal("200","获取信息成功",userInfoVo);
+        return ApiResult.buildSuccessNormal("获取信息成功",userInfoVo);
     }
 }

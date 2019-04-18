@@ -3,12 +3,13 @@ package com.hekiraku.gemini.controller.buss;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.entity.dto.TextRecordDto;
 import com.hekiraku.gemini.service.TextRecordService;
-import io.swagger.annotations.Api;
-import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 
+import static com.hekiraku.gemini.common.enums.ExceptionResultEnums.E_QUERY_NOTE;
+import static com.hekiraku.gemini.common.enums.ExceptionResultEnums.E_UPDATE_NOTE;
 
 /**
  * 构建组：大道金服科技部
@@ -30,13 +31,14 @@ public class TextRecordController {
 
     @ApiOperation(value = "写日记", notes = "别看写了一个实体接收参数，但是参数只要传soulChar和text即可")
     @PostMapping("/write")
-    public ApiResult writeRecord(@RequestBody TextRecordDto textRecordDto,@RequestHeader("Authorization") String token){
+    @ApiResponses(value={@ApiResponse(code=200, message="OK")})
+    public ApiResult writeRecord(@RequestBody TextRecordDto textRecordDto,String token){
         //获取参数
         try{
             return textRecordService.writeRecord(textRecordDto,token);
         }catch (Exception e){
-            log.error("{}",e);
-            return ApiResult.buildFail("100","更新日记异常");
+            log.error("更新日记传参为:{},异常信息:{}",textRecordDto,e);
+            return ApiResult.buildFail(E_UPDATE_NOTE.getCode(),E_UPDATE_NOTE.getDesc());
         }
 
     }
@@ -47,8 +49,8 @@ public class TextRecordController {
         try{
             return textRecordService.readRecord(textRecordDto,token);
         }catch (Exception e){
-            log.error("{}",e);
-            return ApiResult.buildFail("100","查看日记异常");
+            log.error("获取日记信息传参:{},异常信息：{}",textRecordDto,e);
+            return ApiResult.buildFail(E_QUERY_NOTE.getCode(),E_QUERY_NOTE.getDesc());
         }
 
     }
