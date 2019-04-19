@@ -1,8 +1,8 @@
 package com.hekiraku.gemini.mapper;
 
-import com.hekiraku.gemini.entity.RoleEntity;
 import com.hekiraku.gemini.entity.UserEntity;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.provider.UserDynaSqlProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -21,6 +21,6 @@ public interface UserMapper {
     @Select("select gu.*,gr.role_name from g_user gu,g_role gr,g_user_role gur where gu.id = #{id} and gur.user_id=gu.id and gur.role_id=gr.id")
     UserEntity selectAllById(String id);
 
-    @Select("select gu.*,gr.role_name from g_user gu,g_role gr,g_user_role gur where gu.user_name = #{userName} and gur.user_id=gu.id and gur.role_id = gr.id")
-    UserInfoVo selectAllByUserName(@Param("userName") String userName);
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectAllByUserName")
+    UserInfoVo selectAllByUserName(String userName);
 }

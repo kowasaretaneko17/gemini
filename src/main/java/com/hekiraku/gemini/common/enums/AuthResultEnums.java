@@ -1,5 +1,8 @@
 package com.hekiraku.gemini.common.enums;
 
+import java.util.HashMap;
+import java.util.Map;
+
 /**
  * 通用返回码三位数
  * 业务状态码定义五位数。
@@ -9,7 +12,8 @@ package com.hekiraku.gemini.common.enums;
 public enum AuthResultEnums {
     /**---鉴权返回码80000-80999---*/
     AUTH_LOGIN("80001","用户名或密码错误"),
-    AUTH_ROLE("80002","权限错误");
+    AUTH_ANONYMOUS("80002","无权访问，当前是匿名访问，请先登录"),
+    AUTH_ROLE("80003","无权访问，当前账号权限不足");
     /**---鉴权返回码80000-80999---*/
 
     private String code;
@@ -30,7 +34,12 @@ public enum AuthResultEnums {
         }
         throw new AssertionError("未知的code，code：" + code);
     }
-
+    public Map<String, Object> result() {
+        Map result = new HashMap<String, Object>(3);
+        result.put("code", this.code);
+        result.put("msg", this.desc);
+        return result;
+    }
     public String getCode() {
         return code;
     }

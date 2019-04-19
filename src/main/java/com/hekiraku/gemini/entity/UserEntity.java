@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.entity;
 
+import com.hekiraku.gemini.entity.base.BaseEntity;
 import lombok.Builder;
 import lombok.Data;
 import lombok.ToString;
@@ -14,11 +15,12 @@ import lombok.ToString;
 @Data
 @Builder
 @ToString(callSuper=true)
-public class UserEntity extends BaseEntity{
+public class UserEntity extends BaseEntity {
     private String userName;
     private String userNum;
     private String phone;
     private String email;
     private String password;
     private String nickName;
+    private String lock;
 }

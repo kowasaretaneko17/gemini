@@ -27,8 +27,6 @@ spring:
     time-zone: GMT+8
   cache:
     type: redis
-  #去掉大量的调试信息CONDITIONS EVALUATION DELTA
-
 server:
   servlet:
     context-path: /gemini
@@ -41,3 +39,10 @@ mybatis:
     map-underscore-to-camel-case: true
 #去掉大量的调试信息CONDITIONS EVALUATION REPORT
 logging.level.org.springframework.boot.autoconfigure: ERROR
+redis:
+  identifyingTokenExpireTime: 5
+  refreshJwtTokenExpireTime: 30
+jwt:
+  tokenExpireTime: 5
+  anonymous:
+    urls: login,logout,captcha,/doc.html,/swagger,/swagger-resources,/swagger-ui.html,/webjars,/druid,/v2/api-docs

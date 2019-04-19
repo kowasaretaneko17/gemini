@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.entity;
 
+import com.hekiraku.gemini.entity.base.BaseEntity;
 import lombok.*;
 
 import java.util.Date;

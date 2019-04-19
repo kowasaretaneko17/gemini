@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.entity;
+package com.hekiraku.gemini.entity.base;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 

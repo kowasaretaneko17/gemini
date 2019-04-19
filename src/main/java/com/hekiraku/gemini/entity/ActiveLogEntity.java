@@ -4,6 +4,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
+import com.hekiraku.gemini.entity.base.PaginationEntity;
 import lombok.Data;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
@@ -22,7 +23,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
-public class ActiveLogEntity implements Serializable {
+public class ActiveLogEntity extends PaginationEntity implements Serializable {
     /**自增主键*/
     @JsonIgnore
     private Integer id;

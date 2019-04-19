@@ -1,25 +1,25 @@
 package com.hekiraku.gemini.controller;
 
+import com.hekiraku.gemini.aop.jwt.JWTUtil;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.common.LogAgent;
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
+import com.hekiraku.gemini.entity.dto.UserInfoDto;
+import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.mapper.UserMapper;
 import com.hekiraku.gemini.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.UsernamePasswordToken;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
-import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_LOGIN;
-import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_ROLE;
 import static com.hekiraku.gemini.common.enums.ExceptionResultEnums.E_LOGIN;
 
 /**
@@ -65,38 +65,27 @@ public class LoginController {
 
     /**
      * 登陆
-     * shiro登录。
+     * shiro+jwt登录。
      *
-     * @param username 用户名
-     * @param password 密码
      */
     @PostMapping("/login")
     @ApiOperation(value = "登录", notes = "用户登录接口")
-    public ApiResult login(String username, String password) {
-        if (StringUtils.isEmpty(username) || StringUtils.isEmpty(password)) {
-            return ApiResult.buildFail(AUTH_LOGIN.getCode(), AUTH_LOGIN.getDesc());
-        }
-        // 从SecurityUtils里边创建一个 subject
-        Subject subject = SecurityUtils.getSubject();
-        // 在认证提交前准备 token（令牌）
-        UsernamePasswordToken token = new UsernamePasswordToken(username, password);
-        // 执行认证登陆
+    public ApiResult login(@RequestBody UserInfoDto userInfoDto) {
         try {
-            subject.login(token);
-            //根据权限，指定返回数据
-            String role = userMapper.selectAllByUserName(username).getRoleName();
-            if ("user".equals(role)) {
-                return ApiResult.buildSuccessNormal("欢迎登陆", subject.getSession().getId());
+            String userName=userInfoDto.getUserName();
+            UserInfoVo userInfoVo = userMapper.selectAllByUserName(userName);
+            if(null == userInfoVo || !userInfoVo.getPassword().equals(userInfoDto.getPassword())){
+                return ApiResult.buildFail(AUTH_LOGIN.getCode(), AUTH_LOGIN.getDesc());
+            } else {
+                String tokenStr = JWTUtil.sign(userInfoDto.getUserName(), userInfoDto.getPassword());
+                userService.addTokenToRedis(userInfoDto.getUserName(),tokenStr);
+                return ApiResult.buildSuccessNormal("登录成功",tokenStr);
             }
-            if ("admin".equals(role)) {
-                return ApiResult.buildSuccessNormal("欢迎来到管理员页面", subject.getSession().getId());
-            }
-            return ApiResult.buildFail(AUTH_ROLE.getCode(), AUTH_ROLE.getDesc());
         } catch (Exception e) {
             log.info("登录异常：{}",e);
             return ApiResult.buildFail(E_LOGIN.getCode(), E_LOGIN.getDesc());
         }finally {
-            LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectAllByUserName(username).getUserNum(),LogActiveNameEnums.LOG_LOGIN,"登录");
+            LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectAllByUserName(userInfoDto.getUserName()).getUserNum(),LogActiveNameEnums.LOG_LOGIN,"登录");
         }
     }
 }

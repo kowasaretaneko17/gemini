@@ -1,169 +1,85 @@
 package com.hekiraku.gemini.aop.shiro;
 
-import lombok.extern.slf4j.Slf4j;
+import com.hekiraku.gemini.aop.jwt.JWTFilter;
 import org.apache.commons.collections.map.HashedMap;
-import org.apache.shiro.authc.credential.HashedCredentialsMatcher;
-
-import org.apache.shiro.mgt.SecurityManager;
-import org.apache.shiro.session.mgt.SessionManager;
-import org.apache.shiro.session.mgt.eis.JavaUuidSessionIdGenerator;
+import org.apache.shiro.mgt.DefaultSessionStorageEvaluator;
+import org.apache.shiro.mgt.DefaultSubjectDAO;
+import org.apache.shiro.session.mgt.DefaultSessionManager;
 import org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor;
 import org.apache.shiro.spring.web.ShiroFilterFactoryBean;
 import org.apache.shiro.web.mgt.DefaultWebSecurityManager;
 import org.springframework.aop.framework.autoproxy.DefaultAdvisorAutoProxyCreator;
+import org.springframework.beans.factory.annotation.Qualifier;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
-import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.web.filter.DelegatingFilterProxy;
+import org.apache.shiro.mgt.SecurityManager;
 
 import javax.servlet.Filter;
 import java.util.LinkedHashMap;
 import java.util.Map;
 
 /**
- * 构建组：大道金服科技部
- * 作者:weiyimeng
- * 邮箱:weiyimeng@ddjf.com.cn
- * 日期:2019/1/23
- * 功能说明：
- * Shiro 配置
- * Apache Shiro 核心通过 Filter 来实现，就好像SpringMvc 通过DispachServlet 来主控制一样。
- * 既然是使用 Filter 一般也就能猜到，是通过URL规则来进行过滤和权限校验，所以我们需要定义一系列关于URL的规则和访问权限。
- **/
+ * Created by Administrator on 2018/9/28.
+ */
 @Configuration
-@Slf4j
 public class ShiroConfiguration {
 
-    private long sessionLive=30;
-    private String sessionPrefix="shiro_redis_session";
-    private long cacheLive=30;
-    private String cachePrefix="shiro_redis_cache";
-
-    /**
-     * 自定义shiro cache管理
-     *
-     * @return
-     */
-    @Bean(name = "redisCacheManager")
-    public RedisCacheManager redisCacheManager(RedisTemplate redisTemplate) {
-        RedisCacheManager redisCacheManager = new RedisCacheManager();
-        //cache过期时间及前缀
-        redisCacheManager.setCacheLive(cacheLive);
-        redisCacheManager.setCacheKeyPrefix(cachePrefix);
-        redisCacheManager.setRedisTemplate(redisTemplate);
-        return redisCacheManager;
-    }
-
-    /**
-     * 凭证匹配器（密码加密）
-     *
-     * @return
-     */
-    @Bean(name = "hashedCredentialsMatcher")
-    public HashedCredentialsMatcher hashedCredentialsMatcher() {
-        HashedCredentialsMatcher hashedCredentialsMatcher = new HashedCredentialsMatcher();
-        //加密算法:这里使用MD5算法;
-        hashedCredentialsMatcher.setHashAlgorithmName("md5");
-        //加密的次数
-        hashedCredentialsMatcher.setHashIterations(2);
-        return hashedCredentialsMatcher;
-    }
-
-    /**
-     * Session ID生成管理器
-     *
-     * @return
-     */
-    @Bean(name = "sessionIdGenerator")
-    public JavaUuidSessionIdGenerator sessionIdGenerator() {
-        JavaUuidSessionIdGenerator sessionIdGenerator = new JavaUuidSessionIdGenerator();
-        return sessionIdGenerator;
-    }
-
-    /**
-     * 自定义shiro session
-     *
-     * @return
-     */
-    @Bean(name = "redisSessionDAO")
-    public RedisSessionDAO redisSessionDAO(JavaUuidSessionIdGenerator sessionIdGenerator, RedisTemplate redisTemplate) {
-        RedisSessionDAO redisSessionDAO = new RedisSessionDAO();
-        redisSessionDAO.setSessionIdGenerator(sessionIdGenerator);
-        //session过期时间及前缀
-        redisSessionDAO.setSessionLive(sessionLive);
-        redisSessionDAO.setSessionKeyPrefix(sessionPrefix);
-        redisSessionDAO.setRedisTemplate(redisTemplate);
-        return redisSessionDAO;
-    }
-
-    /**
-     * 自定义sessionManager
-     *
-     * @return
-     */
-    @Bean(name = "sessionManager")
-    public SessionManager sessionManager(RedisSessionDAO redisSessionDAO) {
-        MySessionManager mySessionManager = new MySessionManager();
-        mySessionManager.setSessionDAO(redisSessionDAO);
-        return mySessionManager;
-    }
-
-    @Bean(name = "customRealm")
-    public CustomRealm myRealm() {
-        CustomRealm myShiroRealm = new CustomRealm();
+    @Bean(name = "myRealm")
+    public MyRealm myRealm() {
+        MyRealm myShiroRealm = new MyRealm();
         myShiroRealm.setCachingEnabled(true);
         return myShiroRealm;
     }
 
-    @Bean(name = "securityManager")
-    public SecurityManager securityManager(SessionManager sessionManager, RedisCacheManager redisCacheManager) {
-        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
-        securityManager.setRealm(myRealm());
-        securityManager.setSessionManager(sessionManager);
-        securityManager.setCacheManager(redisCacheManager);
-        return securityManager;
-    }
-    @Bean(name = "shiroFilter")
-    public ShiroFilterFactoryBean shirFilter(SecurityManager securityManager) {
-        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
-        shiroFilterFactoryBean.setSecurityManager(securityManager);
-        Map<String, Filter> filters = new HashedMap(2);
-        shiroFilterFactoryBean.setFilters(filters);
-        //注意拦截链配置顺序 不能颠倒
-        Map<String, String> filterChainDefinitionMap = new LinkedHashMap();
-        /**以下是不会被拦截的连接*/
-        /**druid+swagger平台*/
-        filterChainDefinitionMap.put("/swagger-ui.html", "anon");
-        filterChainDefinitionMap.put("/doc.html", "anon");
-        filterChainDefinitionMap.put("/swagger-resources/**", "anon");
-        filterChainDefinitionMap.put("/swagger/**", "anon");
-        filterChainDefinitionMap.put("/v2/api-docs", "anon");
-        filterChainDefinitionMap.put("/webjars/**", "anon");
-        filterChainDefinitionMap.put("/druid/**", "anon");
-        /**游客，开发权限*/
-        filterChainDefinitionMap.put("/guest/**", "anon");
-        /**防止登录成功之后下载favicon.ico(不显示那个图标)*/
-        filterChainDefinitionMap.put("/favicon.ico", "anon");
-        filterChainDefinitionMap.put("/static/**", "anon");
-        /**开放登录接口*/
-        filterChainDefinitionMap.put("/login", "anon");
-        /**用户，需要角色权限“user”*/
-        filterChainDefinitionMap.put("/user/**", "roles[user]");
-        /**管理员，需要角色权限“admin”*/
-        filterChainDefinitionMap.put("/admin/**", "roles[admin]");
-        /**其余接口一律拦截。要设置在所有权限设置的最后，不然会导致所有url都被拦截的*/
-        filterChainDefinitionMap.put("/**", "authc");
-        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
-        return shiroFilterFactoryBean;
+    @Bean(name = "subjectFactory")
+    public StatelessDefaultSubjectFactory subjectFactory() {
+        StatelessDefaultSubjectFactory statelessDefaultSubjectFactory = new StatelessDefaultSubjectFactory();
+        return statelessDefaultSubjectFactory;
     }
 
-    /**
-     * 不加这个报错
-     * @return
-     */
+    @Bean(name = "sessionManager")
+    public DefaultSessionManager sessionManager() {
+        DefaultSessionManager sessionManager = new DefaultSessionManager();
+        sessionManager.setSessionValidationSchedulerEnabled(false);
+        return sessionManager;
+    }
+
+    @Bean(name = "defaultSessionStorageEvaluator")
+    public DefaultSessionStorageEvaluator defaultSessionStorageEvaluator () {
+        DefaultSessionStorageEvaluator defaultSessionStorageEvaluator = new DefaultSessionStorageEvaluator();
+        defaultSessionStorageEvaluator.setSessionStorageEnabled(false);
+        return defaultSessionStorageEvaluator;
+    }
+
+    @Bean(name = "subjectDAO")
+    public DefaultSubjectDAO subjectDAO(@Qualifier("defaultSessionStorageEvaluator")DefaultSessionStorageEvaluator defaultSessionStorageEvaluator) {
+        DefaultSubjectDAO defaultSubjectDAO = new DefaultSubjectDAO();
+        defaultSubjectDAO.setSessionStorageEvaluator(defaultSessionStorageEvaluator);
+        return defaultSubjectDAO;
+    }
+
+
+
+    @Bean(name = "securityManager")
+    public DefaultWebSecurityManager securityManager(@Qualifier("myRealm")MyRealm myRealm, @Qualifier("subjectDAO")DefaultSubjectDAO
+            subjectDAO, @Qualifier("sessionManager")DefaultSessionManager sessionManager, @Qualifier("subjectFactory")StatelessDefaultSubjectFactory subjectFactory) {
+        DefaultWebSecurityManager securityManager = new DefaultWebSecurityManager();
+        securityManager.setRealm(myRealm);
+        securityManager.setSubjectDAO(subjectDAO);
+        securityManager.setSubjectFactory(subjectFactory);
+        securityManager.setSessionManager(sessionManager);
+        return securityManager;
+    }
+
+    @Bean(name = "jwtFilter")
+    public JWTFilter jwtFilter() {
+        return new JWTFilter();
+    }
+
     @Bean
-    public FilterRegistrationBean delegatingFilterProxy() {
+    public FilterRegistrationBean delegatingFilterProxy(){
         FilterRegistrationBean filterRegistrationBean = new FilterRegistrationBean();
         DelegatingFilterProxy proxy = new DelegatingFilterProxy();
         proxy.setTargetFilterLifecycle(true);
@@ -172,9 +88,25 @@ public class ShiroConfiguration {
         return filterRegistrationBean;
     }
 
+    @Bean(name = "shiroFilter")
+    public ShiroFilterFactoryBean shiroFilter(@Qualifier("securityManager")
+            SecurityManager securityManager, @Qualifier("jwtFilter")JWTFilter jwtFilter) {
+        ShiroFilterFactoryBean shiroFilterFactoryBean = new ShiroFilterFactoryBean();
+        shiroFilterFactoryBean.setSecurityManager(securityManager);
+        //
+        Map<String, Filter> filters = new HashedMap(2);
+        filters.put("jwtFilter", jwtFilter);
+        shiroFilterFactoryBean.setFilters(filters);
+        //拦截链
+        Map<String, String> filterChainDefinitionMap = new LinkedHashMap();
+        filterChainDefinitionMap.put("/**", "jwtFilter");
+        shiroFilterFactoryBean.setFilterChainDefinitionMap(filterChainDefinitionMap);
+        return shiroFilterFactoryBean;
+    }
+
+
     /**
-     * 下面2个支持controller层注解实现权限控制
-     *
+     * 加入下面2个 可以在controller层使用shiro注解
      * @return
      */
     @Bean(name = "advisorAutoProxyCreator")
@@ -188,7 +120,7 @@ public class ShiroConfiguration {
     public AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor(
             SecurityManager securityManager) {
         AuthorizationAttributeSourceAdvisor authorizationAttributeSourceAdvisor = new AuthorizationAttributeSourceAdvisor();
-        authorizationAttributeSourceAdvisor.setSecurityManager( securityManager);
+        authorizationAttributeSourceAdvisor.setSecurityManager(securityManager);
         return authorizationAttributeSourceAdvisor;
     }
 }

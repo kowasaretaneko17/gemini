@@ -8,14 +8,18 @@ package com.hekiraku.gemini.aop.redis;
  * 功能说明：
  */
 
+import org.springframework.beans.factory.annotation.Qualifier;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.cache.annotation.EnableCaching;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.data.redis.connection.RedisConnectionFactory;
+import org.springframework.data.redis.connection.jedis.JedisConnectionFactory;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.data.redis.core.StringRedisTemplate;
 import org.springframework.data.redis.serializer.JdkSerializationRedisSerializer;
 import org.springframework.data.redis.serializer.StringRedisSerializer;
+import redis.clients.jedis.JedisPoolConfig;
 
 /**
  * Lettuce基于Netty的连接实例（StatefulRedisConnection），可以在多个线程间并发访问，且线程安全，满足多线程环境下的并发访问，
@@ -25,27 +29,9 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 @Configuration
 @EnableCaching
 public class RedisConfiguration {
-    /**
-     * 配置自定义redisTemplate
-     * @return
-     */
+
     @Bean(name = "redisTemplate")
     RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
-        //        RedisTemplate<String, Object> template = new RedisTemplate<>();
-        //        template.setConnectionFactory(redisConnectionFactory);
-        //        //使用Jackson2JsonRedisSerializer来序列化和反序列化redis的value值
-        //        Jackson2JsonRedisSerializer serializer = new Jackson2JsonRedisSerializer(Object.class);
-        //        ObjectMapper dao = new ObjectMapper();
-        //        dao.setVisibility(PropertyAccessor.ALL, JsonAutoDetect.Visibility.ANY);
-        //        dao.enableDefaultTyping(ObjectMapper.DefaultTyping.NON_FINAL);
-        //        serializer.setObjectMapper(dao);
-        //        template.setValueSerializer(serializer);
-        //        //使用StringRedisSerializer来序列化和反序列化redis的key值
-        //        template.setKeySerializer(new StringRedisSerializer());
-        //        template.setHashKeySerializer(new StringRedisSerializer());
-        //        template.setHashValueSerializer(serializer);
-        //        template.afterPropertiesSet();
-        //        return template;
         RedisTemplate redisTemplate = new StringRedisTemplate(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());
