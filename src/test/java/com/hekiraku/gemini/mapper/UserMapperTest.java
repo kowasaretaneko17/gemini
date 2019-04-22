@@ -1,6 +1,5 @@
 package com.hekiraku.gemini.mapper;
 
-import com.hekiraku.gemini.entity.UserEntity;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
@@ -18,12 +17,12 @@ public class UserMapperTest {
 
     @Test
     public void select(){
-        UserEntity userEntity = userMapper.selectById("1");
+        UserInfoVo userEntity = userMapper.selectById("1");
         log.info("{}",userEntity);
     }
     @Test
     public void selectAll(){
-        UserInfoVo userEntity = userMapper.selectAllByUserName("zhangsan");
+        UserInfoVo userEntity = userMapper.selectByUserName("zhangsan");
         log.info("{}",userEntity);
     }
 

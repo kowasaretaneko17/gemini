@@ -5,10 +5,7 @@ import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
 import com.hekiraku.gemini.entity.base.PaginationEntity;
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -23,6 +20,7 @@ import java.util.Date;
 @Getter
 @Setter
 @NoArgsConstructor
+@ToString(callSuper = true)
 public class ActiveLogEntity extends PaginationEntity implements Serializable {
     /**自增主键*/
     @JsonIgnore

@@ -4,10 +4,9 @@ import com.auth0.jwt.exceptions.SignatureVerificationException;
 import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.hekiraku.gemini.aop.jwt.JWTToken;
 import com.hekiraku.gemini.aop.jwt.JWTUtil;
-import com.hekiraku.gemini.entity.vo.RoleVo;
+import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.mapper.UserMapper;
-import com.hekiraku.gemini.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.AuthorizationInfo;
@@ -18,19 +17,12 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 
-import java.util.HashSet;
-import java.util.List;
-import java.util.Map;
-import java.util.Set;
 
 /**
  * Created by Administrator on 2017/10/11.
  */
 @Slf4j
 public class MyRealm extends AuthorizingRealm {
-
-    @Autowired
-    private UserService userService;
     @Autowired
     private UserMapper userMapper;
     @Autowired
@@ -52,10 +44,10 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String userName = JWTUtil.getUsername(principals.toString());
+        String userName = JWTUtil.getUserName(principals.toString());
         SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo();
         try {
-            UserInfoVo vo = this.userMapper.selectAllByUserName(userName);
+            UserInfoVo vo = this.userMapper.selectByUserName(userName);
             auth.setRoles(vo.getSetRoles());
             auth.setStringPermissions((vo.getSetResources()));
         } catch (Exception e) {
@@ -75,12 +67,12 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
         // 解密获得userName，用于和数据库进行对比
-        String userName = JWTUtil.getUsername(token);
-        UserInfoVo vo = this.userMapper.selectAllByUserName(userName);
+        String userName = JWTUtil.getUserName(token);
+        UserInfoVo vo = this.userMapper.selectByUserName(userName);
         String redisUserInfo = (String) redisTemplate.opsForValue().get("token_jwt_" + userName);
 
-        Map result = JWTUtil.verify(token, userName, vo.getPassword());
-        Exception exception = (Exception) result.get("exception");
+        ApiResult result = JWTUtil.verify(token, userName, vo.getPassword());
+        Exception exception = (Exception) result.getData();
 
         if (vo == null) {
             throw new UnknownAccountException("该帐号不存在！");

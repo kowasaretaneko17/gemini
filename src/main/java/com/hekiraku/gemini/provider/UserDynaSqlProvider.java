@@ -12,6 +12,38 @@ import java.util.Map;
  * 功能说明：
  */
 public class UserDynaSqlProvider {
+    /**
+     * 通过id查询user表信息
+     */
+    public String selectById(String id){
+        SQL selectById = new SQL()
+                .SELECT("*")
+                .FROM("g_user")
+                .WHERE("id=#{id}");
+        return selectById.toString();
+    }
+
+    /**
+     * 通过username查询user表
+     * @param userName
+     * @return
+     */
+    public String selectByUserName(String userName){
+        SQL selectIdByUserName = new SQL()
+                .SELECT("id")
+                .FROM("g_user")
+                .WHERE("user_name=#{userName}");
+        SQL selectAllById = new SQL()
+                .SELECT("*")
+                .FROM("g_user")
+                .WHERE("id=("+selectIdByUserName.getSelf()+")");
+        return selectAllById.toString();
+    }
+    /**
+     * 通过userName查询所有信息
+     * @param userName
+     * @return
+     */
     public String selectAllByUserName(String userName) {
         SQL selectAllByUserName = new SQL()
                 .SELECT("*")

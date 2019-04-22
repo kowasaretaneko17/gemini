@@ -16,7 +16,7 @@ public class UserServiceTest {
     UserService userService;
     @Test
     public void select(){
-        ApiResult userEntities = userService.selectUserById("1");
+        ApiResult userEntities = userService.selectById("1");
         log.info("{}",userEntities);
     }
 }

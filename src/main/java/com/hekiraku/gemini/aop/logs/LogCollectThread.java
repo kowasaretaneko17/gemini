@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.common;
+package com.hekiraku.gemini.aop.logs;
 
 import com.hekiraku.gemini.common.utils.ApplicationContextHolder;
 import com.hekiraku.gemini.entity.ActiveLogEntity;

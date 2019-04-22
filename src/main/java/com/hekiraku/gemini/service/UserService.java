@@ -13,9 +13,8 @@ import java.util.Map;
  * 功能说明：
  */
 public interface UserService {
-    public ApiResult selectUserById(String id);
-    public ApiResult selectAllByUserName(String username);
-    public UserInfoVo selectUserByToken(String token);
+    public ApiResult selectById(String id);
+    public ApiResult selectByUserName(String username);
     public void addTokenToRedis(String userName, String jwtTokenStr);
     public Map<String, Object> createRandomToken(String textStr);
     public boolean removeJWTToken(String userName);

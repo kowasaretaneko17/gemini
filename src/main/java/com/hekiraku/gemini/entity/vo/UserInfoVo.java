@@ -1,9 +1,7 @@
 package com.hekiraku.gemini.entity.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hekiraku.gemini.entity.base.PaginationEntity;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -18,9 +16,13 @@ import java.util.Set;
  * 日期:2019/3/22
  * 功能说明：
  */
-@Data
-@Builder
-public class UserInfoVo extends PaginationEntity implements Serializable {
+
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class UserInfoVo implements Serializable {
     private String userName;
     private String userNum;
     @JsonIgnore
@@ -29,6 +31,7 @@ public class UserInfoVo extends PaginationEntity implements Serializable {
     private String email;
     private String nickName;
     private String lock;
+    @JsonIgnore
     private List<RoleVo> roles;
     public Set<String> getSetRoles(){
         Set<String> setRoles = new HashSet<>();

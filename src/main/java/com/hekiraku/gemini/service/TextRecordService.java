@@ -38,9 +38,9 @@ public interface TextRecordService {
     /**
      * 写日记，如果已有日记则更新，若没有则插入
      */
-    ApiResult writeRecord(TextRecordDto textRecordDto,String token) throws Exception;
+    ApiResult writeRecord(TextRecordDto textRecordDto) throws Exception;
     /**
-     * 写日记，如果已有日记则更新，若没有则插入
+     * 读日记
      */
-    ApiResult readRecord(TextRecordDto textRecordDto,String token) throws Exception;
+    ApiResult readRecord(TextRecordDto textRecordDto) throws Exception;
 }

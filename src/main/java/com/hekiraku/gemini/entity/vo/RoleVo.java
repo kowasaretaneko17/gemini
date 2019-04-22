@@ -1,8 +1,8 @@
 package com.hekiraku.gemini.entity.vo;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hekiraku.gemini.entity.base.PaginationEntity;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.HashSet;
@@ -17,11 +17,16 @@ import java.util.Set;
  * 日期:2019/4/19
  * 功能说明：
  */
-@Data
-@Builder
-public class RoleVo extends PaginationEntity implements Serializable {
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class RoleVo implements Serializable {
     private String roleName;
+    @JsonIgnore
     private List<ResourceVo> resources;
+    @JsonIgnore
     public Set<String> getSetResources(){
         Set<String> setRoles = new HashSet<>();
         if(resources.isEmpty()||resources==null){

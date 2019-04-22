@@ -26,18 +26,12 @@ public class UserManagerImpl implements UserManager {
     private RoleMapper roleMapper;
 
     @Override
-    public List<UserEntity> selectById(String id) {
-        List<UserEntity> userEntities = new ArrayList<>() ;
-        UserEntity userEntity = userMapper.selectById(id);
-        userEntities.add(userEntity);
-        return userEntities;
+    public UserInfoVo selectById(String id) {
+        return userMapper.selectById(id);
     }
 
     @Override
-    public List<UserInfoVo> selectAllByUserName(String username) {
-        List<UserInfoVo> userInfoVos = new ArrayList<>() ;
-        UserInfoVo userInfoVo = userMapper.selectAllByUserName(username);
-        userInfoVos.add(userInfoVo);
-        return userInfoVos;
+    public UserInfoVo selectByUserName(String username) {
+        return userMapper.selectByUserName(username);
     }
 }

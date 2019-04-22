@@ -1,8 +1,11 @@
 package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.entity.RoleEntity;
-import org.apache.ibatis.annotations.Param;
-import org.apache.ibatis.annotations.Select;
+import com.hekiraku.gemini.entity.vo.RoleVo;
+import com.hekiraku.gemini.provider.RoleDynaSqlProvider;
+import org.apache.ibatis.annotations.*;
+
+import java.util.List;
 
 /**
  * 构建组：大道金服科技部
@@ -12,6 +15,10 @@ import org.apache.ibatis.annotations.Select;
  * 功能说明：
  */
 public interface RoleMapper {
-    @Select("select * from g_role where id = #{id}")
-    RoleEntity selectById(String id);
+
+    @SelectProvider(type = RoleDynaSqlProvider.class,method = "selectById")
+    @Results(id = "roleMap", value = {
+            @Result(property = "resources",column = "id",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.ResourceMapper.selectByRoleId"))
+    })
+    RoleVo selectById(String id);
 }

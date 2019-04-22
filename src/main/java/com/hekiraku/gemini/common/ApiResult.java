@@ -73,6 +73,14 @@ public class ApiResult<T> implements Serializable {
         apiResultDto.setMessage(message);
         return apiResultDto;
     }
+    public static <T> ApiResult<T> buildFailNormal(String code, String message,T data) {
+        ApiResult apiResultDto = new ApiResult();
+        apiResultDto.setSuccess(Boolean.FALSE);
+        apiResultDto.setCode(code);
+        apiResultDto.setMessage(message);
+        apiResultDto.setData(data);
+        return apiResultDto;
+    }
     @Override
     public String toString() {
         final StringBuffer sb = new StringBuffer("ApiResult{");

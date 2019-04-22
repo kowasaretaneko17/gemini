@@ -1,9 +1,11 @@
 package com.hekiraku.gemini.aop.jwt;
 
+import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.constants.CommonConstant;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.mapper.UserMapper;
 import com.hekiraku.gemini.service.UserService;
+import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
 import org.apache.shiro.web.filter.authc.BasicHttpAuthenticationFilter;
@@ -27,6 +29,7 @@ import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_ANONYMOUS;
 /**
  * Created by Administrator on 2019/1/6.
  */
+@Slf4j
 @Component
 public class JWTFilter extends BasicHttpAuthenticationFilter {
 
@@ -61,6 +64,9 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         } else {
             try {
                 this.getSubject(servletRequest, servletResponse).login(token);
+                //放进threadLocal
+                String userNum = JWTUtil.getUserNum(token.getPrincipal().toString());
+                SessionLocal.setUserInfo(userNum);
                 return true;
             } catch (Exception e) {
                 String msg = e.getMessage();
@@ -96,17 +102,21 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         //获取header，tokenStr
         String oldToken = request.getHeader("Authorization");
-        String userName = JWTUtil.getUsername(oldToken);
+        String userName = JWTUtil.getUserName(oldToken);
         String key = CommonConstant.JWT_TOKEN + userName;
         //获取redis tokenStr
         String redisUserInfo = (String) redisTemplate.opsForValue().get(key);
         if (redisUserInfo != null) {
             if (oldToken.equals(redisUserInfo)) {
-                UserInfoVo vo = this.userMapper.selectAllByUserName(userName);
+                UserInfoVo vo = this.userMapper.selectByUserName(userName);
+                SessionLocal.setUserInfo(vo.getUserNum());
                 //重写生成token(刷新)
-                String newTokenStr = JWTUtil.sign(vo.getUserName(), vo.getPassword());
+                String newTokenStr = JWTUtil.sign(vo);
                 JWTToken jwtToken = new JWTToken(newTokenStr);
                 userService.addTokenToRedis(userName, newTokenStr);
+                //放进threadLocal
+                JWTUtil.getUserNum(newTokenStr);
+                SessionLocal.setUserInfo(newTokenStr);
                 SecurityUtils.getSubject().login(jwtToken);
                 response.setHeader("Authorization", newTokenStr);
                 return true;
@@ -129,7 +139,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             httpResponse.setContentType("application/json;charset=utf-8");
             httpResponse.getWriter().write("{\"code\":" + code + ", \"msg\":\"" + msg + "\"}");
         } catch (IOException e) {
-            System.out.println(e.getMessage());
+            log.error("token异常：{}",e);
         }
     }
 

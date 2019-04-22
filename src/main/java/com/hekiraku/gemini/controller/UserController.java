@@ -33,16 +33,10 @@ public class UserController {
     @GetMapping("/selectAllByUserName")
     public ApiResult selectAllByUserName(String username){
         try {
-            return userService.selectAllByUserName(username);
+            return userService.selectByUserName(username);
         }catch (Exception e){
             log.error("{}",e);
             return ApiResult.buildFail("-9999","失败");
         }
-    }
-    @ApiOperation(value = "通过token获取用户信息",notes = "通过token获取用户信息")
-    @GetMapping("/token")
-    public ApiResult selectAllByToken(@RequestHeader("Authorization") String token){
-        UserInfoVo userInfoVo = userService.selectUserByToken(token);
-        return ApiResult.buildSuccessNormal("获取信息成功",userInfoVo);
     }
 }

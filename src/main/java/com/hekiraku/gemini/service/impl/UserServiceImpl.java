@@ -8,7 +8,6 @@ import com.hekiraku.gemini.manager.UserManager;
 import com.hekiraku.gemini.mapper.UserMapper;
 import com.hekiraku.gemini.service.UserService;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.session.mgt.SimpleSession;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
@@ -37,27 +36,19 @@ public class UserServiceImpl implements UserService {
     private UserManager userManager;
     @Autowired
     RedisTemplate redisTemplate;
-    @Autowired
-    private UserMapper userMapper;
 
     @Override
-    public ApiResult selectUserById(String id) {
-        List<UserEntity> userEntities = userManager.selectById("1");
-        return ApiResult.buildSuccessNormal("查询成功", userEntities);
+    public ApiResult selectById(String id) {
+        UserInfoVo userInfoVo = userManager.selectById(id);
+        return ApiResult.buildSuccessNormal("查询成功",userInfoVo);
     }
 
     @Override
-    public ApiResult selectAllByUserName(String username) {
-        List<UserInfoVo> userInfoVos = userManager.selectAllByUserName(username);
-        return ApiResult.buildSuccessNormal("查询成功",userInfoVos);
+    public ApiResult selectByUserName(String username) {
+        UserInfoVo userInfoVo = userManager.selectByUserName(username);
+        return ApiResult.buildSuccessNormal("查询成功",userInfoVo);
     }
 
-    @Override
-    public UserInfoVo selectUserByToken(String token) {
-        SimpleSession session = (SimpleSession) redisTemplate.opsForValue().get("shiro_redis_session"+token);
-        UserInfoVo userInfoVo = (UserInfoVo) session.getAttribute("currentUser");
-        return userInfoVo;
-    }
     @Override
     public void addTokenToRedis(String userName, String jwtTokenStr) {
         String key = CommonConstant.JWT_TOKEN + userName;

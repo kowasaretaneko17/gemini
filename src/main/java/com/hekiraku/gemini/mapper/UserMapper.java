@@ -1,6 +1,8 @@
 package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.entity.UserEntity;
+import com.hekiraku.gemini.entity.vo.ResourceVo;
+import com.hekiraku.gemini.entity.vo.RoleVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.provider.UserDynaSqlProvider;
 import org.apache.ibatis.annotations.*;
@@ -15,12 +17,16 @@ import java.util.List;
  * 功能说明：
  */
 public interface UserMapper {
-    @Select("select * from g_user where id = #{id}")
-    UserEntity selectById(String id);
 
-    @Select("select gu.*,gr.role_name from g_user gu,g_role gr,g_user_role gur where gu.id = #{id} and gur.user_id=gu.id and gur.role_id=gr.id")
-    UserEntity selectAllById(String id);
+//    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectAllByUserName")
+//    UserInfoVo selectAllByUserName(String userName);
 
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectAllByUserName")
-    UserInfoVo selectAllByUserName(String userName);
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectById")
+    @Results(id = "userMap",value = {
+            @Result(property = "roles",column = "id",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.RoleMapper.selectById"))
+    })
+    UserInfoVo selectById(String id);
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByUserName")
+    @ResultMap("userMap")
+    UserInfoVo selectByUserName(String userName);
 }

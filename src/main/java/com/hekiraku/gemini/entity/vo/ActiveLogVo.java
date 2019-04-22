@@ -14,11 +14,4 @@ import lombok.ToString;
 @ToString(callSuper=true)
 @EqualsAndHashCode
 public class ActiveLogVo extends ActiveLogEntity {
-//    protected ActiveLogVo(Builder builder) {
-//        super(builder);
-//    }
-//
-//    public ActiveLogVo() {
-//        super();
-//    }
 }

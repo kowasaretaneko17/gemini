@@ -1,8 +1,6 @@
 package com.hekiraku.gemini.entity.vo;
 
-import com.hekiraku.gemini.entity.base.PaginationEntity;
-import lombok.Builder;
-import lombok.Data;
+import lombok.*;
 
 import java.io.Serializable;
 
@@ -13,8 +11,11 @@ import java.io.Serializable;
  * 日期:2019/4/19
  * 功能说明：
  */
-@Data
-@Builder
-public class ResourceVo extends PaginationEntity implements Serializable {
+@Getter
+@Setter
+@NoArgsConstructor
+@EqualsAndHashCode
+@ToString
+public class ResourceVo implements Serializable {
     private String resourceName;
 }

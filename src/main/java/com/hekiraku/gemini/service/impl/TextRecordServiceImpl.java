@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.service.impl;
 
+import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.entity.TextRecordEntity;
 import com.hekiraku.gemini.entity.dto.TextRecordDto;
@@ -76,8 +77,8 @@ public class TextRecordServiceImpl implements TextRecordService {
     }
 
     @Override
-    public ApiResult writeRecord(TextRecordDto textRecordDto,String token) throws Exception {
-        String userNum = userService.selectUserByToken(token).getUserNum();
+    public ApiResult writeRecord(TextRecordDto textRecordDto) throws Exception {
+        String userNum = SessionLocal.getUserInfo();
         String createDay = DateTime.now().toString("yyyy-MM-dd");
         textRecordDto.setUserNum(userNum);
         textRecordDto.setCreateDay(createDay);
@@ -106,12 +107,11 @@ public class TextRecordServiceImpl implements TextRecordService {
     /**
      * 根据日期，人格，和用户num获取日记
      * @param textRecordDto
-     * @param token
      * @return
      * @throws Exception
      */
     @Override
-    public ApiResult readRecord(TextRecordDto textRecordDto, String token) throws Exception {
+    public ApiResult readRecord(TextRecordDto textRecordDto) throws Exception {
         List<TextRecordEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
         if(recordEntities==null){
             throw new Exception("查询数据库失败");

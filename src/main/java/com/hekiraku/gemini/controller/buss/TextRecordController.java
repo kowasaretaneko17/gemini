@@ -32,10 +32,10 @@ public class TextRecordController {
     @ApiOperation(value = "写日记", notes = "别看写了一个实体接收参数，但是参数只要传soulChar和text即可")
     @PostMapping("/write")
     @ApiResponses(value={@ApiResponse(code=200, message="OK")})
-    public ApiResult writeRecord(@RequestBody TextRecordDto textRecordDto,String token){
+    public ApiResult writeRecord(@RequestBody TextRecordDto textRecordDto){
         //获取参数
         try{
-            return textRecordService.writeRecord(textRecordDto,token);
+            return textRecordService.writeRecord(textRecordDto);
         }catch (Exception e){
             log.error("更新日记传参为:{},异常信息:{}",textRecordDto,e);
             return ApiResult.buildFail(E_UPDATE_NOTE.getCode(),E_UPDATE_NOTE.getDesc());
@@ -44,10 +44,10 @@ public class TextRecordController {
     }
     @ApiOperation(value = "查看日记", notes = "别看写了一个实体接收参数，但是参数只要传createDay，soulChar和userNum即可")
     @GetMapping("/read")
-    public ApiResult readRecord(@RequestBody TextRecordDto textRecordDto,@RequestHeader("Authorization") String token){
+    public ApiResult readRecord(@RequestBody TextRecordDto textRecordDto){
         //获取参数
         try{
-            return textRecordService.readRecord(textRecordDto,token);
+            return textRecordService.readRecord(textRecordDto);
         }catch (Exception e){
             log.error("获取日记信息传参:{},异常信息：{}",textRecordDto,e);
             return ApiResult.buildFail(E_QUERY_NOTE.getCode(),E_QUERY_NOTE.getDesc());

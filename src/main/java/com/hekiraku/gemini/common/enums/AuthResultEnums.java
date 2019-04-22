@@ -13,7 +13,8 @@ public enum AuthResultEnums {
     /**---鉴权返回码80000-80999---*/
     AUTH_LOGIN("80001","用户名或密码错误"),
     AUTH_ANONYMOUS("80002","无权访问，当前是匿名访问，请先登录"),
-    AUTH_ROLE("80003","无权访问，当前账号权限不足");
+    AUTH_ROLE("80003","无权访问，当前账号权限不足"),
+    AUTH_TOKEN("80004","token检验失败");
     /**---鉴权返回码80000-80999---*/
 
     private String code;

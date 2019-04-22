@@ -1,11 +1,10 @@
-package com.hekiraku.gemini.common;
+package com.hekiraku.gemini.aop.logs;
 
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
 import com.hekiraku.gemini.entity.ActiveLogEntity;
 
-import java.sql.Date;
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
 import java.util.concurrent.ThreadPoolExecutor;

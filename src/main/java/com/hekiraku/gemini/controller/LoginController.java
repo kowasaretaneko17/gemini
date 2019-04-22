@@ -1,8 +1,9 @@
 package com.hekiraku.gemini.controller;
 
 import com.hekiraku.gemini.aop.jwt.JWTUtil;
+import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.common.LogAgent;
+import com.hekiraku.gemini.aop.logs.LogAgent;
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
@@ -40,8 +41,6 @@ public class LoginController {
     @Autowired
     private UserService userService;
 
-    @Autowired
-    private RedisTemplate redisTemplate;
     @ApiOperation(value = "未登录", notes = "未登录")
     @GetMapping("/notLogin")
     public ApiResult notLogin() {
@@ -73,11 +72,11 @@ public class LoginController {
     public ApiResult login(@RequestBody UserInfoDto userInfoDto) {
         try {
             String userName=userInfoDto.getUserName();
-            UserInfoVo userInfoVo = userMapper.selectAllByUserName(userName);
+            UserInfoVo userInfoVo = userMapper.selectByUserName(userName);
             if(null == userInfoVo || !userInfoVo.getPassword().equals(userInfoDto.getPassword())){
                 return ApiResult.buildFail(AUTH_LOGIN.getCode(), AUTH_LOGIN.getDesc());
             } else {
-                String tokenStr = JWTUtil.sign(userInfoDto.getUserName(), userInfoDto.getPassword());
+                String tokenStr = JWTUtil.sign(userInfoVo);
                 userService.addTokenToRedis(userInfoDto.getUserName(),tokenStr);
                 return ApiResult.buildSuccessNormal("登录成功",tokenStr);
             }
@@ -85,7 +84,7 @@ public class LoginController {
             log.info("登录异常：{}",e);
             return ApiResult.buildFail(E_LOGIN.getCode(), E_LOGIN.getDesc());
         }finally {
-            LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectAllByUserName(userInfoDto.getUserName()).getUserNum(),LogActiveNameEnums.LOG_LOGIN,"登录");
+            LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectByUserName(userInfoDto.getUserName()).getUserNum(),LogActiveNameEnums.LOG_LOGIN,"登录");
         }
     }
 }

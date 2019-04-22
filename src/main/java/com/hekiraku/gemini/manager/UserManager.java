@@ -13,6 +13,6 @@ import java.util.List;
  * 功能说明：
  */
 public interface UserManager {
-    public List<UserEntity> selectById(String id);
-    public List<UserInfoVo> selectAllByUserName(String username);
+    public UserInfoVo selectById(String id);
+    public UserInfoVo selectByUserName(String username);
 }
