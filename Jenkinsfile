@@ -37,8 +37,8 @@ pipeline {
         jarLocationPrefix = '/var/lib/jenkins/workspace/gemini/target/'
         //pom.xml的相对路径(打包用)
         pomPath = 'pom.xml'
-//        //钉钉机器人(发送信息用)
-//        dingTaskUrl = 'https://oapi.dingtalk.com/robot/send?access_token=d65628ed2dd6e603eca29994bdaa2c62a2b0acf065d56c0615f3bbfd0d392e60'
+        //钉钉机器人(发送信息用)
+        dingTaskUrl = 'https://oapi.dingtalk.com/robot/send?access_token=353e45d45ba0a6836d794bd051caedb5b68ebca5269aa50e6876a7b37f97507b'
 //        //是否Merge请求的标记(流程控制用)
 //        mergeMark = '0'
 //        //git项目id，目前多流水么有办法拿到，只能先定义(sonar用)
@@ -69,4 +69,43 @@ pipeline {
             }
         }
     }
+    post {
+        always {
+            echo 'I have finished'
+        }
+        success {
+            echo 'I succeeded!'
+                    script{
+                        sendDingToMaster(dingTaskUrl);
+                    }
+        }
+        changed {
+            echo 'Things are different...'
+            script {
+                echo "${currentBuild.getCurrentResult()}"
+                if (currentBuild.resultIsBetterOrEqualTo('SUCCESS')) {
+                    echo "Previous build failed ${currentBuild?.getPreviousBuild()?.number} and now it has been fixed"
+                }
+            }
+        }
+    }
+}
+def sendDingToMaster(dingUrl) {
+    def msg = "@杨丽花 大佬，重启完了"
+    def msgData = """
+                        {
+                            "msgtype": "text",
+                            "text": {
+                                "content":  "${msg}"
+                            }
+                        }
+                   """
+    println 'send ding msg : ' + msgData
+    def response = httpRequest acceptType: 'APPLICATION_JSON_UTF8',
+            contentType: 'APPLICATION_JSON_UTF8',
+            httpMode: 'POST',
+            requestBody: msgData,
+            url: dingUrl
+    return response
+
 }
