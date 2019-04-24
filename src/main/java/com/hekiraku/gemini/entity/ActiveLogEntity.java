@@ -5,6 +5,7 @@ import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
 import com.hekiraku.gemini.entity.base.PaginationEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.io.Serializable;
@@ -26,22 +27,31 @@ public class ActiveLogEntity extends PaginationEntity implements Serializable {
     @JsonIgnore
     private Integer id;
     /**数据id*/
+    @ApiModelProperty(notes = "数据id")
     private String bussId;
     /**项目名称*/
+    @ApiModelProperty(notes = "项目名称")
     private String activeProject;
     /**项目调用类型*/
+    @ApiModelProperty(notes = "项目调用类型")
     private String activeType;
     /**调用名称*/
+    @ApiModelProperty(notes = "调用名称")
     private String activeName;
     /**调用方法名称*/
+    @ApiModelProperty(notes = "调用方法名称")
     private String activeMethod;
     /**调用数据*/
+    @ApiModelProperty(notes = "调用数据")
     private String activeData;
     /**调用描述*/
+    @ApiModelProperty(notes = "调用描述")
     private String activeDesc;
     /**创建人id*/
+    @ApiModelProperty(notes = "创建人id")
     private String createUserId;
     /**记录创建时间*/
+    @ApiModelProperty(notes = "创建时间")
     private Date createTime;
 
     /**

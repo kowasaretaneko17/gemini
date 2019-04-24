@@ -3,6 +3,7 @@ package com.hekiraku.gemini.service.impl;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.common.constants.CommonConstant;
 import com.hekiraku.gemini.entity.UserEntity;
+import com.hekiraku.gemini.entity.vo.KaptchaVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.UserManager;
 import com.hekiraku.gemini.mapper.UserMapper;
@@ -44,7 +45,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ApiResult selectByUserName(String username) {
+    public ApiResult<UserInfoVo> selectByUserName(String username) {
         UserInfoVo userInfoVo = userManager.selectByUserName(username);
         return ApiResult.buildSuccessNormal("查询成功",userInfoVo);
     }
@@ -55,14 +56,14 @@ public class UserServiceImpl implements UserService {
         redisTemplate.opsForValue().set(key, jwtTokenStr, refreshJwtTokenExpireTime, TimeUnit.MINUTES);
     }
     @Override
-    public Map<String, Object> createRandomToken(String textStr) {
+    public KaptchaVo createRandomToken(String textStr) {
         //生成一个token
         String sToken = UUID.randomUUID().toString();
         //生成验证码对应的token  以token为key  验证码为value存在redis中
         redisTemplate.opsForValue().set(CommonConstant.NO_REPEAT_PRE + sToken, textStr, identifyingTokenExpireTime, TimeUnit.MINUTES);
-        Map<String, Object> map = new HashMap<>();
-        map.put("cToken", sToken);
-        return map;
+        KaptchaVo kaptcha =new KaptchaVo();
+        kaptcha.setCToken(sToken);
+        return kaptcha;
     }
     @Override
     public boolean removeJWTToken(String userName) {

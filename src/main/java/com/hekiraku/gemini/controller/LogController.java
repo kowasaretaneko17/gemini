@@ -1,6 +1,7 @@
 package com.hekiraku.gemini.controller;
 
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.entity.vo.ActiveLogVo;
 import com.hekiraku.gemini.service.ActiveLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -8,6 +9,8 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 /**
  * 构建组：大道金服科技部
@@ -25,7 +28,7 @@ public class LogController {
 
     @ApiOperation(value = "根据用户动作获取用户操作日志", notes = "根据用户动作获取用户操作日志")
     @GetMapping("/activity")
-    public ApiResult activityLog(String activeName) {
+    public ApiResult<List<ActiveLogVo>> activityLog(String activeName) {
         return activeLogService.selectAllByActiveName(activeName);
     }
 

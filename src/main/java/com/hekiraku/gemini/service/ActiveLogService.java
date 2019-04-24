@@ -1,6 +1,9 @@
 package com.hekiraku.gemini.service;
 
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.entity.vo.ActiveLogVo;
+
+import java.util.List;
 
 /**
  * 构建组：大道金服科技部
@@ -10,5 +13,5 @@ import com.hekiraku.gemini.common.ApiResult;
  * 功能说明：
  */
 public interface ActiveLogService {
-    public ApiResult selectAllByActiveName(String activeName);
+    public ApiResult<List<ActiveLogVo>> selectAllByActiveName(String activeName);
 }

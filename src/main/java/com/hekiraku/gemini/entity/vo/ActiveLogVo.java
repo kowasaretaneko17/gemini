@@ -1,6 +1,7 @@
 package com.hekiraku.gemini.entity.vo;
 
 import com.hekiraku.gemini.entity.ActiveLogEntity;
+import io.swagger.annotations.ApiModel;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;
 
@@ -13,5 +14,6 @@ import lombok.ToString;
  */
 @ToString(callSuper=true)
 @EqualsAndHashCode
+@ApiModel(value = "ActiveLogVo",description = "操作记录返回")
 public class ActiveLogVo extends ActiveLogEntity {
 }

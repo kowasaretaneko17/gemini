@@ -2,6 +2,7 @@ package com.hekiraku.gemini.manager;
 
 import com.hekiraku.gemini.entity.TextRecordEntity;
 import com.hekiraku.gemini.entity.dto.TextRecordDto;
+import com.hekiraku.gemini.entity.vo.TextRecordVo;
 
 import java.util.List;
 

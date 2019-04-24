@@ -2,6 +2,7 @@ package com.hekiraku.gemini.controller.buss;
 
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.entity.dto.TextRecordDto;
+import com.hekiraku.gemini.entity.vo.TextRecordVo;
 import com.hekiraku.gemini.service.TextRecordService;
 import io.swagger.annotations.*;
 import lombok.extern.slf4j.Slf4j;
@@ -32,7 +33,7 @@ public class TextRecordController {
     @ApiOperation(value = "写日记", notes = "别看写了一个实体接收参数，但是参数只要传soulChar和text即可")
     @PostMapping("/write")
     @ApiResponses(value={@ApiResponse(code=200, message="OK")})
-    public ApiResult writeRecord(@RequestBody TextRecordDto textRecordDto){
+    public ApiResult<TextRecordVo> writeRecord(@RequestBody TextRecordDto textRecordDto){
         //获取参数
         try{
             return textRecordService.writeRecord(textRecordDto);

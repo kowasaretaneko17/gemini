@@ -11,10 +11,13 @@ import java.util.Map;
  */
 public enum AuthResultEnums {
     /**---鉴权返回码80000-80999---*/
-    AUTH_LOGIN("80001","用户名或密码错误"),
+    AUTH_LOGIN("80000","登录失败"),
+    AUTH_LOGIN_PARAM("80001","用户名或密码错误"),
     AUTH_ANONYMOUS("80002","无权访问，当前是匿名访问，请先登录"),
     AUTH_ROLE("80003","无权访问，当前账号权限不足"),
-    AUTH_TOKEN("80004","token检验失败");
+    AUTH_TOKEN("80004","token检验失败"),
+    AUTH_KAPTCHA("80005","生成验证码失败"),
+    AUTH_USERINFO("80006","获取用户信息失败");
     /**---鉴权返回码80000-80999---*/
 
     private String code;

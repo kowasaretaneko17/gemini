@@ -26,7 +26,7 @@ public class ActiveServiceImpl implements ActiveLogService {
     }
 
     @Override
-    public ApiResult selectAllByActiveName(String activeName) {
+    public ApiResult<List<ActiveLogVo>> selectAllByActiveName(String activeName) {
             List<ActiveLogVo> activeLogVos = activeLogManager.selectAllByActiveName(activeName);
             return ApiResult.buildSuccessNormal("查询成功",activeLogVos);
     }

@@ -1,11 +1,8 @@
 package com.hekiraku.gemini.entity.dto;
 
-import com.hekiraku.gemini.entity.base.BaseEntity;
-import lombok.Builder;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
-import lombok.ToString;
-
-import javax.validation.constraints.NotNull;
 
 /**
  * 构建组：大道金服科技部
@@ -15,9 +12,10 @@ import javax.validation.constraints.NotNull;
  * 功能说明：
  */
 @Data
+@ApiModel(value = "UserInfoDto",description = "用户传参对象dto")
 public class UserInfoDto {
-    @NotNull
+    @ApiModelProperty(required = true,notes = "用户名",example = "zhangSan")
     private String userName;
-    @NotNull
+    @ApiModelProperty(required = true,notes = "密码",example = "123")
     private String password;
 }

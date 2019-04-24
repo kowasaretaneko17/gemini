@@ -1,7 +1,9 @@
 package com.hekiraku.gemini.service;
 
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.entity.vo.KaptchaVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import io.swagger.annotations.Api;
 
 import java.util.Map;
 
@@ -14,8 +16,8 @@ import java.util.Map;
  */
 public interface UserService {
     public ApiResult selectById(String id);
-    public ApiResult selectByUserName(String username);
+    public ApiResult<UserInfoVo> selectByUserName(String username);
     public void addTokenToRedis(String userName, String jwtTokenStr);
-    public Map<String, Object> createRandomToken(String textStr);
+    public KaptchaVo createRandomToken(String textStr);
     public boolean removeJWTToken(String userName);
 }

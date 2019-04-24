@@ -3,6 +3,7 @@ package com.hekiraku.gemini.service;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.entity.TextRecordEntity;
 import com.hekiraku.gemini.entity.dto.TextRecordDto;
+import com.hekiraku.gemini.entity.vo.TextRecordVo;
 
 /**
  * 构建组：大道金服科技部
@@ -38,7 +39,7 @@ public interface TextRecordService {
     /**
      * 写日记，如果已有日记则更新，若没有则插入
      */
-    ApiResult writeRecord(TextRecordDto textRecordDto) throws Exception;
+    ApiResult<TextRecordVo> writeRecord(TextRecordDto textRecordDto) throws Exception;
     /**
      * 读日记
      */

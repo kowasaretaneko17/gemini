@@ -1,4 +1,6 @@
 package com.hekiraku.gemini.common;
+import io.swagger.annotations.ApiModel;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
 import java.io.Serializable;
@@ -12,26 +14,31 @@ import static com.hekiraku.gemini.common.enums.NormalResultEnums.N_SUCCESS;
  * 功能说明：
  */
 @Data
+@ApiModel(value = "ApiResult<T>",description = "API接口通用返回对象")
 public class ApiResult<T> implements Serializable {
 
     /**
      * 成功状态
      */
+    @ApiModelProperty(notes = "成功状态",allowableValues = "true,false")
     private Boolean success;
 
     /**
-     * 状态代码
+     * 状态码
      */
+    @ApiModelProperty(notes = "状态码")
     private String code;
 
     /**
      * 返回消息
      */
+    @ApiModelProperty(notes = "返回消息")
     private String message;
 
     /**
      * 返回数据对象
      */
+    @ApiModelProperty(notes = "返回对象",dataType = "T")
     private T data;
 
     public ApiResult() {
