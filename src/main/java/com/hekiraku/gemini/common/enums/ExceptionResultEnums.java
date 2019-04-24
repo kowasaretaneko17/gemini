@@ -9,9 +9,7 @@ package com.hekiraku.gemini.common.enums;
  */
 public enum ExceptionResultEnums {
     /**---通用返回码---*/
-    E_LOGIN("-9999","登录异常"),
-    E_UPDATE_NOTE("-9998","更新日记异常"),
-    E_QUERY_NOTE("-9997","获取日记异常");
+    EXCEPTION("-9999","系统异常");
     /**---通用返回码---*/
     private String code;
     private String desc;

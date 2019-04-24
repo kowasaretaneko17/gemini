@@ -2,7 +2,6 @@ package com.hekiraku.gemini.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.hekiraku.gemini.aop.jwt.JWTUtil;
-import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.aop.logs.LogAgent;
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
@@ -24,12 +23,10 @@ import sun.misc.BASE64Encoder;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.Map;
 
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_KAPTCHA;
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_LOGIN;
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_LOGIN_PARAM;
-import static com.hekiraku.gemini.common.enums.ExceptionResultEnums.E_LOGIN;
 
 /**
  * 构建组：大道金服科技部
@@ -107,7 +104,7 @@ public class LoginController {
      *
      * @return
      */
-    @GetMapping("/captcha")
+    @PostMapping("/captcha")
     @ResponseBody
     @ApiOperation(value = "验证码", notes = "生成图片验证码")
     @ApiResponses({

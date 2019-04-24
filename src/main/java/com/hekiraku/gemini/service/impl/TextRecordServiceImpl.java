@@ -112,7 +112,7 @@ public class TextRecordServiceImpl implements TextRecordService {
      * @throws Exception
      */
     @Override
-    public ApiResult readRecord(TextRecordDto textRecordDto) throws Exception {
+    public ApiResult<List<TextRecordEntity>> readRecord(TextRecordDto textRecordDto) throws Exception {
         List<TextRecordEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
         if(recordEntities==null){
             throw new Exception("查询数据库失败");

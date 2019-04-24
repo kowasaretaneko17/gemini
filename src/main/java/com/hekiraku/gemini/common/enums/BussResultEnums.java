@@ -9,12 +9,12 @@ import java.util.Map;
  * 前两位表示业务类型 ，后三位表示具体业务逻辑
  * 前两位：00，系统 10，业务，80，鉴权
  */
-public enum OperatingResultEnums {
+public enum BussResultEnums {
     /**
      * ---业务返回码10000-10999---
      */
-    S_NOT_FOUND("00001", "服务器未找到资源"),
-    S_ERROR("00002", "服务器错误");
+    B_TEXT_UPDATE("10001", "更新/添加日记错误"),
+    B_TEXT_SELECT("10002", "读取日记错误");
 
     /**
      * ---业务返回码10000-10999---
@@ -24,15 +24,15 @@ public enum OperatingResultEnums {
 
     private String desc;
 
-    OperatingResultEnums(String code, String desc) {
+    BussResultEnums(String code, String desc) {
 
         this.code = code;
         this.desc = desc;
     }
 
-    public static OperatingResultEnums getCodeType(String code) {
+    public static BussResultEnums getCodeType(String code) {
 
-        for (OperatingResultEnums codeDef : values()) {
+        for (BussResultEnums codeDef : values()) {
             if (codeDef.getCode().equals(code)) {
                 return codeDef;
             }
