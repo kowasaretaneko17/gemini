@@ -5,6 +5,8 @@ import com.hekiraku.gemini.entity.TextRecordEntity;
 import com.hekiraku.gemini.entity.dto.TextRecordDto;
 import com.hekiraku.gemini.entity.vo.TextRecordVo;
 
+import java.util.List;
+
 /**
  * 构建组：大道金服科技部
  * 作者:weiyimeng
@@ -43,5 +45,5 @@ public interface TextRecordService {
     /**
      * 读日记
      */
-    ApiResult readRecord(TextRecordDto textRecordDto) throws Exception;
+    ApiResult<List<TextRecordEntity>> readRecord(TextRecordDto textRecordDto) throws Exception;
 }

@@ -5,7 +5,9 @@ import com.hekiraku.gemini.aop.anno.DescribeCtrlView;
 import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
+import javax.validation.constraints.NotEmpty;
 import javax.validation.constraints.NotNull;
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -17,7 +19,7 @@ import java.util.Date;
  */
 @Data
 @ApiModel(value = "TextRecordDto",description = "日记传参对象")
-public class TextRecordDto {
+public class TextRecordDto implements Serializable {
 
     public interface BaseView{};
 
@@ -30,11 +32,15 @@ public class TextRecordDto {
     public interface ReadView extends BaseView{};
 
     @JsonView(ReadView.class)
+    @NotEmpty(groups = ReadView.class)
     private String createDay;
     @JsonView(BaseView.class)
+    @NotEmpty(groups = {ReadView.class,WriteView.class})
     private String soulChar;
     @JsonView(ReadView.class)
+    @NotEmpty(groups = ReadView.class)
     private String userNum;
     @JsonView(WriteView.class)
+    @NotEmpty(groups = WriteView.class)
     private String text;
 }

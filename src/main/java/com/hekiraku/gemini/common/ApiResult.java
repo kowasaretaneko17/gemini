@@ -1,4 +1,6 @@
 package com.hekiraku.gemini.common;
+import com.fasterxml.jackson.annotation.JsonAlias;
+import com.fasterxml.jackson.annotation.JsonProperty;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
@@ -33,12 +35,14 @@ public class ApiResult<T> implements Serializable {
      * 返回消息
      */
     @ApiModelProperty(notes = "返回消息")
+    @JsonProperty("msg")
     private String message;
 
     /**
      * 返回数据对象
      */
     @ApiModelProperty(notes = "返回对象",dataType = "T")
+    @JsonProperty("result")
     private T data;
 
     public ApiResult() {

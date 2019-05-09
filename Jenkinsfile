@@ -1,29 +1,3 @@
-#!groovy
-def project_token = 'ce9a81e1409b427a9056990152bc48e4'
-properties([
-        gitLabConnection('gemini'),
-        pipelineTriggers([
-                [
-                        $class                        : 'GitLabPushTrigger',
-                        triggerOnPush                 : true,
-                        triggerOnMergeRequest         : true,
-                        triggerOpenMergeRequestOnPush : "never",
-                        triggerOnNoteRequest          : true,
-                        noteRegex                     : "regex？",
-                        skipWorkInProgressMergeRequest: true,
-                        secretToken                   : project_token,
-                        ciSkip                        : false,
-                        setBuildDescription           : true,
-                        addNoteOnMergeRequest         : true,
-                        addCiMessage                  : true,
-                        addVoteOnMergeRequest         : true,
-                        acceptMergeRequestOnSuccess   : true,
-                        branchFilterType              : "RegexBasedFilter",
-                        sourceBranchRegex             : "^.*(dev)+.*\$",
-                        targetBranchRegex             : "^.*(dev)+.*\$"
-                ]
-        ])
-])
 pipeline {
     //在任何可用的代理上执行Pipeline
     agent any
