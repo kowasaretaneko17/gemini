@@ -17,6 +17,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.format.datetime.joda.JodaDateTimeFormatAnnotationFormatterFactory;
 import org.springframework.format.datetime.joda.JodaTimeContext;
 import org.springframework.stereotype.Service;
+import org.springframework.util.StringUtils;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -113,6 +114,8 @@ public class TextRecordServiceImpl implements TextRecordService {
      */
     @Override
     public ApiResult<List<TextRecordEntity>> readRecord(TextRecordDto textRecordDto) throws Exception {
+        String userNum = SessionLocal.getUserInfo();
+        textRecordDto.setUserNum(userNum);
         List<TextRecordEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
         if(recordEntities==null){
             throw new Exception("查询数据库失败");

@@ -51,7 +51,7 @@ public class TextRecordController {
         }
 
     }
-    @ApiOperation(value = "查看日记", notes = "别看写了一个实体接收参数，但是参数只要传createDay，soulChar和userNum即可")
+    @ApiOperation(value = "查看日记", notes = "别看写了一个实体接收参数，但是参数只要传createDay，soulChar即可")
     @PostMapping("/read")
     @ApiResponses({
             @ApiResponse(code = 10002,message = "读取日记错误",response = ApiResult.class)
