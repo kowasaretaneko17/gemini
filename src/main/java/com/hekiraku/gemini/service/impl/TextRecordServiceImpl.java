@@ -120,7 +120,7 @@ public class TextRecordServiceImpl implements TextRecordService {
         if(recordEntities==null){
             throw new Exception("查询数据库失败");
         }else if(recordEntities.isEmpty()){
-            return ApiResult.buildFail("100","当天没有日记");
+            return ApiResult.successMsg("当天没有日记");
         }
         return ApiResult.buildSuccessNormal("成功获取日记",recordEntities);
 
