@@ -38,7 +38,6 @@ public class TextRecordDto implements Serializable {
     @NotEmpty(groups = {ReadView.class,WriteView.class})
     private String soulChar;
     @JsonView(ReadView.class)
-    @NotEmpty(groups = ReadView.class)
     private String userNum;
     @JsonView(WriteView.class)
     @NotEmpty(groups = WriteView.class)
