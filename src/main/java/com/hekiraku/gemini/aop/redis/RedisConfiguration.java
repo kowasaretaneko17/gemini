@@ -20,7 +20,6 @@ import org.springframework.data.redis.serializer.StringRedisSerializer;
 /**
  * Lettuce基于Netty的连接实例（StatefulRedisConnection），可以在多个线程间并发访问，且线程安全，满足多线程环境下的并发访问，
  * 同时它是可伸缩的设计，一个连接实例不够的情况也可以按需增加连接实例。
- * Created by Administrator on 2018/9/28.
  */
 @Configuration
 @EnableCaching

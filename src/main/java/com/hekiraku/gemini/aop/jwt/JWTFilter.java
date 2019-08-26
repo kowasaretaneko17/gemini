@@ -109,14 +109,13 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         if (redisUserInfo != null) {
             if (oldToken.equals(redisUserInfo)) {
                 UserInfoVo vo = this.userMapper.selectByUserName(userName);
-                SessionLocal.setUserInfo(vo.getUserNum());
                 //重写生成token(刷新)
                 String newTokenStr = JWTUtil.sign(vo);
                 JWTToken jwtToken = new JWTToken(newTokenStr);
                 userService.addTokenToRedis(userName, newTokenStr);
                 //放进threadLocal
                 JWTUtil.getUserNum(newTokenStr);
-                SessionLocal.setUserInfo(newTokenStr);
+                SessionLocal.setUserInfo(vo.getUserNum());
                 SecurityUtils.getSubject().login(jwtToken);
                 response.setHeader("Authorization", newTokenStr);
                 return true;

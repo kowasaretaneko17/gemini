@@ -52,7 +52,10 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addTokenToRedis(String userName, String jwtTokenStr) {
-        String key = CommonConstant.JWT_TOKEN + userName;
+        //userName是唯一的。
+        String key = CommonConstant.JWT_TOKEN + userName ;
+        //集合类型不存在设置每一个key的过期时间，所以其实最后还是只能用string类型。
+//        redisTemplate.opsForHash().put("token",key,jwtTokenStr);
         redisTemplate.opsForValue().set(key, jwtTokenStr, refreshJwtTokenExpireTime, TimeUnit.MINUTES);
     }
     @Override
