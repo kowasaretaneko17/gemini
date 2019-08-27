@@ -17,7 +17,9 @@ import java.util.Map;
 public interface UserService {
     public ApiResult selectById(String id);
     public ApiResult<UserInfoVo> selectByUserName(String username);
-    public void addTokenToRedis(String userName, String jwtTokenStr);
+    public ApiResult<UserInfoVo> selectByUserNum(String usernum) ;
+    public void addTokenToRedis(String userNum, String jwtTokenStr);
+    public void addUserInfoToRedis(String userNum, UserInfoVo userInfoVo);
     public KaptchaVo createRandomToken(String textStr);
     public boolean removeJWTToken(String userName);
 }

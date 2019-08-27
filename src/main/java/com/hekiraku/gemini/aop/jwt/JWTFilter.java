@@ -44,19 +44,20 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
     private UserService userService;
 
 
+    //每次获取url请求的时候，都会进的一个拦截验证
     @Override
     protected boolean onAccessDenied(ServletRequest servletRequest, ServletResponse servletResponse) throws Exception {
         String contextPath = WebUtils.getPathWithinApplication(WebUtils.toHttp(servletRequest));
         if (!StringUtils.isEmpty(anonymousStr)) {
             String[] anonUrls = anonymousStr.split(",");
-            //匿名可访问的url
+            //匿名可访问的url,配置在yml文件中。
             for (int i = 0; i < anonUrls.length; i++) {
                 if (contextPath.contains(anonUrls[i])) {
                     return true;
                 }
             }
         }
-        //获取请求头token
+        //获取请求头token，鉴权是否已经登录
         AuthenticationToken token = this.createToken(servletRequest, servletResponse);
         if (token.getPrincipal() == null) {
             handler401(servletResponse, AUTH_ANONYMOUS.getCode(), AUTH_ANONYMOUS.getDesc());
@@ -64,9 +65,11 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         } else {
             try {
                 this.getSubject(servletRequest, servletResponse).login(token);
-                //放进threadLocal
+                //如果tolen有效，那么去获取缓存中的userInfo信息
                 String userNum = JWTUtil.getUserNum(token.getPrincipal().toString());
-                SessionLocal.setUserInfo(userNum);
+                String key = CommonConstant.USER_SIMPLE_INFO + userNum;
+                UserInfoVo userInfoVo = (UserInfoVo) redisTemplate.opsForValue().get(key);
+                SessionLocal.setUserInfo(userInfoVo);
                 return true;
             } catch (Exception e) {
                 String msg = e.getMessage();
@@ -102,20 +105,22 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         //获取header，tokenStr
         String oldToken = request.getHeader("Authorization");
-        String userName = JWTUtil.getUserName(oldToken);
-        String key = CommonConstant.JWT_TOKEN + userName;
-        //获取redis tokenStr
-        String redisUserInfo = (String) redisTemplate.opsForValue().get(key);
-        if (redisUserInfo != null) {
-            if (oldToken.equals(redisUserInfo)) {
-                UserInfoVo vo = this.userMapper.selectByUserName(userName);
+        String userNum = JWTUtil.getUserNum(oldToken);
+        String key = CommonConstant.JWT_TOKEN + userNum;
+        String keyU = CommonConstant.USER_SIMPLE_INFO +userNum;
+        //获取redis tokenStr和缓存中的用户信息
+        String redisToken = (String) redisTemplate.opsForValue().get(key);
+        if (redisToken != null) {
+            //如果token存在且token等于当前redis中的token，则刷新token时间
+            if (oldToken.equals(redisToken)) {
+                UserInfoVo vo = this.userMapper.selectByUserNum(userNum);
                 //重写生成token(刷新)
                 String newTokenStr = JWTUtil.sign(vo);
                 JWTToken jwtToken = new JWTToken(newTokenStr);
-                userService.addTokenToRedis(userName, newTokenStr);
+                userService.addTokenToRedis(userNum, newTokenStr);
+                userService.addUserInfoToRedis(userNum,vo);
                 //放进threadLocal
-                JWTUtil.getUserNum(newTokenStr);
-                SessionLocal.setUserInfo(vo.getUserNum());
+                SessionLocal.setUserInfo(vo);
                 SecurityUtils.getSubject().login(jwtToken);
                 response.setHeader("Authorization", newTokenStr);
                 return true;

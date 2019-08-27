@@ -12,17 +12,17 @@ import lombok.extern.slf4j.Slf4j;
  */
 @Slf4j
 public class SessionLocal {
-    private static ThreadLocal<String> local = new ThreadLocal<String>();
+    private static ThreadLocal<UserInfoVo> local = new ThreadLocal<UserInfoVo>();
 
     /**
      * 设置用户信息
      *
-     * @param userNum
+     * @param userInfo
      */
-    public static void setUserInfo( String userNum )
+    public static void setUserInfo( UserInfoVo userInfo )
     {
-        local.set(userNum) ;
-        log.info("存入用户信息编码:{}",userNum);
+        local.set(userInfo) ;
+        log.info("存入用户信息:{}",userInfo);
     }
 
     /**
@@ -30,7 +30,7 @@ public class SessionLocal {
      *
      * @return
      */
-    public static String getUserInfo()
+    public static UserInfoVo getUserInfo()
     {
         log.info("当前线程id：{}",Thread.currentThread().getName());
         return local.get();

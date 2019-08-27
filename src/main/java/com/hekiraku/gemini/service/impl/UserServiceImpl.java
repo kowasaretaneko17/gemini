@@ -2,11 +2,9 @@ package com.hekiraku.gemini.service.impl;
 
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.common.constants.CommonConstant;
-import com.hekiraku.gemini.entity.UserEntity;
 import com.hekiraku.gemini.entity.vo.KaptchaVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.UserManager;
-import com.hekiraku.gemini.mapper.UserMapper;
 import com.hekiraku.gemini.service.UserService;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -51,13 +49,26 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addTokenToRedis(String userName, String jwtTokenStr) {
+    public ApiResult<UserInfoVo> selectByUserNum(String usernum) {
+        UserInfoVo userInfoVo = userManager.selectByUserNum(usernum);
+        return ApiResult.buildSuccessNormal("查询成功",userInfoVo);
+    }
+
+    @Override
+    public void addTokenToRedis(String userNum, String jwtTokenStr) {
         //userName是唯一的。
-        String key = CommonConstant.JWT_TOKEN + userName ;
+        String key = CommonConstant.JWT_TOKEN + userNum ;
         //集合类型不存在设置每一个key的过期时间，所以其实最后还是只能用string类型。
 //        redisTemplate.opsForHash().put("token",key,jwtTokenStr);
         redisTemplate.opsForValue().set(key, jwtTokenStr, refreshJwtTokenExpireTime, TimeUnit.MINUTES);
     }
+
+    @Override
+    public void addUserInfoToRedis(String userNum, UserInfoVo userInfoVo) {
+        String key = CommonConstant.USER_SIMPLE_INFO + userNum ;
+        redisTemplate.opsForValue().set(key,userInfoVo);
+}
+
     @Override
     public KaptchaVo createRandomToken(String textStr) {
         //生成一个token

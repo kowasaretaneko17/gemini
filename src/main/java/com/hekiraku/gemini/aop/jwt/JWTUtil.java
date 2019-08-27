@@ -45,11 +45,12 @@ public class JWTUtil {
      * @param token  密钥
      * @param secret 用户的密码
      * @return 是否正确
+     * token中只存放userNum保障用户信息，userName其实虽然是账号唯一，但是其实账号也应该保护起来，不要暴露，还是唯一编码吧。
      */
-    public static ApiResult verify(String token, String username, String secret) {
+    public static ApiResult verify(String token, String userNum, String secret) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm).withClaim("userName", username).build();
+            JWTVerifier verifier = JWT.require(algorithm).withClaim("userNum", userNum).build();
             DecodedJWT jwt = verifier.verify(token);
             return ApiResult.successMsg("token检验正确");
         } catch (Exception e) {
@@ -58,20 +59,20 @@ public class JWTUtil {
         }
     }
 
-    /**
-     * 获得token中的信息无需secret解密也能获得
-     *
-     * @return token中包含的用户名
-     */
-    public static String getUserName(String token) {
-        try {
-            DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("userName").asString();
-        } catch (JWTDecodeException e) {
-            log.error("获取token中用户名信息异常:{}", e);
-            return null;
-        }
-    }
+//    /**
+//     * 获得token中的信息无需secret解密也能获得
+//     *
+//     * @return token中包含的用户名
+//     */
+//    public static String getUserName(String token) {
+//        try {
+//            DecodedJWT jwt = JWT.decode(token);
+//            return jwt.getClaim("userName").asString();
+//        } catch (JWTDecodeException e) {
+//            log.error("获取token中用户名信息异常:{}", e);
+//            return null;
+//        }
+//    }
     /**
      * 获取token中的usernum
      */
@@ -96,14 +97,16 @@ public class JWTUtil {
             Date date = new Date(System.currentTimeMillis() + (Long.parseLong(tokenExpireTime) * 60 * 1000));
             //密码MD5加密
             Algorithm algorithm = Algorithm.HMAC256(userInfoVo.getPassword());
-            // 附带username信息,usernum信息
-            return JWT.create().withClaim("userName", userInfoVo.getUserName())
+            // usernum信息
+            //删掉.withClaim("userName", userInfoVo.getUserName())，只在token中带上userNum就可以了
+            return JWT.create()
                     .withClaim("userNum", userInfoVo.getUserNum()).withExpiresAt(date).sign(algorithm);
         } catch (Exception e) {
             log.error("生成签名异常:{}", e);
             return null;
         }
     }
+    //这里是做token解析的。但是其实如果只用它做鉴权和验证，没有多大作用，因为我已经不再封装用户信息进去了，只为了刷新token，放一个用户编码。
     /**
      * 拷贝jwt包中的tokenutil方法
      */

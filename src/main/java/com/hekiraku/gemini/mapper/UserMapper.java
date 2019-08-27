@@ -29,4 +29,8 @@ public interface UserMapper {
     @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByUserName")
     @ResultMap("userMap")
     UserInfoVo selectByUserName(String userName);
+
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByUserNum")
+    @ResultMap("userMap")
+    UserInfoVo selectByUserNum(String userNum);
 }

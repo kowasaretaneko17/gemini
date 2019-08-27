@@ -15,4 +15,5 @@ import java.util.List;
 public interface UserManager {
     public UserInfoVo selectById(String id);
     public UserInfoVo selectByUserName(String username);
+    public UserInfoVo selectByUserNum(String usernum);
 }

@@ -34,4 +34,9 @@ public class UserManagerImpl implements UserManager {
     public UserInfoVo selectByUserName(String username) {
         return userMapper.selectByUserName(username);
     }
+
+    @Override
+    public UserInfoVo selectByUserNum(String usernum) {
+        return userMapper.selectByUserNum(usernum);
+    }
 }

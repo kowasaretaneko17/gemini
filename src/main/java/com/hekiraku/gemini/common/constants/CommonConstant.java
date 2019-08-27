@@ -14,4 +14,8 @@ public class CommonConstant {
      * JWT token前缀
      */
     public static final String JWT_TOKEN = "token_jwt_";
+    /**
+     * 用户简单信息前缀
+     */
+    public static final String USER_SIMPLE_INFO = "user_simple_info_";
 }

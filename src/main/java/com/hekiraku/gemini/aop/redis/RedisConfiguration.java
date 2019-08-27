@@ -27,6 +27,7 @@ public class RedisConfiguration {
 
     @Bean(name = "redisTemplate")
     RedisTemplate<String, Object> redisTemplate(RedisConnectionFactory redisConnectionFactory) {
+        //使用StringRedisTemplate可以只用配置少部分的信息
         RedisTemplate redisTemplate = new StringRedisTemplate(redisConnectionFactory);
         redisTemplate.setKeySerializer(new StringRedisSerializer());
         redisTemplate.setValueSerializer(new JdkSerializationRedisSerializer());

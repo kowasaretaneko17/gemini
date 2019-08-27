@@ -39,6 +39,24 @@ public class UserDynaSqlProvider {
                 .WHERE("id=("+selectIdByUserName.getSelf()+")");
         return selectAllById.toString();
     }
+
+    /**
+     * 通过username查询user表
+     * @param userNum
+     * @return
+     */
+    public String selectByUserNum(String userNum){
+        SQL selectIdByUserNum = new SQL()
+                .SELECT("id")
+                .FROM("g_user")
+                .WHERE("user_num=#{userNum}");
+        SQL selectAllById = new SQL()
+                .SELECT("*")
+                .FROM("g_user")
+                .WHERE("id=("+selectIdByUserNum.getSelf()+")");
+        return selectAllById.toString();
+    }
+
     /**
      * 通过userName查询所有信息
      * @param userName

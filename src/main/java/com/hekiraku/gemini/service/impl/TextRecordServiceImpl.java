@@ -10,16 +10,10 @@ import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.service.TextRecordService;
 import com.hekiraku.gemini.service.UserService;
 import com.hekiraku.gemini.utils.EntityUtil;
-import org.apache.shiro.subject.Subject;
 import org.joda.time.DateTime;
-import org.joda.time.format.DateTimeFormat;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.format.datetime.joda.JodaDateTimeFormatAnnotationFormatterFactory;
-import org.springframework.format.datetime.joda.JodaTimeContext;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**
@@ -80,9 +74,9 @@ public class TextRecordServiceImpl implements TextRecordService {
 
     @Override
     public ApiResult<TextRecordVo> writeRecord(TextRecordDto textRecordDto) throws Exception {
-        String userNum = SessionLocal.getUserInfo();
+        UserInfoVo userInfoVo = SessionLocal.getUserInfo();
         String createDay = DateTime.now().toString("yyyy-MM-dd");
-        textRecordDto.setUserNum(userNum);
+        textRecordDto.setUserNum(userInfoVo.getUserNum());
         textRecordDto.setCreateDay(createDay);
         List<TextRecordEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
         if(recordEntities==null){
@@ -91,16 +85,16 @@ public class TextRecordServiceImpl implements TextRecordService {
         if(recordEntities.isEmpty()){
             //数据库没有记录
         TextRecordEntity textRecordEntity = TextRecordEntity.builder()
-                .userNum(userNum)
+                .userNum(textRecordDto.getUserNum())
                 .text(textRecordDto.getText())
                 .soulChar(textRecordDto.getSoulChar())
                 .createDay(createDay)
                 .build();
-            EntityUtil.setCommonField(textRecordEntity,userNum);
+            EntityUtil.setCommonField(textRecordEntity,textRecordDto.getUserNum());
             textRecordManager.create(textRecordEntity);
         }else{
             recordEntities.get(0).setText(textRecordDto.getText());
-            EntityUtil.setCommonField(recordEntities.get(0),userNum);
+            EntityUtil.setCommonField(recordEntities.get(0),textRecordDto.getUserNum());
             textRecordManager.update(recordEntities.get(0));
         }
         return ApiResult.successMsg("成功创建/更新日记");
@@ -114,8 +108,8 @@ public class TextRecordServiceImpl implements TextRecordService {
      */
     @Override
     public ApiResult<List<TextRecordEntity>> readRecord(TextRecordDto textRecordDto) throws Exception {
-        String userNum = SessionLocal.getUserInfo();
-        textRecordDto.setUserNum(userNum);
+        UserInfoVo userInfoVo = SessionLocal.getUserInfo();
+        textRecordDto.setUserNum(userInfoVo.getUserNum());
         List<TextRecordEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
         if(recordEntities==null){
             throw new Exception("查询数据库失败");

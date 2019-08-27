@@ -89,7 +89,10 @@ public class LoginController {
                 return ApiResult.buildFail(AUTH_LOGIN_PARAM.getCode(), AUTH_LOGIN_PARAM.getDesc());
             } else {
                 String tokenStr = JWTUtil.sign(userInfoVo);
-                userService.addTokenToRedis(userInfoDto.getUserName(),tokenStr);
+                //相当于存入token的时候，同时存入了用户的基本信息在redis里面，然后之后在redis没有过期的时候，可以直接去redis里面拿，不用解析token，也不用threadLocal。
+                //用户信息在有修改的时候要更新一次。
+                userService.addTokenToRedis(userInfoVo.getUserNum(),tokenStr);
+                userService.addUserInfoToRedis(userInfoVo.getUserNum(),userInfoVo);
                 return ApiResult.buildSuccessNormal("登录成功",tokenStr);
             }
         } catch (Exception e) {

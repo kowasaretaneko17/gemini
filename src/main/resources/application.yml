@@ -43,6 +43,6 @@ redis:
   identifyingTokenExpireTime: 60
   refreshJwtTokenExpireTime: 43200
 jwt:
-  tokenExpireTime: 60
+  tokenExpireTime: 5
   anonymous:
     urls: login,logout,captcha,/doc.html,/swagger,/swagger-resources,/swagger-ui.html,/webjars,/druid,/v2/api-docs

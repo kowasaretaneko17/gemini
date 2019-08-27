@@ -44,10 +44,10 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String userName = JWTUtil.getUserName(principals.toString());
+        String userNum = JWTUtil.getUserNum(principals.toString());
         SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo();
         try {
-            UserInfoVo vo = this.userMapper.selectByUserName(userName);
+            UserInfoVo vo = this.userMapper.selectByUserNum(userNum);
             auth.setRoles(vo.getSetRoles());
             auth.setStringPermissions((vo.getSetResources()));
         } catch (Exception e) {
@@ -67,13 +67,14 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
         // 解密获得userName，用于和数据库进行对比
-        String userName = JWTUtil.getUserName(token);
-        UserInfoVo vo = this.userMapper.selectByUserName(userName);
-        String redisUserInfo = (String) redisTemplate.opsForValue().get("token_jwt_" + userName);
+        String userNum = JWTUtil.getUserNum(token);
+        UserInfoVo vo = this.userMapper.selectByUserNum(userNum);
+        String redisUserInfo = (String) redisTemplate.opsForValue().get("token_jwt_" + userNum);
 
-        ApiResult result = JWTUtil.verify(token, userName, vo.getPassword());
+        ApiResult result = JWTUtil.verify(token, userNum, vo.getPassword());
         Exception exception = (Exception) result.getData();
 
+        //针对token做出各种情况的返回异常msg。
         if (vo == null) {
             throw new UnknownAccountException("该帐号不存在！");
         } else if (vo.getLock() == null || vo.getLock().equals(1)) {
