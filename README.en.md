@@ -3,34 +3,56 @@
 #### Description
 gemini
 
-#### Software Architecture
-Software architecture description
+gemini（双子座）
+前言
+乾坤，阴阳，善恶，世界是混沌的，虽有规则却不界明于规则。
+人类亦是如此。
+外在表现型人格只是你为了世界与他人呈现的自己，而内在潜藏的喜怒哀乐爱恶欲却往往总是自我消化。
+无数人在社会中苦苦挣扎却不愿，不敢，不能改变，带着一张永远也摘不掉的面具。
+矛盾？碰撞？极端？每个人私下都有一些小秘密，真心话，更与何人说？
+“与我！”
+gemini横空出世，踏着新年而来。
+这里，你可以释放真真正正的自己，我们不是社交网站，我们是专属于你的日记本，而这份日记，你想藏着也好，想匿名公开也好，全部取决于自己的选择。
+这里，你有真真正正的模拟人生的权利，你可以选择释放自己的内心，摘下面具；你同样可以让自己活在自己构想的任何世界，以任何身份。
+只是，同样的，作为gemini，我们的强制要求只有一个，日记本也要记录自己的双面人生，释放自己的同时，也是认清自己；构想自己的同时，也是立体自己；辩证自己的同时，也是说服自己。
+你可以阴阳两极，也可以表里如一；我们不会有任何干涉。
+当你不满足于自己的小星云的一隅之地，当你想要从外部看到自己的闪耀星光，当你想要悄悄地寻找共鸣？你可以跨出“家门”，去感受gemini宇宙中，其他星云的能量。
+为了维护世界的稳定，在这个世界中，有十条规约，请务必遵守：
+（一）请大家务必珍惜gemini的存在；
+（二）请大家务必珍惜自己的存在；
+（三）请 大家务必尊重他人的存在；
+（四）请不要带来三次元世界制约者的干扰；
+（五）请不要破坏gemini星云的物理元素构成；
+（五）对于gemini星云中的矛盾，在矛盾各方达成一致后，可以选择两种解决方式：一、由创世执法官介入；二、自行决斗，决斗的形式和结果双方必须达成共识；
+（六）对于任何决斗，形式仅限于gemini星云世界范围，且是gemini世界允许的方式；
+（七）对于任何决斗，结果仅作用于gemini星云世界范围，且是gemini世界允许且承认的方式；
+（八）每位星主的每次发表必须同时完成当天的“表”与“里”两篇日记；
+（九）程序员在gemini星云世界中享有一定程度的特权；
+（十）任何规则，制定与改变都仅限于创世者意愿；对于违反约定的朋友，gemini拒绝加入。
+那么，亲爱的朋友，您选择加入我们了吗？
+以星座之力！开启你的小宇宙！
+gemini的主要模块分为五大块：
+（1）写日记；
+（2）自己的小屋（个人中心）；
+（3）出门串门看别人公开的日记和接龙（出门）；【暂时没】
+（4）虚拟人格创建，自我拟定的角色扮演；【暂时没】
+（5）主题性活动--故事接龙/语C扮演【暂时没】
+其他：还有一些附加的默认battle形式，还有程序员才懂的活动，还有一些别的；【暂时没】
 
-#### Installation
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### Instructions
-
-1. xxxx
-2. xxxx
-3. xxxx
-
-#### Contribution
-
-1. Fork the repository
-2. Create Feat_xxx branch
-3. Commit your code
-4. Create Pull Request
-
-
-#### Gitee Feature
-
-1. You can use Readme\_XXX.md to support different languages, such as Readme\_en.md, Readme\_zh.md
-2. Gitee blog [blog.gitee.com](https://blog.gitee.com)
-3. Explore open source project [https://gitee.com/explore](https://gitee.com/explore)
-4. The most valuable open source project [GVP](https://gitee.com/gvp)
-5. The manual of Gitee [https://gitee.com/help](https://gitee.com/help)
-6. The most popular members  [https://gitee.com/gitee-stars/](https://gitee.com/gitee-stars/)
+【主页】---
+【注册】---
+------------------------------------------------------
+注册主要填写的有：
+昵称（唯一，可改，显示）：
+手机号（账号）：
+邮件（找回密码）：
+密码（登录）：
+-------------------------------------------------------
+【登录】---
+【日记页面】---
+【家的设计】---
+【个人中心】
+【社交圈设计】---
+【细节描述】---
+【需求追加】---
+【特点追加】---

@@ -2,8 +2,6 @@ package com.hekiraku.gemini.provider;
 
 import org.apache.ibatis.jdbc.SQL;
 
-import java.util.Map;
-
 /**
  * 构建组：大道金服科技部
  * 作者:weiyimeng

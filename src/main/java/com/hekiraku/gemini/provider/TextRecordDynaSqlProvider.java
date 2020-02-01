@@ -37,7 +37,6 @@ public class TextRecordDynaSqlProvider {
      */
     public String create() {
         SQL create = new SQL().INSERT_INTO("g_record")
-                .VALUES("id", "#{id}")
                 .VALUES("user_num", "#{userNum}")
                 .VALUES("text", "#{text}")
                 .VALUES("soul_char", "#{soulChar}")
