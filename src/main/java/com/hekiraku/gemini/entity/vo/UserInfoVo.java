@@ -26,12 +26,12 @@ import java.util.Set;
 @ToString
 @ApiModel(value = "UserInfoVo",description = "用户返回信息")
 public class UserInfoVo implements Serializable {
-    @ApiModelProperty(notes = "用户名",example = "zhangSan")
+    @ApiModelProperty(notes = "用户名",example = "zhangsan")
     private String userName;
     @ApiModelProperty(notes = "用户编号",example = "201904031010001")
     private String userNum;
     @JsonIgnore
-    @ApiModelProperty(notes = "密码",example = "123",hidden = true)
+    @ApiModelProperty(notes = "密码",example = "12345",hidden = true)
     private String password;
     @ApiModelProperty(notes = "手机号",example = "1322232313")
     private String phone;

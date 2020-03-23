@@ -2,11 +2,13 @@ package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.entity.TextRecordEntity;
 import com.hekiraku.gemini.entity.dto.TextRecordDto;
+import com.hekiraku.gemini.entity.vo.SoulCharDateVo;
 import com.hekiraku.gemini.provider.TextRecordDynaSqlProvider;
 import org.apache.ibatis.annotations.InsertProvider;
-import org.apache.ibatis.annotations.Param;
 import org.apache.ibatis.annotations.SelectProvider;
 import org.apache.ibatis.annotations.UpdateProvider;
+
+import java.util.List;
 
 /**
  * 构建组：大道金服科技部
@@ -42,4 +44,14 @@ public interface TextRecordMapper {
      */
     @SelectProvider(type=TextRecordDynaSqlProvider.class,method = "selectTextByDayUsrChar")
     TextRecordEntity selectTextByDayUsrChar(TextRecordDto textRecordDto);
+
+    /**
+     * 获取全年的写了日记的日期，及性格，用做展示
+     */
+    @SelectProvider(type=TextRecordDynaSqlProvider.class,method = "selectSoulDiaryByUserAndYear")
+    List<SoulCharDateVo> selectSoulDiaryByUserAndYear(String years, String userNum);
+    /**
+     * 获取存在日记的年份
+     */
+    List<String> selectYearDiaryByUser(String userNum);
 }

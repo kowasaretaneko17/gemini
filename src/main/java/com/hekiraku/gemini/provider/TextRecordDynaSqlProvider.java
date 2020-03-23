@@ -2,8 +2,10 @@ package com.hekiraku.gemini.provider;
 
 import com.hekiraku.gemini.entity.TextRecordEntity;
 import com.hekiraku.gemini.entity.dto.TextRecordDto;
+import com.hekiraku.gemini.entity.vo.SoulCharRecordVo;
 import org.apache.ibatis.jdbc.SQL;
 
+import java.util.List;
 import java.util.Map;
 
 import static org.apache.ibatis.jdbc.SqlBuilder.SET;
@@ -65,5 +67,16 @@ public class TextRecordDynaSqlProvider {
     public String deleteSoft(TextRecordEntity textRecordEntity) {
         SQL deleteSoft = new SQL().UPDATE("g_record").SET("delete_flag = 1").WHERE("id = #{id}");
         return deleteSoft.toString();
+    }
+
+    /**
+     * 根据用户与年份获取日记记录
+     */
+    public String selectSoulDiaryByUserAndYear(String years,String userNum){
+        SQL selectSoulDiaryByUserAndYear = new SQL()
+                .SELECT("soul_char","MONTH(create_time)","DAY(create_time)")
+                .FROM("g_record")
+                .WHERE("user_num = #{userNum} and YEAR(create_time) = #{years}");
+        return selectSoulDiaryByUserAndYear.toString();
     }
 }
