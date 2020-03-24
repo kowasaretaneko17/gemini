@@ -2,6 +2,7 @@ package com.hekiraku.gemini.service.impl;
 
 import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.entity.vo.SoulCharVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.mapper.TextRecordMapper;
@@ -14,6 +15,7 @@ import org.springframework.util.StringUtils;
 
 import java.sql.Date;
 import java.time.LocalDate;
+import java.util.List;
 import java.util.Optional;
 
 /**
@@ -32,7 +34,7 @@ public class DataRecordServiceImpl implements DataRecordService {
         String year = StringUtils.isEmpty(years)?new DateTime().year().toString():years;
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
         String userNum = userInfoVo.getUserNum();
-
-        return null;
+        List<List<SoulCharVo>> result = textRecordManager.selectSoulDiaryByUserAndYear(year,userNum);
+        return ApiResult.buildSuccessNormal("获取全年记录成功",result);
     }
 }

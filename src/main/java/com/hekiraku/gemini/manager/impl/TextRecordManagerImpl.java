@@ -7,10 +7,15 @@ import com.hekiraku.gemini.entity.vo.SoulCharVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.mapper.TextRecordMapper;
 import com.hekiraku.gemini.utils.EntityUtil;
+import org.joda.time.DateTime;
+import org.joda.time.DateTimeZone;
+import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.util.StringUtils;
 
+import java.time.Month;
+import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
@@ -78,16 +83,27 @@ public class TextRecordManagerImpl implements TextRecordManager {
                     .stream()
                     .filter(soulCharDateVo -> (month == soulCharDateVo.getMonth()))
                     .collect(Collectors.toList());
-            //检查当月存在日记的数据
-            for (int j = 1; j <= 32; j++) {
-                int day = j;
-//                List<SoulCharVo> soulCharVoList = soulCharDateMonthFilter
-//                        .stream()
-//                        .filter(soulCharDateVo -> (day == soulCharDateVo.getDay()))
-//                        .collect(//todo
-//                                Collectors.toList()
-//                                );
+            //填充数据
+            YearMonth yearMonth = YearMonth.of(Integer.parseInt(years),month);
+            //获取当月天数
+            int monthday = yearMonth.lengthOfMonth();
+            //初始化这个月
+            for(int j = 0;j<monthday;j++){
+                SoulCharVo soulCharVo = new SoulCharVo();
+                soulCharVos.add(soulCharVo);
             }
+            //对于当月
+            for(SoulCharDateVo soulCharDateVo:soulCharDateMonthFilter){
+                int day = soulCharDateVo.getDay();
+                if("ura".equalsIgnoreCase(soulCharDateVo.getSoulChar())){
+                    soulCharVos.get(day-1).setUra(true);
+                }
+                if("omote".equalsIgnoreCase(soulCharDateVo.getSoulChar())){
+                    soulCharVos.get(day-1).setOmote(true);
+                }
+            }
+            soulCharList.add(soulCharVos);
         }
+        return soulCharList;
     }
 }

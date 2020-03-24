@@ -1,14 +1,7 @@
 package com.hekiraku.gemini.provider;
 
 import com.hekiraku.gemini.entity.TextRecordEntity;
-import com.hekiraku.gemini.entity.dto.TextRecordDto;
-import com.hekiraku.gemini.entity.vo.SoulCharRecordVo;
 import org.apache.ibatis.jdbc.SQL;
-
-import java.util.List;
-import java.util.Map;
-
-import static org.apache.ibatis.jdbc.SqlBuilder.SET;
 
 /**
  * 构建组：大道金服科技部
@@ -74,7 +67,7 @@ public class TextRecordDynaSqlProvider {
      */
     public String selectSoulDiaryByUserAndYear(String years,String userNum){
         SQL selectSoulDiaryByUserAndYear = new SQL()
-                .SELECT("soul_char","MONTH(create_time)","DAY(create_time)")
+                .SELECT("soul_char,DAY(create_time) as day,MONTH(create_time) as month,YEAR(create_time) as year")
                 .FROM("g_record")
                 .WHERE("user_num = #{userNum} and YEAR(create_time) = #{years}");
         return selectSoulDiaryByUserAndYear.toString();

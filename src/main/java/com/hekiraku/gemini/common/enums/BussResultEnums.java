@@ -14,7 +14,8 @@ public enum BussResultEnums {
      * ---业务返回码10000-10999---
      */
     B_TEXT_UPDATE("10001", "更新/添加日记错误"),
-    B_TEXT_SELECT("10002", "读取日记错误");
+    B_TEXT_SELECT("10002", "读取日记错误"),
+    B_TEXT_YEAR_DIARY("10003","获取全年日记信息错误");
 
     /**
      * ---业务返回码10000-10999---

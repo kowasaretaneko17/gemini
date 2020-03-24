@@ -19,11 +19,15 @@ import lombok.*;
  */
 @Getter
 @Setter
-@NoArgsConstructor
 @EqualsAndHashCode
 @ToString
 @ApiModel(value = "SoulCharVo",description = "返回全年的写日记记录")
 public class SoulCharVo {
     private Boolean ura;
     private Boolean omote;
+    public SoulCharVo(){
+        this.ura = false;
+        this.omote = false;
+
+    }
 }
