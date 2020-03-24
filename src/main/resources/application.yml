@@ -45,4 +45,4 @@ redis:
 jwt:
   tokenExpireTime: 5
   anonymous:
-    urls: login,logout,captcha,/doc.html,/swagger,/swagger-resources,/swagger-ui.html,/webjars,/druid,/v2/api-docs
+    urls: login,register,sendCheckingCode,logout,captcha,/doc.html,/swagger,/swagger-resources,/swagger-ui.html,/webjars,/druid,/v2/api-docs

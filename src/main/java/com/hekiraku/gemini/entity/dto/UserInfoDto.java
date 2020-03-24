@@ -14,8 +14,14 @@ import lombok.Data;
 @Data
 @ApiModel(value = "UserInfoDto",description = "用户传参对象dto")
 public class UserInfoDto {
-    @ApiModelProperty(required = true,notes = "用户名",example = "zhangSan")
+    @ApiModelProperty(required = true,notes = "用户名",example = "zhangsan")
     private String userName;
-    @ApiModelProperty(required = true,notes = "密码",example = "123")
+    @ApiModelProperty(required = true,notes = "密码",example = "12345")
     private String password;
+    @ApiModelProperty(required = true,notes = "手机号码",example = "13720658539")
+    private String phone;
+    @ApiModelProperty(required = true,notes = "邮箱",example = "1239407570@qq.com")
+    private String email;
+    @ApiModelProperty(required = true,notes = "昵称",example = "法外狂徒")
+    private String nickName;
 }

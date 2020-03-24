@@ -7,12 +7,16 @@ import com.hekiraku.gemini.aop.logs.LogAgent;
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
+import com.hekiraku.gemini.entity.UserEntity;
 import com.hekiraku.gemini.entity.dto.UserInfoDto;
 import com.hekiraku.gemini.entity.vo.KaptchaVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.mapper.UserMapper;
 import com.hekiraku.gemini.service.UserService;
+import com.hekiraku.gemini.utils.BeanUtils;
+import com.hekiraku.gemini.utils.EntityUtil;
 import io.swagger.annotations.*;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
@@ -23,6 +27,11 @@ import sun.misc.BASE64Encoder;
 import javax.imageio.ImageIO;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
+import java.time.Instant;
+import java.time.LocalDate;
+import java.util.Optional;
+import java.util.Random;
+import java.util.UUID;
 
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_KAPTCHA;
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_LOGIN;
@@ -102,6 +111,36 @@ public class LoginController {
             LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectByUserName(userInfoDto.getUserName()).getUserNum(),LogActiveNameEnums.LOG_LOGIN,"登录");
         }
     }
+    /**
+     * 注册账户
+     */
+    @SneakyThrows
+    @PostMapping("/register")
+    @ApiOperation(value = "注册", notes = "用户注册接口")
+    @ApiResponses({
+            @ApiResponse(code = 80000,message = "登录失败",response = ApiResult.class),
+            @ApiResponse(code = 80001,message = "用户名或密码错误",response = ApiResult.class)
+    })
+    public ApiResult register(@RequestBody UserInfoDto userInfoDto){
+        Optional<UserInfoDto> userOptional = Optional.ofNullable(userInfoDto);
+        UserEntity userEntity = UserEntity
+                .builder()
+                .email(userOptional.map(UserInfoDto::getEmail).orElseThrow(Exception::new))
+                .phone(userOptional.map(UserInfoDto::getPhone).orElseThrow(Exception::new))
+                .password(userOptional.map(UserInfoDto::getPassword).orElseThrow(Exception::new))
+                .userName(userOptional.map(UserInfoDto::getUserName).orElseGet(null))
+                .nickName(userOptional.map(UserInfoDto::getNickName).orElseGet(null))
+                .userNum(LocalDate.now().toString()+Instant.now())
+                .build();
+        EntityUtil.setCommonField(userEntity,userEntity.getUserNum());
+
+        return ApiResult.successMsg("1");
+
+    }
+    /**
+     * 验证邮箱验证码
+     */
+//sendCheckingCode
     /**
      * 生成验证码
      *

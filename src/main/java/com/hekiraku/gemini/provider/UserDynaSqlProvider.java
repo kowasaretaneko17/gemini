@@ -1,5 +1,7 @@
 package com.hekiraku.gemini.provider;
 
+import com.hekiraku.gemini.entity.UserEntity;
+import com.sun.xml.internal.ws.api.pipe.ServerPipeAssemblerContext;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
@@ -70,5 +72,15 @@ public class UserDynaSqlProvider {
                 .LEFT_OUTER_JOIN("g_resource gre on gre.id = grr.res_id")
                 .WHERE("gu.user_name=#{userName}");
         return selectAllByUserName.toString();
+    }
+    /**
+     * 创造一条数据
+     */
+    public String createUser(UserEntity userEntity){
+        SQL createUser = new SQL()
+                .INSERT_INTO("g_user")
+                .VALUES("user_num","#{userNum}")
+                .VALUES("user_name","#{userName}")
+                .VALUES("phone","#{phone}")
     }
 }
