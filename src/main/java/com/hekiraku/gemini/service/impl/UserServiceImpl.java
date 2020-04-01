@@ -1,17 +1,22 @@
 package com.hekiraku.gemini.service.impl;
 
+import com.auth0.jwt.algorithms.Algorithm;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.common.constants.CommonConstant;
+import com.hekiraku.gemini.entity.UserEntity;
 import com.hekiraku.gemini.entity.vo.KaptchaVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.UserManager;
 import com.hekiraku.gemini.service.UserService;
+import com.hekiraku.gemini.utils.DESUtils;
+import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
+import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
 
@@ -67,7 +72,21 @@ public class UserServiceImpl implements UserService {
     public void addUserInfoToRedis(String userNum, UserInfoVo userInfoVo) {
         String key = CommonConstant.USER_SIMPLE_INFO + userNum ;
         redisTemplate.opsForValue().set(key,userInfoVo);
-}
+    }
+
+    @Override
+    public void addCheckCode(String mail, String checkCode) {
+        redisTemplate.opsForValue().set(mail,checkCode,60);
+    }
+
+    @Override
+    public boolean signCheckCode(String mail,String checkCode) {
+        if(redisTemplate.opsForValue().get(mail).toString().equalsIgnoreCase(checkCode)){
+            return true;
+        }else{
+            return false;
+        }
+    }
 
     @Override
     public KaptchaVo createRandomToken(String textStr) {
@@ -83,5 +102,27 @@ public class UserServiceImpl implements UserService {
     public boolean removeJWTToken(String userName) {
         String key = CommonConstant.JWT_TOKEN + userName;
         return redisTemplate.delete(key);
+    }
+
+    @Override
+    public UserInfoVo selectByNickName(String nickName) {
+        return userManager.selectByNickName(nickName);
+    }
+
+    @Override
+    public UserInfoVo selectByPhone(String phone) {
+        return userManager.selectByPhone(phone);
+    }
+
+    @Override
+    public UserInfoVo selectByEmail(String email) {
+        return userManager.selectByEmail(email);
+    }
+
+    @SneakyThrows
+    @Override
+    public int createUser(UserEntity userEntity){
+        userEntity.setPassword(DESUtils.md5Encrypt(DESUtils.aesEncrypt(userEntity.getPassword(),userEntity.getUserNum())));
+        return userManager.createUser(userEntity);
     }
 }

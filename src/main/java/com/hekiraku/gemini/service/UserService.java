@@ -1,6 +1,8 @@
 package com.hekiraku.gemini.service;
 
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.entity.UserEntity;
+import com.hekiraku.gemini.entity.dto.UserInfoDto;
 import com.hekiraku.gemini.entity.vo.KaptchaVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import io.swagger.annotations.Api;
@@ -20,6 +22,12 @@ public interface UserService {
     public ApiResult<UserInfoVo> selectByUserNum(String usernum) ;
     public void addTokenToRedis(String userNum, String jwtTokenStr);
     public void addUserInfoToRedis(String userNum, UserInfoVo userInfoVo);
+    public void addCheckCode(String mail,String checkCode);
+    public boolean signCheckCode(String mail,String checkCode);
     public KaptchaVo createRandomToken(String textStr);
     public boolean removeJWTToken(String userName);
+    UserInfoVo selectByNickName(String nickName);
+    UserInfoVo selectByPhone(String phone);
+    UserInfoVo selectByEmail(String email);
+    public int createUser(UserEntity userEntity);
 }

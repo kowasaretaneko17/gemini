@@ -11,13 +11,13 @@ import java.util.Map;
  */
 public enum OperatingResultEnums {
     /**
-     * ---业务返回码10000-10999---
+     * ---系统返回码00000-00999---
      */
     S_NOT_FOUND("00001", "服务器未找到资源"),
     S_ERROR("00002", "服务器错误");
 
     /**
-     * ---业务返回码10000-10999---
+     * ---系统返回码00000-00999---
      */
 
     private String code;

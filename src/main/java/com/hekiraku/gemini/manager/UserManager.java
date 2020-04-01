@@ -2,6 +2,9 @@ package com.hekiraku.gemini.manager;
 
 import com.hekiraku.gemini.entity.UserEntity;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.provider.UserDynaSqlProvider;
+import org.apache.ibatis.annotations.ResultMap;
+import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
 
@@ -13,7 +16,12 @@ import java.util.List;
  * 功能说明：
  */
 public interface UserManager {
-    public UserInfoVo selectById(String id);
-    public UserInfoVo selectByUserName(String username);
-    public UserInfoVo selectByUserNum(String usernum);
+    UserInfoVo selectById(String id);
+    UserInfoVo selectByUserName(String username);
+    UserInfoVo selectByUserNum(String usernum);
+    UserInfoVo selectByNickName(String nickName);
+    UserInfoVo selectByPhone(String phone);
+    UserInfoVo selectByEmail(String email);
+    int createUser(UserEntity userEntity);
+
 }

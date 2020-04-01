@@ -33,4 +33,19 @@ public interface UserMapper {
     @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByUserNum")
     @ResultMap("userMap")
     UserInfoVo selectByUserNum(String userNum);
+
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByNickName")
+    @ResultMap("userMap")
+    UserInfoVo selectByNickName(String nickName);
+
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByPhone")
+    @ResultMap("userMap")
+    UserInfoVo selectByPhone(String phone);
+
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByEmail")
+    @ResultMap("userMap")
+    UserInfoVo selectByEmail(String email);
+
+    @InsertProvider(type=UserDynaSqlProvider.class,method = "createUser")
+    int createUser(UserEntity userEntity);
 }

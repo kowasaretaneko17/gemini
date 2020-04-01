@@ -1,7 +1,5 @@
 package com.hekiraku.gemini.provider;
-
 import com.hekiraku.gemini.entity.UserEntity;
-import com.sun.xml.internal.ws.api.pipe.ServerPipeAssemblerContext;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
@@ -24,7 +22,7 @@ public class UserDynaSqlProvider {
     }
 
     /**
-     * 通过username查询user表
+     * 通过userName查询user表
      * @param userName
      * @return
      */
@@ -41,7 +39,7 @@ public class UserDynaSqlProvider {
     }
 
     /**
-     * 通过username查询user表
+     * 通过userNum查询user表
      * @param userNum
      * @return
      */
@@ -56,7 +54,48 @@ public class UserDynaSqlProvider {
                 .WHERE("id=("+selectIdByUserNum.getSelf()+")");
         return selectAllById.toString();
     }
-
+    /**
+     * 根据email查询数据
+     */
+    public String selectByEmail(String email){
+        SQL selectByEmail = new SQL()
+                .SELECT("id")
+                .FROM("g_user")
+                .WHERE("email=#{email}");
+        SQL selectAllById = new SQL()
+                .SELECT("*")
+                .FROM("g_user")
+                .WHERE("id=("+selectByEmail.getSelf()+")");
+        return selectAllById.toString();
+    }
+    /**
+     * 根据nickName查询数据
+     */
+    public String selectByNickName(String nickName){
+        SQL selectByNickName = new SQL()
+                .SELECT("id")
+                .FROM("g_user")
+                .WHERE("nick_name=#{nickName}");
+        SQL selectAllById = new SQL()
+                .SELECT("*")
+                .FROM("g_user")
+                .WHERE("id=("+selectByNickName.getSelf()+")");
+        return selectAllById.toString();
+    }
+    /**
+     * 根据phone查询数据
+     */
+    public String selectByPhone(String phone){
+        SQL selectByPhone = new SQL()
+                .SELECT("id")
+                .FROM("g_user")
+                .WHERE("phone=#{phone}");
+        SQL selectAllById = new SQL()
+                .SELECT("*")
+                .FROM("g_user")
+                .WHERE("id=("+selectByPhone.getSelf()+")");
+        return selectAllById.toString();
+    }
     /**
      * 通过userName查询所有信息
      * @param userName
@@ -82,5 +121,16 @@ public class UserDynaSqlProvider {
                 .VALUES("user_num","#{userNum}")
                 .VALUES("user_name","#{userName}")
                 .VALUES("phone","#{phone}")
+                .VALUES("email","#{email}")
+                .VALUES("`password`","#{password}")
+                .VALUES("nick_name","#{nickName}")
+                .VALUES("`lock`","#{lock}")
+                .VALUES("create_time","#{createTime}")
+                .VALUES("update_time","#{updateTime}")
+                .VALUES("create_user_id","#{createUserId}")
+                .VALUES("update_user_id","#{updateUserId}")
+                .VALUES("rev","#{rev}")
+                .VALUES("delete_flag","#{deleteFlag}");
+        return createUser.toString();
     }
 }

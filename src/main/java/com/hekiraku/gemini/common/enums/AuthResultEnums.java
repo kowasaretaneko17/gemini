@@ -17,7 +17,11 @@ public enum AuthResultEnums {
     AUTH_ROLE("80003","无权访问，当前账号权限不足"),
     AUTH_TOKEN("80004","token检验失败"),
     AUTH_KAPTCHA("80005","生成验证码失败"),
-    AUTH_USERINFO("80006","获取用户信息失败");
+    AUTH_USERINFO("80006","获取用户信息失败"),
+    AUTH_REGISTER("80007","注册失败"),
+    AUTH_USERNAME("80008","已存在用户名"),
+    AUTH_MAIL("80009","已存在邮箱"),
+    AUTH_PHONE("80010","已存在手机号");
     /**---鉴权返回码80000-80999---*/
 
     private String code;

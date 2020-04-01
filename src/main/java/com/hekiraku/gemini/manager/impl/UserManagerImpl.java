@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.manager.impl;
 
+import com.auth0.jwt.algorithms.Algorithm;
 import com.hekiraku.gemini.entity.UserEntity;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.UserManager;
@@ -38,5 +39,25 @@ public class UserManagerImpl implements UserManager {
     @Override
     public UserInfoVo selectByUserNum(String usernum) {
         return userMapper.selectByUserNum(usernum);
+    }
+
+    @Override
+    public UserInfoVo selectByNickName(String nickName) {
+        return userMapper.selectByNickName(nickName);
+    }
+
+    @Override
+    public UserInfoVo selectByPhone(String phone) {
+        return userMapper.selectByPhone(phone);
+    }
+
+    @Override
+    public UserInfoVo selectByEmail(String email) {
+        return userMapper.selectByEmail(email);
+    }
+
+    @Override
+    public int createUser(UserEntity userEntity) {
+        return userMapper.createUser(userEntity);
     }
 }

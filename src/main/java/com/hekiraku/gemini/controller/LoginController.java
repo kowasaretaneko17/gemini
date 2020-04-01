@@ -1,6 +1,7 @@
 package com.hekiraku.gemini.controller;
 
 import com.google.code.kaptcha.impl.DefaultKaptcha;
+import com.google.common.collect.ImmutableMap;
 import com.hekiraku.gemini.aop.jwt.JWTUtil;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.aop.logs.LogAgent;
@@ -8,37 +9,35 @@ import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
 import com.hekiraku.gemini.entity.UserEntity;
+import com.hekiraku.gemini.entity.dto.MailDto;
 import com.hekiraku.gemini.entity.dto.UserInfoDto;
 import com.hekiraku.gemini.entity.vo.KaptchaVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.mapper.UserMapper;
 import com.hekiraku.gemini.service.UserService;
-import com.hekiraku.gemini.utils.BeanUtils;
-import com.hekiraku.gemini.utils.EntityUtil;
+import com.hekiraku.gemini.utils.*;
 import io.swagger.annotations.*;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.util.StringUtils;
 import org.springframework.web.bind.annotation.*;
 import sun.misc.BASE64Encoder;
 
 import javax.imageio.ImageIO;
+import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.time.Instant;
-import java.time.LocalDate;
-import java.util.Optional;
-import java.util.Random;
-import java.util.UUID;
+import java.util.*;
+import java.util.function.Predicate;
 
-import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_KAPTCHA;
-import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_LOGIN;
-import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_LOGIN_PARAM;
+import static com.hekiraku.gemini.common.enums.AuthResultEnums.*;
+import static com.hekiraku.gemini.common.enums.MailEnums.M_HEKIRAKU_SOURCE;
 
 /**
- * 构建组：大道金服科技部
+ * 构建组：
  * 作者:weiyimeng
  * 邮箱:weiyimeng@ddjf.com.cn
  * 日期:2019/1/23
@@ -114,33 +113,61 @@ public class LoginController {
     /**
      * 注册账户
      */
-    @SneakyThrows
     @PostMapping("/register")
     @ApiOperation(value = "注册", notes = "用户注册接口")
     @ApiResponses({
-            @ApiResponse(code = 80000,message = "登录失败",response = ApiResult.class),
-            @ApiResponse(code = 80001,message = "用户名或密码错误",response = ApiResult.class)
+            @ApiResponse(code = 80002,message = "用户名重复",response = ApiResult.class),
+            @ApiResponse(code = 80003,message = "邮箱重复",response = ApiResult.class),
+            @ApiResponse(code = 80004,message = "手机号重复",response = ApiResult.class)
     })
-    public ApiResult register(@RequestBody UserInfoDto userInfoDto){
-        Optional<UserInfoDto> userOptional = Optional.ofNullable(userInfoDto);
-        UserEntity userEntity = UserEntity
-                .builder()
-                .email(userOptional.map(UserInfoDto::getEmail).orElseThrow(Exception::new))
-                .phone(userOptional.map(UserInfoDto::getPhone).orElseThrow(Exception::new))
-                .password(userOptional.map(UserInfoDto::getPassword).orElseThrow(Exception::new))
-                .userName(userOptional.map(UserInfoDto::getUserName).orElseGet(null))
-                .nickName(userOptional.map(UserInfoDto::getNickName).orElseGet(null))
-                .userNum(LocalDate.now().toString()+Instant.now())
-                .build();
-        EntityUtil.setCommonField(userEntity,userEntity.getUserNum());
-
-        return ApiResult.successMsg("1");
+    public ApiResult register(@RequestBody @Valid UserInfoDto userInfoDto){
+        try {
+            //检查邮箱是否存在
+            if(userMapper.selectByEmail(userInfoDto.getEmail())!=null){
+                return ApiResult.successMsg("邮箱已存在");
+            }
+            if(StringUtils.isEmpty(userInfoDto.getCheckCode())){
+                return ApiResult.successMsg("请填写验证码");
+            }
+            if(!userService.signCheckCode(userInfoDto.getEmail(),userInfoDto.getCheckCode())){
+                return ApiResult.successMsg("验证不通过，请检查验证码");
+            }
+            UserEntity userEntity = UserEntity.builder().build();
+            BeanUtils.copyProperties(userEntity,userInfoDto);
+            String userNum = String.valueOf(SnowFlakeUtils.nextId());
+            userEntity.setUserNum(userNum);
+            userEntity.setLock("0");
+            EntityUtil.setCommonField(userEntity,userNum);
+            userService.createUser(userEntity);
+            return ApiResult.successMsg("注册成功");
+        }catch (Exception e){
+            log.error("注册失败:",e);
+            return ApiResult.buildFail(AUTH_REGISTER.getCode(),AUTH_REGISTER.getDesc());
+        }
 
     }
     /**
-     * 验证邮箱验证码
+     * 修改密码
+     * 注册账号
+     * 需要验证邮箱验证码
      */
-//sendCheckingCode
+    @PostMapping("/checkEmail")
+    @ApiOperation(value = "邮箱验证", notes = "邮箱验证接口")
+    public ApiResult checkEmail(String email){
+        if(StringUtils.isEmpty(email)){
+            return ApiResult.successMsg("邮箱不能为空");
+        }
+        int code = CheckCodeUtils.sixLength();
+        MailDto mailDto = new MailDto();
+        mailDto.setMailSource(M_HEKIRAKU_SOURCE.getCode());
+        mailDto.setMailTarget(email);
+        mailDto.setSubject("欢迎注册gemini星云总线");
+        mailDto.setContent("您的注册验证码是：     "+ code);
+        MailUtils.sendMail(mailDto);
+        userService.addCheckCode(email,String.valueOf(code));
+        return ApiResult.successMsg("发送成功");
+    }
+
     /**
      * 生成验证码
      *
