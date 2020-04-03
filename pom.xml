@@ -11,7 +11,7 @@
     <groupId>com.hekiraku</groupId>
     <artifactId>gemini</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging><!--开始使用war包部署了-->
     <name>gemini</name>
     <description>Demo project for Spring Boot</description>
 
