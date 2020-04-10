@@ -91,6 +91,7 @@ public class LoginController {
     })
     public ApiResult login(@RequestBody UserInfoDto userInfoDto) {
         try {
+            log.info("登录,参数为：",userInfoDto.toString());
             String userName=userInfoDto.getUserName();
             UserInfoVo userInfoVo = userMapper.selectByUserName(userName);
             String password = DESUtils.md5Encrypt(DESUtils.aesEncrypt(userInfoVo.getPassword(),userInfoVo.getEmail()));
@@ -105,7 +106,7 @@ public class LoginController {
                 return ApiResult.buildSuccessNormal("登录成功",tokenStr);
             }
         } catch (Exception e) {
-            log.info("登录失败，参数:{},异常：{}",userInfoDto,e);
+            log.error("登录失败，参数:{},异常：{}",userInfoDto,e);
             return ApiResult.buildFail(AUTH_LOGIN.getCode(), AUTH_LOGIN.getDesc());
         }finally {
             LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectByUserName(userInfoDto.getUserName()).getUserNum(),LogActiveNameEnums.LOG_LOGIN,"登录");
