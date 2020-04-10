@@ -76,12 +76,13 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addCheckCode(String mail, String checkCode) {
-        redisTemplate.opsForValue().set(mail,checkCode,20,TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(mail,checkCode,identifyingTokenExpireTime,TimeUnit.SECONDS);
     }
 
     @Override
     public boolean signCheckCode(String mail,String checkCode) {
-        if(redisTemplate.opsForValue().get(mail).toString().equalsIgnoreCase(checkCode)){
+        String code = (String) redisTemplate.opsForValue().get(mail);
+        if(code.equalsIgnoreCase(checkCode)){
             return true;
         }else{
             return false;
