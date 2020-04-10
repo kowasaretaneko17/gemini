@@ -94,7 +94,7 @@ public class LoginController {
             log.info("登录,参数为：",userInfoDto.toString());
             String userName=userInfoDto.getUserName();
             UserInfoVo userInfoVo = userMapper.selectByUserName(userName);
-            String password = DESUtils.md5Encrypt(DESUtils.aesEncrypt(userInfoVo.getPassword(),userInfoVo.getEmail()));
+            String password = DESUtils.md5Encrypt(DESUtils.aesEncrypt(userInfoVo.getPassword(),"gemini_hekiraku_wanlly"));
             if(null == userInfoVo || !password.equals(userInfoDto.getPassword())){
                 return ApiResult.buildFail(AUTH_LOGIN_PARAM.getCode(), AUTH_LOGIN_PARAM.getDesc());
             } else {
