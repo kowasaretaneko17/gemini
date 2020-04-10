@@ -12,6 +12,7 @@ import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 
+import java.io.Serializable;
 import java.util.Date;
 
 /**
@@ -21,7 +22,7 @@ import java.util.Date;
  * @date 03/24/2020 4:08 下午
  */
 @Data
-public class MailDto {
+public class MailDto implements Serializable {
     @ApiModelProperty(required = true,notes = "收件人",example = "1510381250@qq.com")
     String mailTarget;
     @ApiModelProperty(required = true,notes = "收件人昵称",example = "花鸽子")

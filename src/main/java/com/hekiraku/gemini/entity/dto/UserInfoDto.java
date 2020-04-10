@@ -7,6 +7,7 @@ import lombok.NonNull;
 
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotEmpty;
+import java.io.Serializable;
 
 /**
  * 构建组：大道金服科技部
@@ -17,7 +18,7 @@ import javax.validation.constraints.NotEmpty;
  */
 @Data
 @ApiModel(value = "UserInfoDto",description = "用户传参对象dto")
-public class UserInfoDto {
+public class UserInfoDto implements Serializable {
     @ApiModelProperty(required = true,notes = "用户名",example = "zhangsan")
     private String userName;
     @ApiModelProperty(required = true,notes = "密码",example = "12345")

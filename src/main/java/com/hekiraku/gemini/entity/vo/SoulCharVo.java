@@ -11,6 +11,8 @@ package com.hekiraku.gemini.entity.vo;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
+import java.io.Serializable;
+
 /**
  * 自定义处理后的内容
  *
@@ -22,7 +24,7 @@ import lombok.*;
 @EqualsAndHashCode
 @ToString
 @ApiModel(value = "SoulCharVo",description = "返回全年的写日记记录")
-public class SoulCharVo {
+public class SoulCharVo implements Serializable {
     private Boolean ura;
     private Boolean omote;
     public SoulCharVo(){
