@@ -76,7 +76,7 @@ public class UserServiceImpl implements UserService {
 
     @Override
     public void addCheckCode(String mail, String checkCode) {
-        redisTemplate.opsForValue().set(mail,checkCode,identifyingTokenExpireTime,TimeUnit.SECONDS);
+        redisTemplate.opsForValue().set(mail,checkCode,identifyingTokenExpireTime,TimeUnit.MINUTES);
     }
 
     @Override
