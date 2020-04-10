@@ -122,7 +122,7 @@ public class UserServiceImpl implements UserService {
     @SneakyThrows
     @Override
     public int createUser(UserEntity userEntity){
-        userEntity.setPassword(DESUtils.md5Encrypt(DESUtils.aesEncrypt(userEntity.getPassword(),userEntity.getUserNum())));
+        userEntity.setPassword(DESUtils.md5Encrypt(DESUtils.aesEncrypt(userEntity.getPassword(),userEntity.getEmail())));
         return userManager.createUser(userEntity);
     }
 }

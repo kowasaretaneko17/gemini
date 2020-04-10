@@ -93,7 +93,8 @@ public class LoginController {
         try {
             String userName=userInfoDto.getUserName();
             UserInfoVo userInfoVo = userMapper.selectByUserName(userName);
-            if(null == userInfoVo || !userInfoVo.getPassword().equals(userInfoDto.getPassword())){
+            String password = DESUtils.md5Encrypt(DESUtils.aesEncrypt(userInfoVo.getPassword(),userInfoVo.getEmail()));
+            if(null == userInfoVo || !password.equals(userInfoDto.getPassword())){
                 return ApiResult.buildFail(AUTH_LOGIN_PARAM.getCode(), AUTH_LOGIN_PARAM.getDesc());
             } else {
                 String tokenStr = JWTUtil.sign(userInfoVo);
