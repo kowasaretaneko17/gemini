@@ -2,7 +2,6 @@ package com.hekiraku.gemini.service;
 
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.dto.TextRecordDto;
 import com.hekiraku.gemini.domain.vo.TextRecordVo;
 
 import java.util.List;
@@ -36,14 +35,14 @@ public interface TextRecordService {
     /**
      * 根据日期，用户编号，人格状态获取日记
      */
-    ApiResult selectTextByDayUsrChar(TextRecordDto textRecordDto);
+    ApiResult selectTextByDayUsrChar(TextDto textRecordDto);
 
     /**
      * 写日记，如果已有日记则更新，若没有则插入
      */
-    ApiResult<TextRecordVo> writeRecord(TextRecordDto textRecordDto) throws Exception;
+    ApiResult<TextRecordVo> writeRecord(TextDto textRecordDto) throws Exception;
     /**
      * 读日记
      */
-    ApiResult<List<TextUserEntity>> readRecord(TextRecordDto textRecordDto) throws Exception;
+    ApiResult<List<TextUserEntity>> readRecord(TextDto textRecordDto) throws Exception;
 }

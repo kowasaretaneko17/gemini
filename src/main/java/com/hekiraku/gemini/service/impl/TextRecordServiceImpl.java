@@ -3,7 +3,6 @@ package com.hekiraku.gemini.service.impl;
 import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.dto.TextRecordDto;
 import com.hekiraku.gemini.domain.vo.TextRecordVo;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
@@ -66,13 +65,13 @@ public class TextRecordServiceImpl implements TextRecordService {
     }
 
     @Override
-    public ApiResult selectTextByDayUsrChar(TextRecordDto textRecordDto) {
+    public ApiResult selectTextByDayUsrChar(TextDto textRecordDto) {
         TextUserEntity recordEntity = textRecordManager.selectTextByDayUsrChar(textRecordDto);
         return ApiResult.buildSuccessNormal("查询成功",recordEntity);
     }
 
     @Override
-    public ApiResult<TextRecordVo> writeRecord(TextRecordDto textRecordDto) throws Exception {
+    public ApiResult<TextRecordVo> writeRecord(TextDto textRecordDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
         String createDay = DateTime.now().toString("yyyy-MM-dd");
         textRecordDto.setUserNum(userInfoVo.getUserNum());
@@ -104,7 +103,7 @@ public class TextRecordServiceImpl implements TextRecordService {
      * @throws Exception
      */
     @Override
-    public ApiResult<List<TextUserEntity>> readRecord(TextRecordDto textRecordDto) throws Exception {
+    public ApiResult<List<TextUserEntity>> readRecord(TextDto textRecordDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
         textRecordDto.setUserNum(userInfoVo.getUserNum());
         List<TextUserEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);

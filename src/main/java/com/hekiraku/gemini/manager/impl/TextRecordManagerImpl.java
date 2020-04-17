@@ -1,7 +1,6 @@
 package com.hekiraku.gemini.manager.impl;
 
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.dto.TextRecordDto;
 import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
@@ -42,7 +41,7 @@ public class TextRecordManagerImpl implements TextRecordManager {
     }
 
     @Override
-    public TextUserEntity selectTextByDayUsrChar(TextRecordDto textRecordDto) {
+    public TextUserEntity selectTextByDayUsrChar(TextDto textRecordDto) {
         return textRecordMapper.selectTextByDayUsrChar(textRecordDto);
     }
 
@@ -55,7 +54,7 @@ public class TextRecordManagerImpl implements TextRecordManager {
      * @return
      */
     @Override
-    public List<TextUserEntity> selectTextByDayUsrCharList(TextRecordDto textRecordDto) {
+    public List<TextUserEntity> selectTextByDayUsrCharList(TextDto textRecordDto) {
         List<TextUserEntity> textRecordEntities = new ArrayList<>();
         TextUserEntity textRecordEntity = textRecordMapper.selectTextByDayUsrChar(textRecordDto);
         if (textRecordEntity != null) {

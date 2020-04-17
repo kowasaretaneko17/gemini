@@ -2,7 +2,6 @@ package com.hekiraku.gemini.controller.buss;
 
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.dto.TextRecordDto;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
 import com.hekiraku.gemini.domain.vo.TextRecordVo;
 import com.hekiraku.gemini.service.DataRecordService;
@@ -42,7 +41,7 @@ public class TextRecordController {
     @ApiResponses({
             @ApiResponse(code = 10001,message = "更新/添加日记错误",response = ApiResult.class)
     })
-    public ApiResult<TextRecordVo> writeRecord(@Validated(TextRecordDto.WriteView.class) @RequestBody TextRecordDto textRecordDto){
+    public ApiResult<TextRecordVo> writeRecord(@Validated(TextDto.WriteView.class) @RequestBody TextDto textRecordDto){
         //获取参数
         try{
             return textRecordService.writeRecord(textRecordDto);
@@ -57,7 +56,7 @@ public class TextRecordController {
     @ApiResponses({
             @ApiResponse(code = 10002,message = "读取日记错误",response = ApiResult.class)
     })
-    public ApiResult<List<TextUserEntity>> readRecord(@Validated(TextRecordDto.ReadView.class) @RequestBody TextRecordDto textRecordDto){
+    public ApiResult<List<TextUserEntity>> readRecord(@Validated(TextDto.ReadView.class) @RequestBody TextDto textRecordDto){
         //获取参数
         try{
             return textRecordService.readRecord(textRecordDto);

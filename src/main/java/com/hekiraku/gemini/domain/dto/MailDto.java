@@ -8,8 +8,11 @@
  **/
 package com.hekiraku.gemini.domain.dto;
 
+import com.hekiraku.gemini.domain.base.SerializableEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
+import lombok.Getter;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -17,16 +20,17 @@ import java.util.Date;
 /**
  * 邮件发送Dto
  *
- * @author bytedance<bytedance @ bytedance.com>
+ * @author weiyimeng<weiyimeng @ bytedance.com>
  * @date 03/24/2020 4:08 下午
  */
-@Data
-public class MailDto implements Serializable {
+@Setter
+@Getter
+public class MailDto extends SerializableEntity {
     @ApiModelProperty(required = true,notes = "收件人",example = "1510381250@qq.com")
     String mailTarget;
     @ApiModelProperty(required = true,notes = "收件人昵称",example = "花鸽子")
     String mailTargetNickName;
-    @ApiModelProperty(required = true,notes = "发件人",example = "1239407570@qq.com")
+    @ApiModelProperty(required = true,notes = "发件人",example = "gemini_rule001@163.com")
     String mailSource;
     @ApiModelProperty(required = true,notes = "发件人昵称",example = "碧落君")
     String mailSourceNickName;

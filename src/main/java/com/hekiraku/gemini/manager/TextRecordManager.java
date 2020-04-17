@@ -1,7 +1,6 @@
 package com.hekiraku.gemini.manager;
 
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.dto.TextRecordDto;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
 
 import java.util.List;
@@ -35,11 +34,11 @@ public interface TextRecordManager {
     /**
      * 根据日期，用户编号，人格状态获取日记
      */
-    TextUserEntity selectTextByDayUsrChar(TextRecordDto textRecordDto);
+    TextUserEntity selectTextByDayUsrChar(TextDto textRecordDto);
     /**
      * 根据日期，用户编号，人格状态获取日记,返回list
      */
-    List<TextUserEntity> selectTextByDayUsrCharList(TextRecordDto textRecordDto);
+    List<TextUserEntity> selectTextByDayUsrCharList(TextDto textRecordDto);
     /**
      * 获取全年的写了日记的日期，及性格，用做展示
      */

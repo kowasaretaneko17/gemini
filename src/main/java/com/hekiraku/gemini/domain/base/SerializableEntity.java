@@ -8,22 +8,16 @@
  **/
 package com.hekiraku.gemini.domain.base;
 
-import lombok.Data;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
-
 import java.io.Serializable;
 
 /**
- * @author weiyimeng<weiyimeng @ bytedance.com>
- * @task 简单基础信息类
+ * @author bytedance<bytedance @ bytedance.com>
+ * @task 序列化基础类
  * @date 04/17/2020
+ * idea设置自动生成序列化id：
+ * Setting -> Inspections -> java ->Serialization issues全部勾选保存。
+ * 然后对着类名直接alt+enter就有了
  */
-@Getter
-@Setter
-@NoArgsConstructor
-public class SimpleBaseEntity extends SerializableEntity {
-    /**主键*/
-    protected Long id;
+public class SerializableEntity implements Serializable {
+    protected static final long serialVersionUID = -2899657261548898680L;
 }

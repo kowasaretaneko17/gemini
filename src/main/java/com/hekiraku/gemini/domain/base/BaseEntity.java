@@ -1,6 +1,8 @@
 package com.hekiraku.gemini.domain.base;
 import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
+import lombok.Setter;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -12,9 +14,10 @@ import java.util.Date;
  * 日期:2019/3/22
  * 功能说明：基础字段信息类
  */
-@Data
+@Getter
+@Setter
 @NoArgsConstructor
-public class BaseEntity implements Serializable {
+public class BaseEntity extends SerializableEntity {
     /**主键*/
     protected Long id;
     /**创建人id*/

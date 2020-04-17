@@ -1,7 +1,6 @@
 package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.dto.TextRecordDto;
 import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
 import com.hekiraku.gemini.provider.TextRecordDynaSqlProvider;
 import org.apache.ibatis.annotations.InsertProvider;
@@ -43,7 +42,7 @@ public interface TextRecordMapper {
      * 根据日期，用户编号，人格状态获取日记
      */
     @SelectProvider(type=TextRecordDynaSqlProvider.class,method = "selectTextByDayUsrChar")
-    TextUserEntity selectTextByDayUsrChar(TextRecordDto textRecordDto);
+    TextUserEntity selectTextByDayUsrChar(TextDto textRecordDto);
 
     /**
      * 获取全年的写了日记的日期，及性格，用做展示
