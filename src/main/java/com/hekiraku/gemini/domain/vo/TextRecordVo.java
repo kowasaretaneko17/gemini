@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.domain.vo;
 
+import com.hekiraku.gemini.domain.base.SerializableEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
@@ -18,9 +19,9 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @ApiModel(value = "TextRecordVo",description = "日记返回信息")
-public class TextRecordVo implements Serializable {
+public class TextRecordVo extends SerializableEntity {
     @ApiModelProperty(notes = "日记内容")
-    private String text;
+    private String textDetail;
     @ApiModelProperty(notes = "人格",allowableValues = "ura,omote")
     private String soulChar;
     @ApiModelProperty(notes = "创建日期",example = "2019-04-04")

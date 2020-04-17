@@ -1,6 +1,7 @@
 package com.hekiraku.gemini.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.hekiraku.gemini.domain.base.SerializableEntity;
 import lombok.*;
 
 import java.io.Serializable;
@@ -21,7 +22,18 @@ import java.util.Set;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class RoleVo implements Serializable {
+public class RoleVo extends SerializableEntity {
+    /**
+     * 角色id
+     */
+    private Long roleId;
+    /**
+     * 角色编码
+     */
+    private String roleCode;
+    /**
+     * 角色名称
+     */
     private String roleName;
     @JsonIgnore
     private List<ResourceVo> resources;

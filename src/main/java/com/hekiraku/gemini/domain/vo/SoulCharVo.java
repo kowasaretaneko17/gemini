@@ -8,6 +8,7 @@
  **/
 package com.hekiraku.gemini.domain.vo;
 
+import com.hekiraku.gemini.domain.base.SerializableEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.*;
 
@@ -24,7 +25,7 @@ import java.io.Serializable;
 @EqualsAndHashCode
 @ToString
 @ApiModel(value = "SoulCharVo",description = "返回全年的写日记记录")
-public class SoulCharVo implements Serializable {
+public class SoulCharVo extends SerializableEntity {
     private Boolean ura;
     private Boolean omote;
     public SoulCharVo(){

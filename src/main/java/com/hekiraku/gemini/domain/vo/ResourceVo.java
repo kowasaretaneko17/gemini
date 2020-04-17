@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.domain.vo;
 
+import com.hekiraku.gemini.domain.base.SerializableEntity;
 import lombok.*;
 
 import java.io.Serializable;
@@ -16,6 +17,17 @@ import java.io.Serializable;
 @NoArgsConstructor
 @EqualsAndHashCode
 @ToString
-public class ResourceVo implements Serializable {
+public class ResourceVo extends SerializableEntity {
+    /**
+     * 资源id
+     */
+    private Long resourceId;
+    /**
+     * 资源编码
+     */
+    private String resourceCode;
+    /**
+     * 资源名称
+     */
     private String resourceName;
 }
