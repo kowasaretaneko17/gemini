@@ -2,7 +2,7 @@ package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.domain.entity.UserEntity;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;
-import com.hekiraku.gemini.provider.UserDynaSqlProvider;
+import com.hekiraku.gemini.mapper.provider.UserDynaSqlProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;
@@ -24,13 +24,13 @@ public interface UserMapper {
             @Result(property = "roles",column = "id",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.RoleMapper.selectById"))
     })
     UserInfoVo selectById(String id);
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByUserName")
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByIdentityCode")
     @ResultMap("userMap")
-    UserInfoVo selectByUserName(String userName);
+    UserInfoVo selectByIdentityCode(String identityCode);
 
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByUserNum")
+    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByUserId")
     @ResultMap("userMap")
-    UserInfoVo selectByUserNum(String userNum);
+    UserInfoVo selectByUserId(Long userId);
 
     @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByNickName")
     @ResultMap("userMap")
@@ -44,8 +44,8 @@ public interface UserMapper {
     @ResultMap("userMap")
     UserInfoVo selectByEmail(String email);
 
-    @InsertProvider(type=UserDynaSqlProvider.class,method = "createUser")
-    int createUser(UserEntity userEntity);
+    @InsertProvider(type=UserDynaSqlProvider.class,method = "createOrUpdateUser")
+    int createOrUpdateUser(UserEntity userEntity);
 
     @InsertProvider(type=UserDynaSqlProvider.class,method = "addRoleForUser")
     int addRoleForUser(Long roleId,Long userId);

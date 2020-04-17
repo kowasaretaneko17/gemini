@@ -2,7 +2,7 @@ package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.domain.entity.ActiveLogEntity;
 import com.hekiraku.gemini.domain.vo.ActiveLogVo;
-import com.hekiraku.gemini.provider.ActiveLogDynaSqlProvider;
+import com.hekiraku.gemini.mapper.provider.ActiveLogDynaSqlProvider;
 import org.apache.ibatis.annotations.*;
 
 import java.util.List;

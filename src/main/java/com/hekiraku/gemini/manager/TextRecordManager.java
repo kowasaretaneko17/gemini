@@ -27,11 +27,6 @@ public interface TextRecordManager {
     int update(TextUserEntity textRecordEntity);
 
     /**
-     * 软删除一篇日记
-     */
-    int deleteSoft(TextUserEntity textRecordEntity);
-
-    /**
      * 根据日期，用户编号，人格状态获取日记
      */
     TextUserEntity selectTextByDayUsrChar(TextDto textRecordDto);

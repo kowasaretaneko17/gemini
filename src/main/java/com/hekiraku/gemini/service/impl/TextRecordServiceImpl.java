@@ -3,7 +3,7 @@ package com.hekiraku.gemini.service.impl;
 import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.vo.TextRecordVo;
+import com.hekiraku.gemini.domain.vo.TextUserVo;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.service.TextRecordService;
@@ -71,7 +71,7 @@ public class TextRecordServiceImpl implements TextRecordService {
     }
 
     @Override
-    public ApiResult<TextRecordVo> writeRecord(TextDto textRecordDto) throws Exception {
+    public ApiResult<TextUserVo> writeRecord(TextDto textRecordDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
         String createDay = DateTime.now().toString("yyyy-MM-dd");
         textRecordDto.setUserNum(userInfoVo.getUserNum());

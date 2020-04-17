@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.provider;
+package com.hekiraku.gemini.mapper.provider;
 import com.hekiraku.gemini.domain.entity.UserEntity;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -22,15 +22,15 @@ public class UserDynaSqlProvider {
     }
 
     /**
-     * 通过userName查询user表
-     * @param userName
+     * 通过identityCode查询user表
+     * @param identityCode
      * @return
      */
-    public String selectByUserName(String userName){
+    public String selectByIdentityCode(String identityCode){
         SQL selectIdByUserName = new SQL()
                 .SELECT("id")
                 .FROM("g_user")
-                .WHERE("user_name=#{userName}");
+                .WHERE("identity_code=#{identityCode}");
         SQL selectAllById = new SQL()
                 .SELECT("*")
                 .FROM("g_user")
@@ -39,15 +39,15 @@ public class UserDynaSqlProvider {
     }
 
     /**
-     * 通过userNum查询user表
-     * @param userNum
+     * 通过userId查询user表
+     * @param userId
      * @return
      */
-    public String selectByUserNum(String userNum){
+    public String selectByUserId(Long userId){
         SQL selectIdByUserNum = new SQL()
                 .SELECT("id")
                 .FROM("g_user")
-                .WHERE("user_num=#{userNum}");
+                .WHERE("user_id=#{userId}");
         SQL selectAllById = new SQL()
                 .SELECT("*")
                 .FROM("g_user")
@@ -115,22 +115,27 @@ public class UserDynaSqlProvider {
     /**
      * 创造一条数据
      */
-    public String createUser(UserEntity userEntity){
+    public String createOrUpdateUser(UserEntity userEntity){
         SQL createUser = new SQL()
                 .INSERT_INTO("g_user")
-                .VALUES("user_num","#{userNum}")
-                .VALUES("user_name","#{userName}")
+                .VALUES("user_id","#{userId}")
+                .VALUES("identity_code","#{identityCode}")
                 .VALUES("phone","#{phone}")
                 .VALUES("email","#{email}")
                 .VALUES("`password`","#{password}")
                 .VALUES("nick_name","#{nickName}")
                 .VALUES("`lock`","#{lock}")
-                .VALUES("create_time","#{createTime}")
-                .VALUES("update_time","#{updateTime}")
                 .VALUES("create_user_id","#{createUserId}")
                 .VALUES("update_user_id","#{updateUserId}")
+                .SET("ON DUPLICATE KEY UPDATE")
                 .VALUES("rev","#{rev}")
-                .VALUES("delete_flag","#{deleteFlag}");
+                .VALUES("delete_flag","#{deleteFlag}")
+                .VALUES("phone","#{phone}")
+                .VALUES("email","#{email}")
+                .VALUES("`password`","#{password}")
+                .VALUES("nick_name","#{nickName}")
+                .VALUES("`lock`","#{lock}")
+                .VALUES("update_user_id","#{updateUserId}");
         return createUser.toString();
     }
     /**

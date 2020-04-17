@@ -4,7 +4,7 @@ import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
-import com.hekiraku.gemini.mapper.TextRecordMapper;
+import com.hekiraku.gemini.mapper.TextUserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
@@ -23,7 +23,7 @@ import java.util.stream.Collectors;
 @Component
 public class TextRecordManagerImpl implements TextRecordManager {
     @Autowired
-    private TextRecordMapper textRecordMapper;
+    private TextUserMapper textRecordMapper;
 
     @Override
     public int create(TextUserEntity textRecordEntity) {
@@ -33,11 +33,6 @@ public class TextRecordManagerImpl implements TextRecordManager {
     @Override
     public int update(TextUserEntity textRecordEntity) {
         return textRecordMapper.update(textRecordEntity);
-    }
-
-    @Override
-    public int deleteSoft(TextUserEntity textRecordEntity) {
-        return textRecordMapper.deleteSoft(textRecordEntity);
     }
 
     @Override

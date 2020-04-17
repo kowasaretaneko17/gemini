@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.provider;
+package com.hekiraku.gemini.mapper.provider;
 
 import org.apache.ibatis.jdbc.SQL;
 

@@ -34,9 +34,25 @@ server:
   tomcat:
     uri-encoding: utf-8
   connection-timeout: 5000
-mybatis:
+mybatis-plus:
   configuration:
     map-underscore-to-camel-case: true
+    #如果查询结果中包含空值的列，则 MyBatis 在映射的时候，不会映射这个字段
+    call-setters-on-nulls: true
+  global-config:
+    db-config:
+      #表名下划线命名默认true
+      table-underline: true
+      #id类型
+      id-type: auto
+      #是否开启大写命名，默认不开启
+      #capital-mode: false
+      #逻辑已删除值,(逻辑删除下有效) 需要注入逻辑策略LogicSqlInjector 以@Bean方式注入
+      logic-not-delete-value: 0
+      #逻辑未删除值,(逻辑删除下有效)
+      logic-delete-value: 1
+      #数据库类型
+      db-type: mysql
 #去掉大量的调试信息CONDITIONS EVALUATION REPORT
 logging.level.org.springframework.boot.autoconfigure: ERROR
 redis:
