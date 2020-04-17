@@ -6,7 +6,7 @@
  * Proprietary and Confidential.
  * ****************************************************
  **/
-package com.hekiraku.gemini.entity.vo;
+package com.hekiraku.gemini.domain.vo;
 
 import io.swagger.annotations.ApiModel;
 import lombok.*;

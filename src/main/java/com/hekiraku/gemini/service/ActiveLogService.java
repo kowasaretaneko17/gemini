@@ -1,7 +1,7 @@
 package com.hekiraku.gemini.service;
 
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.vo.ActiveLogVo;
+import com.hekiraku.gemini.domain.vo.ActiveLogVo;
 
 import java.util.List;
 

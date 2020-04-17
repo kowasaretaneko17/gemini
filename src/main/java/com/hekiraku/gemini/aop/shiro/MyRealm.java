@@ -5,7 +5,7 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.hekiraku.gemini.aop.jwt.JWTToken;
 import com.hekiraku.gemini.aop.jwt.JWTUtil;
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.authc.*;

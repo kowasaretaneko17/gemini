@@ -1,9 +1,9 @@
 package com.hekiraku.gemini.manager.impl;
 
-import com.hekiraku.gemini.entity.TextRecordEntity;
-import com.hekiraku.gemini.entity.dto.TextRecordDto;
-import com.hekiraku.gemini.entity.vo.SoulCharDateVo;
-import com.hekiraku.gemini.entity.vo.SoulCharVo;
+import com.hekiraku.gemini.domain.entity.TextUserEntity;
+import com.hekiraku.gemini.domain.dto.TextRecordDto;
+import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
+import com.hekiraku.gemini.domain.vo.SoulCharVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.mapper.TextRecordMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -27,22 +27,22 @@ public class TextRecordManagerImpl implements TextRecordManager {
     private TextRecordMapper textRecordMapper;
 
     @Override
-    public int create(TextRecordEntity textRecordEntity) {
+    public int create(TextUserEntity textRecordEntity) {
         return textRecordMapper.create(textRecordEntity);
     }
 
     @Override
-    public int update(TextRecordEntity textRecordEntity) {
+    public int update(TextUserEntity textRecordEntity) {
         return textRecordMapper.update(textRecordEntity);
     }
 
     @Override
-    public int deleteSoft(TextRecordEntity textRecordEntity) {
+    public int deleteSoft(TextUserEntity textRecordEntity) {
         return textRecordMapper.deleteSoft(textRecordEntity);
     }
 
     @Override
-    public TextRecordEntity selectTextByDayUsrChar(TextRecordDto textRecordDto) {
+    public TextUserEntity selectTextByDayUsrChar(TextRecordDto textRecordDto) {
         return textRecordMapper.selectTextByDayUsrChar(textRecordDto);
     }
 
@@ -55,9 +55,9 @@ public class TextRecordManagerImpl implements TextRecordManager {
      * @return
      */
     @Override
-    public List<TextRecordEntity> selectTextByDayUsrCharList(TextRecordDto textRecordDto) {
-        List<TextRecordEntity> textRecordEntities = new ArrayList<>();
-        TextRecordEntity textRecordEntity = textRecordMapper.selectTextByDayUsrChar(textRecordDto);
+    public List<TextUserEntity> selectTextByDayUsrCharList(TextRecordDto textRecordDto) {
+        List<TextUserEntity> textRecordEntities = new ArrayList<>();
+        TextUserEntity textRecordEntity = textRecordMapper.selectTextByDayUsrChar(textRecordDto);
         if (textRecordEntity != null) {
             textRecordEntities.add(textRecordEntity);
         }

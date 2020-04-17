@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.entity.vo;
+package com.hekiraku.gemini.domain.vo;
 
 import lombok.*;
 

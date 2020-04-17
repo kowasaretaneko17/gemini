@@ -1,9 +1,7 @@
 package com.hekiraku.gemini.mapper;
 
-import com.hekiraku.gemini.entity.UserEntity;
-import com.hekiraku.gemini.entity.vo.ResourceVo;
-import com.hekiraku.gemini.entity.vo.RoleVo;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.entity.UserEntity;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.provider.UserDynaSqlProvider;
 import org.apache.ibatis.annotations.*;
 

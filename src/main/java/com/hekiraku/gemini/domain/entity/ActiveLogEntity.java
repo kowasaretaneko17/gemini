@@ -1,10 +1,10 @@
-package com.hekiraku.gemini.entity;
+package com.hekiraku.gemini.domain.entity;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
-import com.hekiraku.gemini.entity.base.PaginationEntity;
+import com.hekiraku.gemini.domain.base.PaginationEntity;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 

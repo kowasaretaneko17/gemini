@@ -2,21 +2,16 @@ package com.hekiraku.gemini.service.impl;
 
 import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.vo.SoulCharVo;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.vo.SoulCharVo;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
-import com.hekiraku.gemini.mapper.TextRecordMapper;
-import com.hekiraku.gemini.provider.TextRecordDynaSqlProvider;
 import com.hekiraku.gemini.service.DataRecordService;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import org.springframework.util.StringUtils;
 
-import java.sql.Date;
-import java.time.LocalDate;
 import java.util.List;
-import java.util.Optional;
 
 /**
  * 根据日期/性格等获取相应的数据

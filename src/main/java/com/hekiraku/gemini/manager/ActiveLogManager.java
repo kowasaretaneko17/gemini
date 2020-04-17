@@ -1,7 +1,7 @@
 package com.hekiraku.gemini.manager;
 
-import com.hekiraku.gemini.entity.ActiveLogEntity;
-import com.hekiraku.gemini.entity.vo.ActiveLogVo;
+import com.hekiraku.gemini.domain.entity.ActiveLogEntity;
+import com.hekiraku.gemini.domain.vo.ActiveLogVo;
 
 import java.util.List;
 

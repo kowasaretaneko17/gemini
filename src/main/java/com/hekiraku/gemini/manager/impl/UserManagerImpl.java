@@ -1,16 +1,12 @@
 package com.hekiraku.gemini.manager.impl;
 
-import com.auth0.jwt.algorithms.Algorithm;
-import com.hekiraku.gemini.entity.UserEntity;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.entity.UserEntity;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.UserManager;
 import com.hekiraku.gemini.mapper.RoleMapper;
 import com.hekiraku.gemini.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-
-import java.util.ArrayList;
-import java.util.List;
 
 /**
  * 构建组：大道金服科技部

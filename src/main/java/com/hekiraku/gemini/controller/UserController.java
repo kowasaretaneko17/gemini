@@ -1,17 +1,15 @@
 package com.hekiraku.gemini.controller;
 
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.service.UserService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
-import org.apache.shiro.subject.Subject;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestHeader;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 

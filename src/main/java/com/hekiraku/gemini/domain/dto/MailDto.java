@@ -6,9 +6,8 @@
  * Proprietary and Confidential.
  * ****************************************************
  **/
-package com.hekiraku.gemini.entity.dto;
+package com.hekiraku.gemini.domain.dto;
 
-import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.Data;
 

@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.entity.vo;
+package com.hekiraku.gemini.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 import io.swagger.annotations.ApiModel;

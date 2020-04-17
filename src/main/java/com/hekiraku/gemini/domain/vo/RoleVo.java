@@ -1,7 +1,6 @@
-package com.hekiraku.gemini.entity.vo;
+package com.hekiraku.gemini.domain.vo;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.hekiraku.gemini.entity.base.PaginationEntity;
 import lombok.*;
 
 import java.io.Serializable;

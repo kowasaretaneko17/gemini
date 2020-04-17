@@ -1,12 +1,10 @@
 package com.hekiraku.gemini.controller.buss;
 
-import com.fasterxml.jackson.annotation.JsonIgnore;
-import com.fasterxml.jackson.annotation.JsonView;
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.TextRecordEntity;
-import com.hekiraku.gemini.entity.dto.TextRecordDto;
-import com.hekiraku.gemini.entity.vo.SoulCharVo;
-import com.hekiraku.gemini.entity.vo.TextRecordVo;
+import com.hekiraku.gemini.domain.entity.TextUserEntity;
+import com.hekiraku.gemini.domain.dto.TextRecordDto;
+import com.hekiraku.gemini.domain.vo.SoulCharVo;
+import com.hekiraku.gemini.domain.vo.TextRecordVo;
 import com.hekiraku.gemini.service.DataRecordService;
 import com.hekiraku.gemini.service.TextRecordService;
 import io.swagger.annotations.*;
@@ -59,7 +57,7 @@ public class TextRecordController {
     @ApiResponses({
             @ApiResponse(code = 10002,message = "读取日记错误",response = ApiResult.class)
     })
-    public ApiResult<List<TextRecordEntity>> readRecord(@Validated(TextRecordDto.ReadView.class) @RequestBody TextRecordDto textRecordDto){
+    public ApiResult<List<TextUserEntity>> readRecord(@Validated(TextRecordDto.ReadView.class) @RequestBody TextRecordDto textRecordDto){
         //获取参数
         try{
             return textRecordService.readRecord(textRecordDto);

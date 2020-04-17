@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.entity.base;
+package com.hekiraku.gemini.domain.base;
 
 import java.io.Serializable;
 

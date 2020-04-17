@@ -1,6 +1,6 @@
 package com.hekiraku.gemini.mapper;
 
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;

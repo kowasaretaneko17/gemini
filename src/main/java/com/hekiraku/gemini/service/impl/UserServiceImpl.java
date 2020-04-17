@@ -2,10 +2,9 @@ package com.hekiraku.gemini.service.impl;
 
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.common.constants.CommonConstant;
-import com.hekiraku.gemini.entity.RoleEntity;
-import com.hekiraku.gemini.entity.UserEntity;
-import com.hekiraku.gemini.entity.vo.KaptchaVo;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.entity.UserEntity;
+import com.hekiraku.gemini.domain.vo.KaptchaVo;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.UserManager;
 import com.hekiraku.gemini.service.UserService;
 import lombok.SneakyThrows;

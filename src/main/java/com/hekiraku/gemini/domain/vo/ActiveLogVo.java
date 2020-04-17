@@ -1,6 +1,6 @@
-package com.hekiraku.gemini.entity.vo;
+package com.hekiraku.gemini.domain.vo;
 
-import com.hekiraku.gemini.entity.ActiveLogEntity;
+import com.hekiraku.gemini.domain.entity.ActiveLogEntity;
 import io.swagger.annotations.ApiModel;
 import lombok.EqualsAndHashCode;
 import lombok.ToString;

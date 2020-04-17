@@ -2,10 +2,10 @@ package com.hekiraku.gemini.service.impl;
 
 import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.TextRecordEntity;
-import com.hekiraku.gemini.entity.dto.TextRecordDto;
-import com.hekiraku.gemini.entity.vo.TextRecordVo;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.entity.TextUserEntity;
+import com.hekiraku.gemini.domain.dto.TextRecordDto;
+import com.hekiraku.gemini.domain.vo.TextRecordVo;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.service.TextRecordService;
 import com.hekiraku.gemini.service.UserService;
@@ -36,7 +36,7 @@ public class TextRecordServiceImpl implements TextRecordService {
     }
 
     @Override
-    public ApiResult create(TextRecordEntity textRecordEntity) {
+    public ApiResult create(TextUserEntity textRecordEntity) {
         int result = textRecordManager.create(textRecordEntity);
         if(result==1){
             return ApiResult.successMsg("创建日记成功");
@@ -46,7 +46,7 @@ public class TextRecordServiceImpl implements TextRecordService {
     }
 
     @Override
-    public ApiResult update(TextRecordEntity textRecordEntity) {
+    public ApiResult update(TextUserEntity textRecordEntity) {
         int result = textRecordManager.update(textRecordEntity);
         if(result==1){
             return ApiResult.successMsg("更新日记成功");
@@ -56,7 +56,7 @@ public class TextRecordServiceImpl implements TextRecordService {
     }
 
     @Override
-    public ApiResult deleteSoft(TextRecordEntity textRecordEntity) {
+    public ApiResult deleteSoft(TextUserEntity textRecordEntity) {
         int result = textRecordManager.deleteSoft(textRecordEntity);
         if(result==1){
             return ApiResult.successMsg("删除日记成功");
@@ -67,7 +67,7 @@ public class TextRecordServiceImpl implements TextRecordService {
 
     @Override
     public ApiResult selectTextByDayUsrChar(TextRecordDto textRecordDto) {
-        TextRecordEntity recordEntity = textRecordManager.selectTextByDayUsrChar(textRecordDto);
+        TextUserEntity recordEntity = textRecordManager.selectTextByDayUsrChar(textRecordDto);
         return ApiResult.buildSuccessNormal("查询成功",recordEntity);
     }
 
@@ -77,13 +77,13 @@ public class TextRecordServiceImpl implements TextRecordService {
         String createDay = DateTime.now().toString("yyyy-MM-dd");
         textRecordDto.setUserNum(userInfoVo.getUserNum());
         textRecordDto.setCreateDay(createDay);
-        List<TextRecordEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
+        List<TextUserEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
         if(recordEntities==null){
             throw new Exception("查询数据库失败");
         }
         if(recordEntities.isEmpty()){
             //数据库没有记录
-        TextRecordEntity textRecordEntity = TextRecordEntity.builder()
+        TextUserEntity textRecordEntity = TextUserEntity.builder()
                 .userNum(textRecordDto.getUserNum())
                 .text(textRecordDto.getText())
                 .soulChar(textRecordDto.getSoulChar())
@@ -104,10 +104,10 @@ public class TextRecordServiceImpl implements TextRecordService {
      * @throws Exception
      */
     @Override
-    public ApiResult<List<TextRecordEntity>> readRecord(TextRecordDto textRecordDto) throws Exception {
+    public ApiResult<List<TextUserEntity>> readRecord(TextRecordDto textRecordDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
         textRecordDto.setUserNum(userInfoVo.getUserNum());
-        List<TextRecordEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
+        List<TextUserEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
         if(recordEntities==null){
             throw new Exception("查询数据库失败");
         }else if(recordEntities.isEmpty()){

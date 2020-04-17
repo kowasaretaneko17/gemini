@@ -1,8 +1,7 @@
 package com.hekiraku.gemini.service.impl;
 
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.ActiveLogEntity;
-import com.hekiraku.gemini.entity.vo.ActiveLogVo;
+import com.hekiraku.gemini.domain.vo.ActiveLogVo;
 import com.hekiraku.gemini.manager.ActiveLogManager;
 import com.hekiraku.gemini.service.ActiveLogService;
 import org.springframework.beans.factory.annotation.Autowired;

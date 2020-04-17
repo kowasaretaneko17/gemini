@@ -1,13 +1,9 @@
 package com.hekiraku.gemini.service;
 
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.UserEntity;
-import com.hekiraku.gemini.entity.dto.UserInfoDto;
-import com.hekiraku.gemini.entity.vo.KaptchaVo;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
-import io.swagger.annotations.Api;
-
-import java.util.Map;
+import com.hekiraku.gemini.domain.entity.UserEntity;
+import com.hekiraku.gemini.domain.vo.KaptchaVo;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 
 /**
  * 构建组：大道金服科技部

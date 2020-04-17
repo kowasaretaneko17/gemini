@@ -8,8 +8,7 @@
  **/
 package com.hekiraku.gemini.utils;
 
-import com.hekiraku.gemini.entity.dto.MailDto;
-import lombok.SneakyThrows;
+import com.hekiraku.gemini.domain.dto.MailDto;
 import lombok.extern.slf4j.Slf4j;
 
 import javax.mail.MessagingException;
@@ -24,7 +23,6 @@ import java.util.Optional;
 import java.util.Properties;
 
 import static com.hekiraku.gemini.common.enums.MailEnums.M_GEMINI_SOURCE;
-import static com.hekiraku.gemini.common.enums.MailEnums.M_HEKIRAKU_SOURCE;
 
 /**
  * 邮件发送工具

@@ -1,6 +1,6 @@
 package com.hekiraku.gemini.aop.threadLocal;
 
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import lombok.extern.slf4j.Slf4j;
 
 /**

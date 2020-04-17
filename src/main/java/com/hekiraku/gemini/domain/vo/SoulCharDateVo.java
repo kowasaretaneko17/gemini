@@ -6,16 +6,12 @@
  * Proprietary and Confidential.
  * ****************************************************
  **/
-package com.hekiraku.gemini.entity.vo;
+package com.hekiraku.gemini.domain.vo;
 
-import com.fasterxml.jackson.databind.annotation.JsonSerialize;
-import com.hekiraku.gemini.service.DataRecordService;
 import io.swagger.annotations.ApiModel;
-import io.swagger.models.auth.In;
 import lombok.*;
 
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 按照bealoon值，拿到全年的写日记记录

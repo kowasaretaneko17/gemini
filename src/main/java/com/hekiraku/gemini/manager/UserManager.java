@@ -1,12 +1,7 @@
 package com.hekiraku.gemini.manager;
 
-import com.hekiraku.gemini.entity.UserEntity;
-import com.hekiraku.gemini.entity.vo.UserInfoVo;
-import com.hekiraku.gemini.provider.UserDynaSqlProvider;
-import org.apache.ibatis.annotations.ResultMap;
-import org.apache.ibatis.annotations.SelectProvider;
-
-import java.util.List;
+import com.hekiraku.gemini.domain.entity.UserEntity;
+import com.hekiraku.gemini.domain.vo.UserInfoVo;
 
 /**
  * 构建组：大道金服科技部

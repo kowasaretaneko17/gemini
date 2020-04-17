@@ -1,6 +1,6 @@
 package com.hekiraku.gemini.provider;
 
-import com.hekiraku.gemini.entity.TextRecordEntity;
+import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import org.apache.ibatis.jdbc.SQL;
 
 /**
@@ -48,7 +48,7 @@ public class TextRecordDynaSqlProvider {
      *
      * @return
      */
-    public String update(TextRecordEntity textRecordEntity) {
+    public String update(TextUserEntity textRecordEntity) {
         SQL create = new SQL().UPDATE("g_record").SET("text = #{text}").SET("update_time = #{updateTime}")
                 .SET("update_user_id = #{updateUserId}").SET("rev = #{rev}").WHERE("id = #{id}");
         return create.toString();
@@ -57,7 +57,7 @@ public class TextRecordDynaSqlProvider {
     /**
      * 根据id软删除一条日记
      */
-    public String deleteSoft(TextRecordEntity textRecordEntity) {
+    public String deleteSoft(TextUserEntity textRecordEntity) {
         SQL deleteSoft = new SQL().UPDATE("g_record").SET("delete_flag = 1").WHERE("id = #{id}");
         return deleteSoft.toString();
     }

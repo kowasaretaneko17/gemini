@@ -1,5 +1,5 @@
 package com.hekiraku.gemini.provider;
-import com.hekiraku.gemini.entity.UserEntity;
+import com.hekiraku.gemini.domain.entity.UserEntity;
 import org.apache.ibatis.jdbc.SQL;
 
 /**

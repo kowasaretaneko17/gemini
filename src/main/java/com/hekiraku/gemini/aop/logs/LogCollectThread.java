@@ -1,13 +1,9 @@
 package com.hekiraku.gemini.aop.logs;
 
 import com.hekiraku.gemini.common.utils.ApplicationContextHolder;
-import com.hekiraku.gemini.entity.ActiveLogEntity;
+import com.hekiraku.gemini.domain.entity.ActiveLogEntity;
 import com.hekiraku.gemini.manager.ActiveLogManager;
 import lombok.extern.slf4j.Slf4j;
-import org.springframework.context.ApplicationContext;
-import org.springframework.web.context.support.WebApplicationContextUtils;
-
-import java.util.List;
 
 /**
  * 日志收集线程

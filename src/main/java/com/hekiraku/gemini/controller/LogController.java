@@ -1,7 +1,7 @@
 package com.hekiraku.gemini.controller;
 
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.vo.ActiveLogVo;
+import com.hekiraku.gemini.domain.vo.ActiveLogVo;
 import com.hekiraku.gemini.service.ActiveLogService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;

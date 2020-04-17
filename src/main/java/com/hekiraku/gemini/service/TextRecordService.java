@@ -1,9 +1,9 @@
 package com.hekiraku.gemini.service;
 
 import com.hekiraku.gemini.common.ApiResult;
-import com.hekiraku.gemini.entity.TextRecordEntity;
-import com.hekiraku.gemini.entity.dto.TextRecordDto;
-import com.hekiraku.gemini.entity.vo.TextRecordVo;
+import com.hekiraku.gemini.domain.entity.TextUserEntity;
+import com.hekiraku.gemini.domain.dto.TextRecordDto;
+import com.hekiraku.gemini.domain.vo.TextRecordVo;
 
 import java.util.List;
 
@@ -19,19 +19,19 @@ public interface TextRecordService {
      * 插入一篇日记
      * @return
      */
-    ApiResult create(TextRecordEntity textRecordEntity);
+    ApiResult create(TextUserEntity textRecordEntity);
 
     /**
      * 更新一篇日记
      * @param textRecordEntity
      * @return
      */
-    ApiResult update(TextRecordEntity textRecordEntity);
+    ApiResult update(TextUserEntity textRecordEntity);
 
     /**
      * 软删除一篇日记
      */
-    ApiResult deleteSoft(TextRecordEntity textRecordEntity);
+    ApiResult deleteSoft(TextUserEntity textRecordEntity);
 
     /**
      * 根据日期，用户编号，人格状态获取日记
@@ -45,5 +45,5 @@ public interface TextRecordService {
     /**
      * 读日记
      */
-    ApiResult<List<TextRecordEntity>> readRecord(TextRecordDto textRecordDto) throws Exception;
+    ApiResult<List<TextUserEntity>> readRecord(TextRecordDto textRecordDto) throws Exception;
 }

@@ -1,8 +1,8 @@
 package com.hekiraku.gemini.mapper;
 
-import com.hekiraku.gemini.entity.TextRecordEntity;
-import com.hekiraku.gemini.entity.dto.TextRecordDto;
-import com.hekiraku.gemini.entity.vo.SoulCharDateVo;
+import com.hekiraku.gemini.domain.entity.TextUserEntity;
+import com.hekiraku.gemini.domain.dto.TextRecordDto;
+import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
 import com.hekiraku.gemini.provider.TextRecordDynaSqlProvider;
 import org.apache.ibatis.annotations.InsertProvider;
 import org.apache.ibatis.annotations.SelectProvider;
@@ -23,7 +23,7 @@ public interface TextRecordMapper {
      * @return
      */
     @InsertProvider(type=TextRecordDynaSqlProvider.class,method="create")
-    int create(TextRecordEntity textRecordEntity);
+    int create(TextUserEntity textRecordEntity);
 
     /**
      * 更新一篇日记
@@ -31,19 +31,19 @@ public interface TextRecordMapper {
      * @return
      */
     @UpdateProvider(type=TextRecordDynaSqlProvider.class,method = "update")
-    int update(TextRecordEntity textRecordEntity);
+    int update(TextUserEntity textRecordEntity);
 
     /**
      * 软删除一篇日记
      */
     @UpdateProvider(type=TextRecordDynaSqlProvider.class,method = "deleteSoft")
-    int deleteSoft(TextRecordEntity textRecordEntity);
+    int deleteSoft(TextUserEntity textRecordEntity);
 
     /**
      * 根据日期，用户编号，人格状态获取日记
      */
     @SelectProvider(type=TextRecordDynaSqlProvider.class,method = "selectTextByDayUsrChar")
-    TextRecordEntity selectTextByDayUsrChar(TextRecordDto textRecordDto);
+    TextUserEntity selectTextByDayUsrChar(TextRecordDto textRecordDto);
 
     /**
      * 获取全年的写了日记的日期，及性格，用做展示

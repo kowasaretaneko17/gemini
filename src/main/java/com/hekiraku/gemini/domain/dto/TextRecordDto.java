@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.entity.dto;
+package com.hekiraku.gemini.domain.dto;
 
 import com.fasterxml.jackson.annotation.JsonView;
 import com.hekiraku.gemini.aop.anno.DescribeCtrlView;
@@ -6,9 +6,7 @@ import io.swagger.annotations.ApiModel;
 import lombok.Data;
 
 import javax.validation.constraints.NotEmpty;
-import javax.validation.constraints.NotNull;
 import java.io.Serializable;
-import java.util.Date;
 
 /**
  * 构建组：大道金服科技部

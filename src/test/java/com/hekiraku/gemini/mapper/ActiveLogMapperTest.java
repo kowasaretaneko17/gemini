@@ -3,8 +3,8 @@ package com.hekiraku.gemini.mapper;
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
-import com.hekiraku.gemini.entity.ActiveLogEntity;
-import com.hekiraku.gemini.entity.vo.ActiveLogVo;
+import com.hekiraku.gemini.domain.entity.ActiveLogEntity;
+import com.hekiraku.gemini.domain.vo.ActiveLogVo;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.Test;
 import org.junit.runner.RunWith;
@@ -14,7 +14,6 @@ import org.springframework.test.context.junit4.SpringRunner;
 
 import java.util.List;
 
-import static org.junit.Assert.*;
 @RunWith(SpringRunner.class)
 @SpringBootTest
 @Slf4j

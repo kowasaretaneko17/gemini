@@ -1,13 +1,12 @@
 package com.hekiraku.gemini.manager.impl;
 
-import com.hekiraku.gemini.entity.ActiveLogEntity;
-import com.hekiraku.gemini.entity.vo.ActiveLogVo;
+import com.hekiraku.gemini.domain.entity.ActiveLogEntity;
+import com.hekiraku.gemini.domain.vo.ActiveLogVo;
 import com.hekiraku.gemini.manager.ActiveLogManager;
 import com.hekiraku.gemini.mapper.ActiveLogMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
-import java.util.ArrayList;
 import java.util.List;
 
 /**

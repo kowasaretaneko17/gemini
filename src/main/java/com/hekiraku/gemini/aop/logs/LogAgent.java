@@ -3,7 +3,7 @@ package com.hekiraku.gemini.aop.logs;
 import com.hekiraku.gemini.common.enums.LogActiveNameEnums;
 import com.hekiraku.gemini.common.enums.LogActiveProjectEnums;
 import com.hekiraku.gemini.common.enums.LogActiveTypeEnums;
-import com.hekiraku.gemini.entity.ActiveLogEntity;
+import com.hekiraku.gemini.domain.entity.ActiveLogEntity;
 
 import java.util.concurrent.BlockingQueue;
 import java.util.concurrent.LinkedBlockingQueue;
