@@ -133,4 +133,14 @@ public class UserDynaSqlProvider {
                 .VALUES("delete_flag","#{deleteFlag}");
         return createUser.toString();
     }
+    /**
+     * 给某人添加角色
+     */
+    public String addRoleForUser(Long roleId,Long userId){
+        SQL addRoleForUser = new SQL()
+                .INSERT_INTO("g_user_role")
+                .VALUES("role_id","#{roleId}")
+                .VALUES("user_id","#{userId}");
+        return addRoleForUser.toString();
+    }
 }

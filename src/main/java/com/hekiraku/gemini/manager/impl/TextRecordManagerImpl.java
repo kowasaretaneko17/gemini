@@ -6,15 +6,9 @@ import com.hekiraku.gemini.entity.vo.SoulCharDateVo;
 import com.hekiraku.gemini.entity.vo.SoulCharVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.mapper.TextRecordMapper;
-import com.hekiraku.gemini.utils.EntityUtil;
-import org.joda.time.DateTime;
-import org.joda.time.DateTimeZone;
-import org.joda.time.LocalDate;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
-import org.springframework.util.StringUtils;
 
-import java.time.Month;
 import java.time.YearMonth;
 import java.util.ArrayList;
 import java.util.List;

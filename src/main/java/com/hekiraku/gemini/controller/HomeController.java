@@ -14,7 +14,7 @@ import org.springframework.web.bind.annotation.GetMapping;
  */
 @Controller
 @Api(value="home模块", tags="home模块")
-public class HomeCtroller {
+public class HomeController {
 //    @ApiOperation(value="登录", notes = "登录")
 //    @GetMapping({"/login"})
 //    public String login(){

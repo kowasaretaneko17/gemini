@@ -1,10 +1,13 @@
 package com.hekiraku.gemini.aop.jwt;
 
+import com.alibaba.fastjson.JSON;
+import com.alibaba.fastjson.JSONObject;
 import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.constants.CommonConstant;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.mapper.UserMapper;
 import com.hekiraku.gemini.service.UserService;
+import io.netty.handler.codec.json.JsonObjectDecoder;
 import lombok.extern.slf4j.Slf4j;
 import org.apache.shiro.SecurityUtils;
 import org.apache.shiro.authc.AuthenticationToken;
@@ -65,10 +68,12 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         } else {
             try {
                 this.getSubject(servletRequest, servletResponse).login(token);
-                //如果tolen有效，那么去获取缓存中的userInfo信息
+                //如果token有效，那么去获取缓存中的userInfo信息
                 String userNum = JWTUtil.getUserNum(token.getPrincipal().toString());
                 String key = CommonConstant.USER_SIMPLE_INFO + userNum;
-                UserInfoVo userInfoVo = (UserInfoVo) redisTemplate.opsForValue().get(key);
+                String value = (String) redisTemplate.opsForValue().get(key);
+                //注意处理从redis拿出来的值
+                UserInfoVo userInfoVo = JSON.parseObject(value,UserInfoVo.class);
                 SessionLocal.setUserInfo(userInfoVo);
                 return true;
             } catch (Exception e) {
@@ -118,7 +123,7 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
                 String newTokenStr = JWTUtil.sign(vo);
                 JWTToken jwtToken = new JWTToken(newTokenStr);
                 userService.addTokenToRedis(userNum, newTokenStr);
-                userService.addUserInfoToRedis(userNum,vo);
+                userService.addUserInfoToRedis(userNum,JSON.toJSONString(vo));
                 //放进threadLocal
                 SessionLocal.setUserInfo(vo);
                 SecurityUtils.getSubject().login(jwtToken);

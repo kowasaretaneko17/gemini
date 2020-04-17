@@ -21,7 +21,7 @@ public interface UserService {
     public ApiResult<UserInfoVo> selectByUserName(String username);
     public ApiResult<UserInfoVo> selectByUserNum(String usernum) ;
     public void addTokenToRedis(String userNum, String jwtTokenStr);
-    public void addUserInfoToRedis(String userNum, UserInfoVo userInfoVo);
+    public void addUserInfoToRedis(String userNum, String userInfoVo);
     public void addCheckCode(String mail,String checkCode);
     public boolean signCheckCode(String mail,String checkCode);
     public KaptchaVo createRandomToken(String textStr);

@@ -60,4 +60,10 @@ public class UserManagerImpl implements UserManager {
     public int createUser(UserEntity userEntity) {
         return userMapper.createUser(userEntity);
     }
+
+    @Override
+    public int addRoleForUser(Long userId, String roleName) {
+        Long roleId = roleMapper.selectIdByRoleName(roleName);
+        return userMapper.addRoleForUser(roleId,userId);
+    }
 }

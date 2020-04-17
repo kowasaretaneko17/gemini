@@ -1,14 +1,13 @@
 package com.hekiraku.gemini.service.impl;
 
-import com.auth0.jwt.algorithms.Algorithm;
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.common.constants.CommonConstant;
+import com.hekiraku.gemini.entity.RoleEntity;
 import com.hekiraku.gemini.entity.UserEntity;
 import com.hekiraku.gemini.entity.vo.KaptchaVo;
 import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.UserManager;
 import com.hekiraku.gemini.service.UserService;
-import com.hekiraku.gemini.utils.DESUtils;
 import lombok.SneakyThrows;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -16,9 +15,10 @@ import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.stereotype.Service;
 
-import java.io.UnsupportedEncodingException;
 import java.util.*;
 import java.util.concurrent.TimeUnit;
+
+import static com.hekiraku.gemini.utils.DESUtils.MD5;
 
 /**
  * 构建组：大道金服科技部
@@ -69,7 +69,7 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public void addUserInfoToRedis(String userNum, UserInfoVo userInfoVo) {
+    public void addUserInfoToRedis(String userNum, String userInfoVo) {
         String key = CommonConstant.USER_SIMPLE_INFO + userNum ;
         redisTemplate.opsForValue().set(key,userInfoVo);
     }
@@ -123,7 +123,11 @@ public class UserServiceImpl implements UserService {
     @SneakyThrows
     @Override
     public int createUser(UserEntity userEntity){
-        userEntity.setPassword(DESUtils.md5Encrypt(DESUtils.aesEncrypt(userEntity.getPassword(),"gemini_hekiraku_wanlly")));
-        return userManager.createUser(userEntity);
+        userEntity.setPassword(MD5(MD5(userEntity.getPassword()+"gemini_hekiraku_wanlly")));
+        //创建数据
+        int res = userManager.createUser(userEntity);
+        //设置角色
+        userManager.addRoleForUser(userEntity.getUserId(),"user");
+        return res;
     }
 }

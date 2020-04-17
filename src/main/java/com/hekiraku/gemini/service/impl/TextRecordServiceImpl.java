@@ -9,7 +9,6 @@ import com.hekiraku.gemini.entity.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.service.TextRecordService;
 import com.hekiraku.gemini.service.UserService;
-import com.hekiraku.gemini.utils.EntityUtil;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -90,11 +89,9 @@ public class TextRecordServiceImpl implements TextRecordService {
                 .soulChar(textRecordDto.getSoulChar())
                 .createDay(createDay)
                 .build();
-            EntityUtil.setCommonField(textRecordEntity,textRecordDto.getUserNum());
             textRecordManager.create(textRecordEntity);
         }else{
             recordEntities.get(0).setText(textRecordDto.getText());
-            EntityUtil.setCommonField(recordEntities.get(0),textRecordDto.getUserNum());
             textRecordManager.update(recordEntities.get(0));
         }
         return ApiResult.successMsg("成功创建/更新日记");

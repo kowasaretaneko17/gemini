@@ -23,5 +23,6 @@ public interface UserManager {
     UserInfoVo selectByPhone(String phone);
     UserInfoVo selectByEmail(String email);
     int createUser(UserEntity userEntity);
+    int addRoleForUser(Long userId,String roleName);
 
 }

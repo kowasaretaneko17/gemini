@@ -40,9 +40,9 @@ mybatis:
 #去掉大量的调试信息CONDITIONS EVALUATION REPORT
 logging.level.org.springframework.boot.autoconfigure: ERROR
 redis:
-  identifyingTokenExpireTime: 60
-  refreshJwtTokenExpireTime: 43200
+  identifyingTokenExpireTime: 6000
+  refreshJwtTokenExpireTime: 4320000
 jwt:
-  tokenExpireTime: 5
+  tokenExpireTime: 60
   anonymous:
     urls: login,register,checkEmail,sendCheckingCode,logout,captcha,/doc.html,/swagger,/swagger-resources,/swagger-ui.html,/webjars,/druid,/v2/api-docs

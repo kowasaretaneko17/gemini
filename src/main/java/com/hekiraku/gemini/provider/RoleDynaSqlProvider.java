@@ -15,11 +15,21 @@ public class RoleDynaSqlProvider {
      * @param id
      * @return
      */
-    public String selectById(String id){
+    public String selectById(Long id){
         SQL selectById = new SQL()
                 .SELECT("*")
                 .FROM("g_role")
                 .WHERE("id=#{id}");
         return selectById.toString();
+    }
+    /**
+     * 通过roleName查询id
+     */
+    public String selectIdByRoleName(String roleName){
+        SQL selectIdByUserNum = new SQL()
+                .SELECT("id")
+                .FROM("g_role")
+                .WHERE("role_name=#{roleName}");
+        return selectIdByUserNum.toString();
     }
 }

@@ -20,5 +20,8 @@ public interface RoleMapper {
     @Results(id = "roleMap", value = {
             @Result(property = "resources",column = "id",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.ResourceMapper.selectByRoleId"))
     })
-    RoleVo selectById(String id);
+    RoleVo selectById(Long id);
+
+    @SelectProvider(type=RoleDynaSqlProvider.class,method = "selectIdByRoleName")
+    Long selectIdByRoleName(String roleName);
 }

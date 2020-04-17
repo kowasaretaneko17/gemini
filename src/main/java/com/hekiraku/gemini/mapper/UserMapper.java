@@ -48,4 +48,7 @@ public interface UserMapper {
 
     @InsertProvider(type=UserDynaSqlProvider.class,method = "createUser")
     int createUser(UserEntity userEntity);
+
+    @InsertProvider(type=UserDynaSqlProvider.class,method = "addRoleForUser")
+    int addRoleForUser(Long roleId,Long userId);
 }

@@ -5,10 +5,10 @@ package com.hekiraku.gemini.common.enums;
  */
 public enum MailEnums {
     /**---邮箱+授权码---*/
-    /**碧落君(授权码配置)*/
+    /**碧落君*/
     M_HEKIRAKU_SOURCE("1239407570@qq.com","knbvunquuxemggfe"),
     /**gemini官方邮箱*/
-    M_GEMINI_SOURCE("",""),
+    M_GEMINI_SOURCE("gemini_rule001@163.com","HUGMTRWVMRGKTCSI"),
     /**---邮箱+授权码---*/
 
 

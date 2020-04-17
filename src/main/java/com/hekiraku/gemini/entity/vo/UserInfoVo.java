@@ -26,6 +26,8 @@ import java.util.Set;
 @ToString
 @ApiModel(value = "UserInfoVo",description = "用户返回信息")
 public class UserInfoVo implements Serializable {
+    @JsonIgnore
+    private String id;
     @ApiModelProperty(notes = "用户名",example = "zhangsan")
     private String userName;
     @ApiModelProperty(notes = "用户编号",example = "201904031010001")
@@ -69,4 +71,5 @@ public class UserInfoVo implements Serializable {
         }
         return setResources;
     }
+
 }

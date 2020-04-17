@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.controller;
 
+import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
 import com.google.common.collect.ImmutableMap;
 import com.hekiraku.gemini.aop.jwt.JWTUtil;
@@ -30,11 +31,10 @@ import javax.imageio.ImageIO;
 import javax.validation.Valid;
 import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
-import java.util.*;
-import java.util.function.Predicate;
 
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.*;
 import static com.hekiraku.gemini.common.enums.MailEnums.M_HEKIRAKU_SOURCE;
+import static com.hekiraku.gemini.utils.DESUtils.MD5;
 
 /**
  * 构建组：
@@ -94,15 +94,15 @@ public class LoginController {
             log.info("登录,参数为：",userInfoDto.toString());
             String userName=userInfoDto.getUserName();
             UserInfoVo userInfoVo = userMapper.selectByUserName(userName);
-            String password = DESUtils.md5Encrypt(DESUtils.aesEncrypt(userInfoVo.getPassword(),"gemini_hekiraku_wanlly"));
-            if(null == userInfoVo || !password.equals(userInfoDto.getPassword())){
+            String password = MD5(MD5(userInfoDto.getPassword()+"gemini_hekiraku_wanlly"));
+            if(null == userInfoVo || !userInfoVo.getPassword().equals(password)){
                 return ApiResult.buildFail(AUTH_LOGIN_PARAM.getCode(), AUTH_LOGIN_PARAM.getDesc());
             } else {
                 String tokenStr = JWTUtil.sign(userInfoVo);
                 //相当于存入token的时候，同时存入了用户的基本信息在redis里面，然后之后在redis没有过期的时候，可以直接去redis里面拿，不用解析token，也不用threadLocal。
                 //用户信息在有修改的时候要更新一次。
                 userService.addTokenToRedis(userInfoVo.getUserNum(),tokenStr);
-                userService.addUserInfoToRedis(userInfoVo.getUserNum(),userInfoVo);
+                userService.addUserInfoToRedis(userInfoVo.getUserNum(), JSON.toJSONString(userInfoVo));
                 return ApiResult.buildSuccessNormal("登录成功",tokenStr);
             }
         } catch (Exception e) {
@@ -136,10 +136,9 @@ public class LoginController {
             }
             UserEntity userEntity = UserEntity.builder().build();
             BeanUtils.copyProperties(userEntity,userInfoDto);
-            String userNum = String.valueOf(SnowFlakeUtils.nextId());
-            userEntity.setUserNum(userNum);
+            Long userId = SnowFlakeUtils.nextId();
+            userEntity.setUserId(userId);
             userEntity.setLock("0");
-            EntityUtil.setCommonField(userEntity,userNum);
             userService.createUser(userEntity);
             return ApiResult.successMsg("注册成功");
         }catch (Exception e){

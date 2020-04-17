@@ -6,9 +6,9 @@ import lombok.Data;
 import lombok.ToString;
 
 /**
- * 构建组：大道金服科技部
+ * 构建组：游荡的野指针
  * 作者:weiyimeng
- * 邮箱:weiyimeng@ddjf.com.cn
+ * 邮箱:weiyimeng@bytedance.com
  * 日期:2019/3/22
  * 功能说明：
  */
@@ -17,7 +17,7 @@ import lombok.ToString;
 @ToString(callSuper=true)
 public class UserEntity extends BaseEntity {
     private String userName;
-    private String userNum;
+    private Long userId;
     private String phone;
     private String email;
     private String password;
