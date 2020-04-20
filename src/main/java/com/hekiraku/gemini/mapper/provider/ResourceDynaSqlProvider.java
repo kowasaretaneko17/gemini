@@ -34,7 +34,7 @@ public class ResourceDynaSqlProvider {
                 .FROM("g_resource gre,g_res_role grr")
                 .WHERE("grr.role_id=#{roleId}")
                 .AND()
-                .WHERE("grr.res_id =gre.id");
+                .WHERE("grr.resource_id =gre.id");
         return selectByRoleId.toString();
     }
 }
