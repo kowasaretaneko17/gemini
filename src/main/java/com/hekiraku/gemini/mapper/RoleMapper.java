@@ -15,12 +15,10 @@ import java.util.List;
  */
 public interface RoleMapper {
 
-    @SelectProvider(type = RoleDynaSqlProvider.class,method = "selectById")
-    @Results(id = "roleMap", value = {
-            @Result(property = "resources",column = "id",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.ResourceMapper.selectByRoleId"))
+    @Results(id = "resourceMap", value = {
+            @Result(property = "resources",column = "resourceId",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.ResourceMapper.selectByResourceId"))
     })
-    RoleVo selectById(Long id);
+    RoleVo selectByRoleId(Long roleId);
 
-    @SelectProvider(type=RoleDynaSqlProvider.class,method = "selectIdByRoleName")
-    Long selectIdByRoleName(String roleName);
+    Long selectRoleIdByRoleName(String roleName);
 }

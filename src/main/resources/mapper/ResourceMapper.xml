@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.hekiraku.gemini.mapper.ResourceMapper">
+
+    <!--根据resouceId获取资源信息-->
+    <select id="selectByResourceId" resultType="com.hekiraku.gemini.domain.vo.ResourceVo">
+        select *
+        from g_resource gr
+        where gr.resource_id = #{resourceId}
+        and gr.delete_flag = 0;
+    </select>
+    <!--生成或更新一条资源信息-->
+    <insert id="createOrUpdateResource" parameterType="com.hekiraku.gemini.domain.entity.ResourceEntity">
+        insert into g_resource
+        values
+        resource_id=#{resourceId},
+        resource_code=#{resourceCode},
+        resource_name=#{resourceName},
+        create_user_id=#{createUserId},
+        update_user_id=#{updateUserId}
+        ON DUPLICATE KEY UPDATE
+        resource_name=#{resourceName},
+        update_user_id=#{updateUserId},
+        rev=#{rev},
+        delete_flag=#{deleteFlag}
+    </insert>
+</mapper>
