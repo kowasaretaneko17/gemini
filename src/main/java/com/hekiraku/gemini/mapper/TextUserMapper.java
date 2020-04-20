@@ -21,7 +21,7 @@ public interface TextUserMapper {
     /**
      * 插入一篇日记
      */
-    @InsertProvider(type = TextUserDynaSqlProvider.class, method = "create")
+    @InsertProvider(type = TextUserDynaSqlProvider.class, method = "createOrUpdateTextUser")
     int createOrUpdateTextUser(TextUserEntity textRecordEntity);
 
     /**
