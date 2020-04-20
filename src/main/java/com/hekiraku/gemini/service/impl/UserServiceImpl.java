@@ -47,14 +47,14 @@ public class UserServiceImpl implements UserService {
     }
 
     @Override
-    public ApiResult<UserInfoVo> selectByUserName(String username) {
-        UserInfoVo userInfoVo = userManager.selectByUserName(username);
+    public ApiResult<UserInfoVo> selectByIdentityCode(String identityCode) {
+        UserInfoVo userInfoVo = userManager.selectByIdentityCode(identityCode);
         return ApiResult.buildSuccessNormal("查询成功",userInfoVo);
     }
 
     @Override
-    public ApiResult<UserInfoVo> selectByUserNum(String usernum) {
-        UserInfoVo userInfoVo = userManager.selectByUserNum(usernum);
+    public ApiResult<UserInfoVo> selectByUserId(Long userId) {
+        UserInfoVo userInfoVo = userManager.selectByUserId(userId);
         return ApiResult.buildSuccessNormal("查询成功",userInfoVo);
     }
 
@@ -121,10 +121,10 @@ public class UserServiceImpl implements UserService {
 
     @SneakyThrows
     @Override
-    public int createUser(UserEntity userEntity){
+    public int createOrUpdateUser(UserEntity userEntity){
         userEntity.setPassword(MD5(MD5(userEntity.getPassword()+"gemini_hekiraku_wanlly")));
         //创建数据
-        int res = userManager.createUser(userEntity);
+        int res = userManager.createOrUpdateUser(userEntity);
         //设置角色
         userManager.addRoleForUser(userEntity.getUserId(),"user");
         return res;

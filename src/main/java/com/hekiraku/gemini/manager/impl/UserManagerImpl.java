@@ -28,13 +28,13 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public UserInfoVo selectByUserName(String username) {
-        return userMapper.selectByUserName(username);
+    public UserInfoVo selectByIdentityCode(String identityCode) {
+        return userMapper.selectByIdentityCode(identityCode);
     }
 
     @Override
-    public UserInfoVo selectByUserNum(String usernum) {
-        return userMapper.selectByUserNum(usernum);
+    public UserInfoVo selectByUserId(Long userId) {
+        return userMapper.selectByUserId(userId);
     }
 
     @Override
@@ -53,8 +53,8 @@ public class UserManagerImpl implements UserManager {
     }
 
     @Override
-    public int createUser(UserEntity userEntity) {
-        return userMapper.createUser(userEntity);
+    public int createOrUpdateUser(UserEntity userEntity) {
+        return userMapper.createOrUpdateUser(userEntity);
     }
 
     @Override

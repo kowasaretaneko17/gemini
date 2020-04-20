@@ -1,12 +1,22 @@
 package com.hekiraku.gemini.manager.impl;
 
+import com.hekiraku.gemini.domain.dto.TextReadDto;
+import com.hekiraku.gemini.domain.dto.TextWriteDto;
+import com.hekiraku.gemini.domain.entity.TextDetailEntity;
+import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
+import com.hekiraku.gemini.domain.vo.TextUserVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
+import com.hekiraku.gemini.mapper.TextDetailMapper;
+import com.hekiraku.gemini.mapper.TextSummaryMapper;
 import com.hekiraku.gemini.mapper.TextUserMapper;
+import com.hekiraku.gemini.utils.BeanUtils;
+import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
@@ -23,45 +33,40 @@ import java.util.stream.Collectors;
 @Component
 public class TextRecordManagerImpl implements TextRecordManager {
     @Autowired
-    private TextUserMapper textRecordMapper;
+    private TextUserMapper textUserMapper;
+    @Autowired
+    private TextSummaryMapper textSummaryMapper;
+    @Autowired
+    private TextDetailMapper textDetailMapper;
 
     @Override
-    public int create(TextUserEntity textRecordEntity) {
-        return textRecordMapper.create(textRecordEntity);
+    @Transactional
+    public void createOrUpdateText (TextWriteDto textWriteDto) {
+        //文章-用户表
+        TextUserEntity textUserEntity = BeanUtils.copyProperties(TextUserEntity.class,textWriteDto);
+        //文章-简述表
+        TextSummaryEntity textSummaryEntity = BeanUtils.copyProperties(TextSummaryEntity.class,textWriteDto);
+        //文章-内容表
+        TextDetailEntity textDetailEntity = BeanUtils.copyProperties(TextDetailEntity.class,textWriteDto);
+        textUserMapper.createOrUpdateTextUser(textUserEntity);
+        textSummaryMapper.createOrUpdateTextSummary(textSummaryEntity);
+        textDetailMapper.createOrUpdateTextDetail(textDetailEntity);
     }
 
     @Override
-    public int update(TextUserEntity textRecordEntity) {
-        return textRecordMapper.update(textRecordEntity);
+    public TextUserVo selectTextByTextReadDto(TextReadDto textReadDto) {
+        return textUserMapper.selectTextByTextReadDto(textReadDto);
     }
 
     @Override
-    public TextUserEntity selectTextByDayUsrChar(TextDto textRecordDto) {
-        return textRecordMapper.selectTextByDayUsrChar(textRecordDto);
-    }
-
-    /**
-     * 查询数据库
-     * 如果存在，则加入list之后返回
-     * 如果不存在，则生成一条空记录返回。
-     *
-     * @param textRecordDto
-     * @return
-     */
-    @Override
-    public List<TextUserEntity> selectTextByDayUsrCharList(TextDto textRecordDto) {
-        List<TextUserEntity> textRecordEntities = new ArrayList<>();
-        TextUserEntity textRecordEntity = textRecordMapper.selectTextByDayUsrChar(textRecordDto);
-        if (textRecordEntity != null) {
-            textRecordEntities.add(textRecordEntity);
-        }
-        return textRecordEntities;
+    public TextUserEntity selectTextByDayUsrChar(TextReadDto textReadDto) {
+        return textUserMapper.selectTextByDayUsrChar(textReadDto);
     }
 
     @Override
-    public List<List<SoulCharVo>> selectSoulDiaryByUserAndYear(String years, String userNum) {
+    public List<List<SoulCharVo>> selectSoulDiaryByUserAndYear(String years, Long userId) {
         List<List<SoulCharVo>> soulCharList = new ArrayList<>();
-        List<SoulCharDateVo> soulCharDateVos = textRecordMapper.selectSoulDiaryByUserAndYear(years,userNum);
+        List<SoulCharDateVo> soulCharDateVos = textUserMapper.selectSoulDiaryByUserAndYear(years,userId);
         //12个月
         for(int i = 1;i<=12;i++) {
             List<SoulCharVo> soulCharVos = new ArrayList<>();

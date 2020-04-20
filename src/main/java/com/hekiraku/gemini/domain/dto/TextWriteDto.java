@@ -32,7 +32,23 @@ public class TextWriteDto extends SerializableEntity {
      */
     private Long userId;
     /**
-     * 日期
+     * 文章标题
      */
-    private Date createDay;
+    private String textTitle;
+    /**
+     * 文章简介
+     */
+    private String textSummary;
+    /**
+     * 文章内容
+     */
+    private String textDetail;
+    /**
+     * 文章id
+     */
+    private Long textId;
+    /**
+     * 创建日期
+     */
+    private String createDay;
 }

@@ -14,8 +14,8 @@ import com.hekiraku.gemini.domain.vo.UserInfoVo;
  */
 public interface UserService {
     public ApiResult selectById(String id);
-    public ApiResult<UserInfoVo> selectByUserName(String username);
-    public ApiResult<UserInfoVo> selectByUserNum(String usernum) ;
+    public ApiResult<UserInfoVo> selectByIdentityCode(String identityCode);
+    public ApiResult<UserInfoVo> selectByUserId(Long userId) ;
     public void addTokenToRedis(String userNum, String jwtTokenStr);
     public void addUserInfoToRedis(String userNum, String userInfoVo);
     public void addCheckCode(String mail,String checkCode);
@@ -25,5 +25,5 @@ public interface UserService {
     UserInfoVo selectByNickName(String nickName);
     UserInfoVo selectByPhone(String phone);
     UserInfoVo selectByEmail(String email);
-    public int createUser(UserEntity userEntity);
+    public int createOrUpdateUser(UserEntity userEntity);
 }

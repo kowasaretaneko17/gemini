@@ -31,9 +31,23 @@ public interface TextSummaryMapper {
     @SelectProvider(type = TextSummaryDynaSqlProvider.class,method = "selectTextSummaryByTextId")
     public TextSummaryEntity selectTextSummaryByTextId(Long textId);
 
+    /**
+     * 通过textId获取文章简述+详细内容
+     * @param textId
+     * @return
+     */
     @SelectProvider(type = TextSummaryDynaSqlProvider.class,method = "selectTextSummaryByTextId")
-    @Results(id = "textSummaryMap",value = {
+    @Results(id = "textDetail",value = {
             @Result(property = "textDetail",column = "textId",javaType = TextDetailVo.class,one = @One(select = "com.hekiraku.gemini.mapper.TextDetailMapper.selectByTextId"))
     })
     public TextSummaryVo selectTextByTextId(Long textId);
+
+    /**
+     * 插入或更新一条信息
+     * @param textSummaryEntity
+     * @return
+     */
+    @InsertProvider(type = TextSummaryDynaSqlProvider.class,method = "createOrUpdateTextSummary")
+    public int createOrUpdateTextSummary(TextSummaryEntity textSummaryEntity);
+
 }

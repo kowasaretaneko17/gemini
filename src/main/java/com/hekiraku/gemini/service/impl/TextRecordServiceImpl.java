@@ -2,17 +2,29 @@ package com.hekiraku.gemini.service.impl;
 
 import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.domain.dto.TextReadDto;
+import com.hekiraku.gemini.domain.dto.TextWriteDto;
+import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.service.TextRecordService;
 import com.hekiraku.gemini.service.UserService;
+import com.hekiraku.gemini.utils.BeanUtils;
+import com.hekiraku.gemini.utils.SnowFlakeUtils;
+import net.bytebuddy.asm.Advice;
+import org.apache.commons.lang3.Validate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
+import javax.xml.crypto.Data;
+import java.time.LocalDate;
+import java.util.Date;
 import java.util.List;
+import java.util.Optional;
 
 /**
  * 构建组：大道金服科技部
@@ -35,64 +47,23 @@ public class TextRecordServiceImpl implements TextRecordService {
     }
 
     @Override
-    public ApiResult create(TextUserEntity textRecordEntity) {
-        int result = textRecordManager.create(textRecordEntity);
-        if(result==1){
-            return ApiResult.successMsg("创建日记成功");
-        }else{
-            return ApiResult.buildFail("100","创建日记失败");
-        }
-    }
-
-    @Override
-    public ApiResult update(TextUserEntity textRecordEntity) {
-        int result = textRecordManager.update(textRecordEntity);
-        if(result==1){
-            return ApiResult.successMsg("更新日记成功");
-        }else{
-            return ApiResult.buildFail("100","更新日记失败");
-        }
-    }
-
-    @Override
-    public ApiResult deleteSoft(TextUserEntity textRecordEntity) {
-        int result = textRecordManager.deleteSoft(textRecordEntity);
-        if(result==1){
-            return ApiResult.successMsg("删除日记成功");
-        }else{
-            return ApiResult.buildFail("100","删除日记失败");
-        }
-    }
-
-    @Override
-    public ApiResult selectTextByDayUsrChar(TextDto textRecordDto) {
-        TextUserEntity recordEntity = textRecordManager.selectTextByDayUsrChar(textRecordDto);
-        return ApiResult.buildSuccessNormal("查询成功",recordEntity);
-    }
-
-    @Override
-    public ApiResult<TextUserVo> writeRecord(TextDto textRecordDto) throws Exception {
+    @Transactional
+    public ApiResult<TextUserVo> writeRecord(TextWriteDto textWriteDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
-        String createDay = DateTime.now().toString("yyyy-MM-dd");
-        textRecordDto.setUserNum(userInfoVo.getUserNum());
-        textRecordDto.setCreateDay(createDay);
-        List<TextUserEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
-        if(recordEntities==null){
-            throw new Exception("查询数据库失败");
+        Long userId = userInfoVo.getUserId();
+        String createDay = Optional.ofNullable(textWriteDto.getCreateDay()).orElse(LocalDate.now().toString());
+        textWriteDto.setCreateDay(createDay);
+        Validate.notEmpty(textWriteDto.getSoulChar(),"人格信息不能为空");
+        TextReadDto textReadDto = BeanUtils.copyProperties(TextReadDto.class,textWriteDto);
+        TextUserEntity textUserEntity = textRecordManager.selectTextByDayUsrChar(textReadDto);
+        if(textUserEntity==null){
+            Long textId = SnowFlakeUtils.nextId();
         }
-        if(recordEntities.isEmpty()){
-            //数据库没有记录
-        TextUserEntity textRecordEntity = TextUserEntity.builder()
-                .userNum(textRecordDto.getUserNum())
-                .text(textRecordDto.getText())
-                .soulChar(textRecordDto.getSoulChar())
-                .createDay(createDay)
-                .build();
-            textRecordManager.create(textRecordEntity);
-        }else{
-            recordEntities.get(0).setText(textRecordDto.getText());
-            textRecordManager.update(recordEntities.get(0));
-        }
+        //如果没有就新增
+        Long textId = textUserEntity.getTextId();
+        textWriteDto.setUserId(userId);
+        textWriteDto.setTextId(textId);
+        textRecordManager.createOrUpdateText(textWriteDto);
         return ApiResult.successMsg("成功创建/更新日记");
     }
 
@@ -103,16 +74,14 @@ public class TextRecordServiceImpl implements TextRecordService {
      * @throws Exception
      */
     @Override
-    public ApiResult<List<TextUserEntity>> readRecord(TextDto textRecordDto) throws Exception {
+    public ApiResult<TextUserVo> readRecord(TextReadDto textReadDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
-        textRecordDto.setUserNum(userInfoVo.getUserNum());
-        List<TextUserEntity> recordEntities = textRecordManager.selectTextByDayUsrCharList(textRecordDto);
-        if(recordEntities==null){
-            throw new Exception("查询数据库失败");
-        }else if(recordEntities.isEmpty()){
-            return ApiResult.successMsg("当天没有日记");
+        textReadDto.setUserId(userInfoVo.getUserId());
+        TextUserVo textUserVo = textRecordManager.selectTextByTextReadDto(textReadDto);
+        if(textUserVo==null){
+            return ApiResult.successMsg("没有日记");
         }
-        return ApiResult.buildSuccessNormal("成功获取日记",recordEntities);
+        return ApiResult.buildSuccessNormal("成功获取日记",textUserVo);
 
     }
 }

@@ -32,13 +32,13 @@ public class UserController {
     private UserService userService;
 
     @ApiOperation(value="通过名字获取用户信息", notes = "通过名字获取用户信息")
-    @GetMapping("/selectAllByUserName")
+    @GetMapping("/selectAllByIdentityCode")
     @ApiResponses({
             @ApiResponse(code = 80006,message = "获取用户信息失败",response = ApiResult.class)
     })
-    public ApiResult<UserInfoVo> selectAllByUserName(String username){
+    public ApiResult<UserInfoVo> selectAllByUserName(String identityCode){
         try {
-            return userService.selectByUserName(username);
+            return userService.selectByIdentityCode(identityCode);
         }catch (Exception e){
             log.error("通过名字获取用户信息失败：{}",e);
             return ApiResult.buildFail(AUTH_USERINFO.getCode(),AUTH_USERINFO.getDesc());

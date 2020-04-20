@@ -27,4 +27,20 @@ public class TextSummaryDynaSqlProvider {
         return selectTextSummaryByTextId.toString();
     }
 
+    public String createOrUpdateTextSummary() {
+        SQL create = new SQL().INSERT_INTO("g_text_summary")
+                .VALUES("text_id", "#{textId}")
+                .VALUES("text_title", "#{textTitle}")
+                .VALUES("text_summary","#{textSummary}")
+                .VALUES("soul_char", "#{soulChar}")
+                .VALUES("update_user_id", "#{updateUserId}")
+                .VALUES("create_user_id", "#{createUserId}")
+                .SET("ON DUPLICATE KEY UPDATE")
+                .VALUES("delete_flag", "#{deleteFlag}")
+                .VALUES("rev", "#{rev}")
+                .VALUES("update_user_id", "#{updateUserId}")
+                ;
+        return create.toString();
+    }
+
 }

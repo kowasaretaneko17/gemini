@@ -6,6 +6,8 @@ import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.io.Serializable;
+import java.util.List;
+
 /**
  * 构建组：
  * 作者:weiyimeng
@@ -21,6 +23,5 @@ import java.io.Serializable;
 @ApiModel(value = "TextUserVo",description = "日记返回信息")
 public class TextUserVo extends SerializableEntity {
     private Long userId;
-    private Long textId;
-    private TextSummaryVo textSummaryVo;
+    private List<TextSummaryVo> textSummaryVos;
 }

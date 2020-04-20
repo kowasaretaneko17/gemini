@@ -22,7 +22,7 @@ public class UserMapperTest {
     }
     @Test
     public void selectAll(){
-        UserInfoVo userEntity = userMapper.selectByUserName("zhangsan");
+        UserInfoVo userEntity = userMapper.selectByIdentityCode("zhangsan");
         log.info("{}",userEntity);
     }
 

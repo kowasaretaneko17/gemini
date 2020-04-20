@@ -17,6 +17,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
 
+import static java.lang.Long.getLong;
+
 
 /**
  * Created by Administrator on 2017/10/11.
@@ -44,10 +46,10 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String userNum = JWTUtil.getUserNum(principals.toString());
+        String userId = JWTUtil.getUserId(principals.toString());
         SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo();
         try {
-            UserInfoVo vo = this.userMapper.selectByUserNum(userNum);
+            UserInfoVo vo = this.userMapper.selectByUserId(getLong(userId));
             auth.setRoles(vo.getSetRoles());
             auth.setStringPermissions((vo.getSetResources()));
         } catch (Exception e) {
@@ -67,11 +69,11 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
         // 解密获得userName，用于和数据库进行对比
-        String userNum = JWTUtil.getUserNum(token);
-        UserInfoVo vo = this.userMapper.selectByUserNum(userNum);
-        String redisUserInfo = (String) redisTemplate.opsForValue().get("token_jwt_" + userNum);
+        String userId = JWTUtil.getUserId(token);
+        UserInfoVo vo = this.userMapper.selectByUserId(getLong(userId));
+        String redisUserInfo = (String) redisTemplate.opsForValue().get("token_jwt_" + userId);
 
-        ApiResult result = JWTUtil.verify(token, userNum, vo.getPassword());
+        ApiResult result = JWTUtil.verify(token, userId, vo.getPassword());
         Exception exception = (Exception) result.getData();
 
         //针对token做出各种情况的返回异常msg。
@@ -87,7 +89,7 @@ public class MyRealm extends AuthorizingRealm {
         } else if(StringUtils.isEmpty(redisUserInfo)){
             throw new AuthenticationException("Token已失效(Token invalid.)！");
         }else {
-            AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(token, token, vo.getUserName());
+            AuthenticationInfo authcInfo = new SimpleAuthenticationInfo(token, token, vo.getIdentityCode());
             return authcInfo;
         }
     }

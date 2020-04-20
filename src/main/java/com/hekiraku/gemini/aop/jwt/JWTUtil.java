@@ -72,12 +72,12 @@ public class JWTUtil {
 //        }
 //    }
     /**
-     * 获取token中的usernum
+     * 获取token中的userId
      */
-    public static String getUserNum(String token) {
+    public static String getUserId(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("userNum").asString();
+            return jwt.getClaim("userId").asString();
         } catch (JWTDecodeException e) {
             log.error("获取token中用户编码信息异常:{}", e);
             return null;
@@ -98,7 +98,7 @@ public class JWTUtil {
             // usernum信息
             //删掉.withClaim("userName", userInfoVo.getUserName())，只在token中带上userNum就可以了
             return JWT.create()
-                    .withClaim("userNum", userInfoVo.getUserNum()).withExpiresAt(date).sign(algorithm);
+                    .withClaim("userId", userInfoVo.getUserId()).withExpiresAt(date).sign(algorithm);
         } catch (Exception e) {
             log.error("生成签名异常:{}", e);
             return null;

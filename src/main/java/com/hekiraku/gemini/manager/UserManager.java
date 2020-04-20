@@ -12,12 +12,12 @@ import com.hekiraku.gemini.domain.vo.UserInfoVo;
  */
 public interface UserManager {
     UserInfoVo selectById(String id);
-    UserInfoVo selectByUserName(String username);
-    UserInfoVo selectByUserNum(String usernum);
+    UserInfoVo selectByIdentityCode(String identityCode);
+    UserInfoVo selectByUserId(Long userId);
     UserInfoVo selectByNickName(String nickName);
     UserInfoVo selectByPhone(String phone);
     UserInfoVo selectByEmail(String email);
-    int createUser(UserEntity userEntity);
+    int createOrUpdateUser(UserEntity userEntity);
     int addRoleForUser(Long userId,String roleName);
 
 }

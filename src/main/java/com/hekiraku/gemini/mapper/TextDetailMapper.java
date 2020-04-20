@@ -31,5 +31,5 @@ public interface TextDetailMapper {
      * 插入或更新
      */
     @SelectProvider(type= TextDetailDynaSqlProvider.class,method = "createOrUpdateTextDetail")
-    int createOrUpdateTextDetail(Long textId);
+    int createOrUpdateTextDetail(TextDetailEntity textDetailEntity);
 }

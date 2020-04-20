@@ -90,8 +90,8 @@ public class LoginController {
     public ApiResult login(@RequestBody UserInfoDto userInfoDto) {
         try {
             log.info("登录,参数为：",userInfoDto.toString());
-            String userName=userInfoDto.getUserName();
-            UserInfoVo userInfoVo = userMapper.selectByUserName(userName);
+            String identityCode=userInfoDto.getIdentityCode();
+            UserInfoVo userInfoVo = userMapper.selectByIdentityCode(identityCode);
             String password = MD5(MD5(userInfoDto.getPassword()+"gemini_hekiraku_wanlly"));
             if(null == userInfoVo || !userInfoVo.getPassword().equals(password)){
                 return ApiResult.buildFail(AUTH_LOGIN_PARAM.getCode(), AUTH_LOGIN_PARAM.getDesc());
@@ -99,15 +99,15 @@ public class LoginController {
                 String tokenStr = JWTUtil.sign(userInfoVo);
                 //相当于存入token的时候，同时存入了用户的基本信息在redis里面，然后之后在redis没有过期的时候，可以直接去redis里面拿，不用解析token，也不用threadLocal。
                 //用户信息在有修改的时候要更新一次。
-                userService.addTokenToRedis(userInfoVo.getUserNum(),tokenStr);
-                userService.addUserInfoToRedis(userInfoVo.getUserNum(), JSON.toJSONString(userInfoVo));
+                userService.addTokenToRedis(userInfoVo.getUserId().toString(),tokenStr);
+                userService.addUserInfoToRedis(userInfoVo.getUserId().toString(), JSON.toJSONString(userInfoVo));
                 return ApiResult.buildSuccessNormal("登录成功",tokenStr);
             }
         } catch (Exception e) {
             log.error("登录失败，参数:{},异常：{}",userInfoDto,e);
             return ApiResult.buildFail(AUTH_LOGIN.getCode(), AUTH_LOGIN.getDesc());
         }finally {
-            LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectByUserName(userInfoDto.getUserName()).getUserNum(),LogActiveNameEnums.LOG_LOGIN,"登录");
+            LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectByIdentityCode(userInfoDto.getIdentityCode()).getUserId().toString(),LogActiveNameEnums.LOG_LOGIN,"登录");
         }
     }
     /**
@@ -136,8 +136,7 @@ public class LoginController {
             BeanUtils.copyProperties(userEntity,userInfoDto);
             Long userId = SnowFlakeUtils.nextId();
             userEntity.setUserId(userId);
-            userEntity.setLock("0");
-            userService.createUser(userEntity);
+            userService.createOrUpdateUser(userEntity);
             return ApiResult.successMsg("注册成功");
         }catch (Exception e){
             log.error("注册失败:",e);

@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.mapper.provider;
 
+import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import org.apache.ibatis.jdbc.SQL;
 
@@ -11,13 +12,14 @@ import org.apache.ibatis.jdbc.SQL;
  * 功能说明：
  */
 public class TextUserDynaSqlProvider {
+
     /**
      * 通过用户，人格，和创造日期查找文章内容
      *
      * @param
      * @return
      */
-    public String selectTextByDayUsrChar() {
+    public String selectTextByDayUsrChar(TextReadDto textReadDto) {
         SQL selectTextByDayUsrChar = new SQL()
                 .SELECT("*")
                 .FROM("g_text_user")

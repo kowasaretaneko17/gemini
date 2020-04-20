@@ -1,6 +1,8 @@
 package com.hekiraku.gemini.controller.buss;
 
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.domain.dto.TextReadDto;
+import com.hekiraku.gemini.domain.dto.TextWriteDto;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
@@ -41,12 +43,12 @@ public class TextRecordController {
     @ApiResponses({
             @ApiResponse(code = 10001,message = "更新/添加日记错误",response = ApiResult.class)
     })
-    public ApiResult<TextUserVo> writeRecord(@Validated(TextDto.WriteView.class) @RequestBody TextDto textRecordDto){
+    public ApiResult<TextUserVo> writeRecord(@RequestBody TextWriteDto textWriteDto){
         //获取参数
         try{
-            return textRecordService.writeRecord(textRecordDto);
+            return textRecordService.writeRecord(textWriteDto);
         }catch (Exception e){
-            log.error("更新日记传参为:{},异常信息:{}",textRecordDto,e);
+            log.error("更新日记传参为:{},异常信息:{}",textWriteDto,e);
             return ApiResult.buildFail(B_TEXT_UPDATE.getCode(),B_TEXT_UPDATE.getDesc());
         }
 
@@ -56,12 +58,12 @@ public class TextRecordController {
     @ApiResponses({
             @ApiResponse(code = 10002,message = "读取日记错误",response = ApiResult.class)
     })
-    public ApiResult<List<TextUserEntity>> readRecord(@Validated(TextDto.ReadView.class) @RequestBody TextDto textRecordDto){
+    public ApiResult<TextUserVo> readRecord(@RequestBody TextReadDto textReadDto){
         //获取参数
         try{
-            return textRecordService.readRecord(textRecordDto);
+            return textRecordService.readRecord(textReadDto);
         }catch (Exception e){
-            log.error("获取日记信息传参:{},异常信息：{}",textRecordDto,e);
+            log.error("获取日记信息传参:{},异常信息：{}",textReadDto,e);
             return ApiResult.buildFail(B_TEXT_SELECT.getCode(),B_TEXT_SELECT.getDesc());
         }
 

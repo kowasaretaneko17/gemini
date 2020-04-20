@@ -26,6 +26,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.AUTH_ANONYMOUS;
+import static java.lang.Long.getLong;
 
 /**
  * Created by Administrator on 2019/1/6.
@@ -67,8 +68,8 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
             try {
                 this.getSubject(servletRequest, servletResponse).login(token);
                 //如果token有效，那么去获取缓存中的userInfo信息
-                String userNum = JWTUtil.getUserNum(token.getPrincipal().toString());
-                String key = CommonConstant.USER_SIMPLE_INFO + userNum;
+                String userId = JWTUtil.getUserId(token.getPrincipal().toString());
+                String key = CommonConstant.USER_SIMPLE_INFO + userId;
                 String value = (String) redisTemplate.opsForValue().get(key);
                 //注意处理从redis拿出来的值
                 UserInfoVo userInfoVo = JSON.parseObject(value,UserInfoVo.class);
@@ -108,20 +109,20 @@ public class JWTFilter extends BasicHttpAuthenticationFilter {
         HttpServletResponse response = (HttpServletResponse) servletResponse;
         //获取header，tokenStr
         String oldToken = request.getHeader("Authorization");
-        String userNum = JWTUtil.getUserNum(oldToken);
-        String key = CommonConstant.JWT_TOKEN + userNum;
-        String keyU = CommonConstant.USER_SIMPLE_INFO +userNum;
+        String userId = JWTUtil.getUserId(oldToken);
+        String key = CommonConstant.JWT_TOKEN + userId;
+        String keyU = CommonConstant.USER_SIMPLE_INFO +userId;
         //获取redis tokenStr和缓存中的用户信息
         String redisToken = (String) redisTemplate.opsForValue().get(key);
         if (redisToken != null) {
             //如果token存在且token等于当前redis中的token，则刷新token时间
             if (oldToken.equals(redisToken)) {
-                UserInfoVo vo = this.userMapper.selectByUserNum(userNum);
+                UserInfoVo vo = this.userMapper.selectByUserId(getLong(userId));
                 //重写生成token(刷新)
                 String newTokenStr = JWTUtil.sign(vo);
                 JWTToken jwtToken = new JWTToken(newTokenStr);
-                userService.addTokenToRedis(userNum, newTokenStr);
-                userService.addUserInfoToRedis(userNum,JSON.toJSONString(vo));
+                userService.addTokenToRedis(userId, newTokenStr);
+                userService.addUserInfoToRedis(userId,JSON.toJSONString(vo));
                 //放进threadLocal
                 SessionLocal.setUserInfo(vo);
                 SecurityUtils.getSubject().login(jwtToken);
