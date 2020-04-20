@@ -24,4 +24,11 @@
         rev=#{rev},
         delete_flag=#{deleteFlag}
     </insert>
+    <!--根据roleId联查获取资源信息-->
+    <select id="selectByRoleId" resultType="com.hekiraku.gemini.domain.vo.ResourceVo">
+        select *
+        from g_resource gr,g_res_role grr
+        where gr.resource_id = grr.resource_id
+        and grr.role_id = #{roleId}
+    </select>
 </mapper>

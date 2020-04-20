@@ -16,37 +16,24 @@ import java.util.List;
  */
 public interface UserMapper {
 
-//    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectAllByUserName")
-//    UserInfoVo selectAllByUserName(String userName);
-
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectById")
     @Results(id = "userMap",value = {
-            @Result(property = "roles",column = "id",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.RoleMapper.selectById"))
+            @Result(property = "roles",column = "roleId",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.RoleMapper.selectByRoleId"))
     })
-    UserInfoVo selectById(String id);
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByIdentityCode")
+    UserInfoVo selectByUserId(Long userId);
+
     @ResultMap("userMap")
     UserInfoVo selectByIdentityCode(String identityCode);
 
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByUserId")
-    @ResultMap("userMap")
-    UserInfoVo selectByUserId(Long userId);
-
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByNickName")
     @ResultMap("userMap")
     UserInfoVo selectByNickName(String nickName);
 
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByPhone")
     @ResultMap("userMap")
     UserInfoVo selectByPhone(String phone);
 
-    @SelectProvider(type=UserDynaSqlProvider.class,method = "selectByEmail")
     @ResultMap("userMap")
     UserInfoVo selectByEmail(String email);
 
-    @InsertProvider(type=UserDynaSqlProvider.class,method = "createOrUpdateUser")
     int createOrUpdateUser(UserEntity userEntity);
 
-    @InsertProvider(type=UserDynaSqlProvider.class,method = "addRoleForUser")
     int addRoleForUser(Long roleId,Long userId);
 }
