@@ -16,12 +16,9 @@ import java.util.List;
  */
 public interface UserMapper {
 
-    @Results(id = "userMap",value = {
-            @Result(property = "roles",column = "roleId",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.RoleMapper.selectByRoleId"))
-    })
+    @ResultMap("userMap")
     UserInfoVo selectByUserId(Long userId);
 
-    @ResultMap("userMap")
     UserInfoVo selectByIdentityCode(String identityCode);
 
     @ResultMap("userMap")

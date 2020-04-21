@@ -11,7 +11,6 @@ import com.hekiraku.gemini.domain.vo.UserInfoVo;
  * 功能说明：
  */
 public interface UserManager {
-    UserInfoVo selectById(String id);
     UserInfoVo selectByIdentityCode(String identityCode);
     UserInfoVo selectByUserId(Long userId);
     UserInfoVo selectByNickName(String nickName);

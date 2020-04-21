@@ -23,11 +23,6 @@ public class UserManagerImpl implements UserManager {
     private RoleMapper roleMapper;
 
     @Override
-    public UserInfoVo selectById(String id) {
-        return userMapper.selectById(id);
-    }
-
-    @Override
     public UserInfoVo selectByIdentityCode(String identityCode) {
         return userMapper.selectByIdentityCode(identityCode);
     }
@@ -59,7 +54,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public int addRoleForUser(Long userId, String roleName) {
-        Long roleId = roleMapper.selectIdByRoleName(roleName);
+        Long roleId = roleMapper.selectByRoleCode(roleName).getRoleId();
         return userMapper.addRoleForUser(roleId,userId);
     }
 }

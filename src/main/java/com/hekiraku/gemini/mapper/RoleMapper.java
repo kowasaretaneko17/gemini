@@ -15,13 +15,7 @@ import java.util.List;
  * 功能说明：
  */
 public interface RoleMapper {
-
-    @Results(id = "roleMap", value = {
-            @Result(property = "resources",column = "roleId",javaType = List.class,many = @Many(select = "com.hekiraku.gemini.mapper.ResourceMapper.selectByRoleId"))
-    })
-    RoleVo selectByRoleId(Long roleId);
-
+    List<RoleVo> selectByUserId(Long userId);
     RoleVo selectByRoleCode(String roleCode);
-
     int createOrUpdateRole(RoleEntity roleEntity);
 }

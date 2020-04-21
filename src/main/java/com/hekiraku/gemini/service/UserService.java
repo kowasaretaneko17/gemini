@@ -13,7 +13,6 @@ import com.hekiraku.gemini.domain.vo.UserInfoVo;
  * 功能说明：
  */
 public interface UserService {
-    public ApiResult selectById(String id);
     public ApiResult<UserInfoVo> selectByIdentityCode(String identityCode);
     public ApiResult<UserInfoVo> selectByUserId(Long userId) ;
     public void addTokenToRedis(String userNum, String jwtTokenStr);

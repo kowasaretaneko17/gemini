@@ -41,12 +41,6 @@ public class UserServiceImpl implements UserService {
     RedisTemplate redisTemplate;
 
     @Override
-    public ApiResult selectById(String id) {
-        UserInfoVo userInfoVo = userManager.selectById(id);
-        return ApiResult.buildSuccessNormal("查询成功",userInfoVo);
-    }
-
-    @Override
     public ApiResult<UserInfoVo> selectByIdentityCode(String identityCode) {
         UserInfoVo userInfoVo = userManager.selectByIdentityCode(identityCode);
         return ApiResult.buildSuccessNormal("查询成功",userInfoVo);

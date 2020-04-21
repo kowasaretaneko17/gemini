@@ -1,6 +1,10 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hekiraku.gemini.mapper.UserMapper">
+
+    <resultMap id="userInfo" type="com.hekiraku.gemini.domain.vo.UserInfoVo">
+        <collection property="roles" column="user_id" ofType="com.hekiraku.gemini.domain.vo.RoleVo" javaType="java.util.List" select="com.hekiraku.gemini.mapper.RoleMapper.selectByUserId"/>
+    </resultMap>
     <insert id="createOrUpdateUser" parameterType="com.hekiraku.gemini.domain.entity.UserEntity">
         insert into g_user
         values
@@ -22,4 +26,9 @@
         delete_flag=#{deleteFlag},
         lock=#{lock}
     </insert>
+    <select id="selectByIdentityCode" resultMap="userInfo">
+        select gu.user_id as userId,gu.*
+        from g_user gu
+        where gu.identity_code = #{identityCode}
+    </select>
 </mapper>
