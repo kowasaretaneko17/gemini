@@ -8,11 +8,14 @@
  **/
 package com.hekiraku.gemini.manager.impl;
 
+import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.manager.TextSummaryManager;
 import com.hekiraku.gemini.mapper.TextSummaryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
+
+import java.util.List;
 
 /**
  * @author bytedance<bytedance @ bytedance.com>
@@ -32,5 +35,10 @@ public class TextSummaryManagerImpl implements TextSummaryManager {
             return;
         }
         textSummaryMapper.createTextSummary(textSummaryEntity);
+    }
+
+    @Override
+    public List<TextSummaryEntity> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto) {
+        return textSummaryMapper.selectOpenTextByCreateDayAndSoulChar(textReadDto);
     }
 }

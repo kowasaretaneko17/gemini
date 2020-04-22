@@ -7,6 +7,7 @@ import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
+import com.hekiraku.gemini.domain.vo.TextSummaryVo;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
 import com.hekiraku.gemini.manager.TextDetailManager;
 import com.hekiraku.gemini.manager.TextRecordManager;
@@ -23,6 +24,8 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
+import java.util.Collection;
+import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 
@@ -72,6 +75,7 @@ public class TextRecordManagerImpl implements TextRecordManager {
         return textUserManager.selectTextByDayUsrChar(textReadDto);
     }
 
+
     @Override
     public List<List<SoulCharVo>> selectSoulDiaryByUserAndYear(String years, Long userId) {
         List<List<SoulCharVo>> soulCharList = new ArrayList<>();
@@ -107,5 +111,13 @@ public class TextRecordManagerImpl implements TextRecordManager {
             soulCharList.add(soulCharVos);
         }
         return soulCharList;
+    }
+
+    @Override
+    public List<TextSummaryVo> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto) {
+        List<TextSummaryEntity> textSummaryEntities = textSummaryManager.selectOpenTextByCreateDayAndSoulChar(textReadDto);
+        List<TextSummaryVo> textSummaryVos =Collections.EMPTY_LIST;
+        return textSummaryVos;
+
     }
 }

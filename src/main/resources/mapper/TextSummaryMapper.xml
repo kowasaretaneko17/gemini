@@ -4,6 +4,8 @@
     <resultMap id="textSummaryInfo" type="com.hekiraku.gemini.domain.vo.TextSummaryVo">
         <collection property="textDetail" column="text_id" select="com.hekiraku.gemini.mapper.TextDetailMapper.selectByTextId"/>
     </resultMap>
+    <resultMap id="textSummaryEntity" type="com.hekiraku.gemini.domain.entity.TextSummaryEntity">
+    </resultMap>
     <select id="selectByTextId" resultMap="textSummaryInfo">
         select *,
         gts.text_id as textId,
@@ -30,4 +32,13 @@
         text_summary=#{textSummary}
         where text_id=#{textId}
     </update>
+    <select id="selectOpenTextByCreateDayAndSoulChar" resultMap="textSummaryEntity">
+        select *
+        from g_text_summary
+        where
+        date_format(create_time,'%Y-%m-%d')=#{createDay}
+        <if test="soulChar !=null and soulChar != ''">
+          and soul_char = #{soulChar}
+        </if>
+    </select>
 </mapper>
