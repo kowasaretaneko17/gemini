@@ -8,7 +8,10 @@ import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
+import com.hekiraku.gemini.manager.TextDetailManager;
 import com.hekiraku.gemini.manager.TextRecordManager;
+import com.hekiraku.gemini.manager.TextSummaryManager;
+import com.hekiraku.gemini.manager.TextUserManager;
 import com.hekiraku.gemini.mapper.TextDetailMapper;
 import com.hekiraku.gemini.mapper.TextSummaryMapper;
 import com.hekiraku.gemini.mapper.TextUserMapper;
@@ -23,6 +26,8 @@ import java.util.ArrayList;
 import java.util.List;
 import java.util.stream.Collectors;
 
+import static com.hekiraku.gemini.utils.EntityUtil.setCommonField;
+
 /**
  * 构建组：大道金服科技部
  * 作者:weiyimeng
@@ -33,40 +38,44 @@ import java.util.stream.Collectors;
 @Component
 public class TextRecordManagerImpl implements TextRecordManager {
     @Autowired
-    private TextUserMapper textUserMapper;
+    private TextUserManager textUserManager;
     @Autowired
-    private TextSummaryMapper textSummaryMapper;
+    private TextSummaryManager textSummaryManager;
     @Autowired
-    private TextDetailMapper textDetailMapper;
+    private TextDetailManager textDetailManager;
+
 
     @Override
     @Transactional
     public void createOrUpdateText (TextWriteDto textWriteDto) {
         //文章-用户表
-        TextUserEntity textUserEntity = BeanUtils.copyProperties(TextUserEntity.class,textWriteDto);
+        TextUserEntity textUserEntity = TextUserEntity.builder().build();
+        BeanUtils.copyNotNullProperties(textUserEntity,textWriteDto);
         //文章-简述表
-        TextSummaryEntity textSummaryEntity = BeanUtils.copyProperties(TextSummaryEntity.class,textWriteDto);
+        TextSummaryEntity textSummaryEntity = TextSummaryEntity.builder().build();
+        BeanUtils.copyNotNullProperties(textSummaryEntity,textWriteDto);
         //文章-内容表
-        TextDetailEntity textDetailEntity = BeanUtils.copyProperties(TextDetailEntity.class,textWriteDto);
-        textUserMapper.createOrUpdateTextUser(textUserEntity);
-        textSummaryMapper.createOrUpdateTextSummary(textSummaryEntity);
-        textDetailMapper.createOrUpdateTextDetail(textDetailEntity);
+        TextDetailEntity textDetailEntity = TextDetailEntity.builder().build();
+        BeanUtils.copyNotNullProperties(textDetailEntity,textWriteDto);
+        textUserManager.createOrUpdateTextUser(textUserEntity);
+        textSummaryManager.createOrUpdateTextSummary(textSummaryEntity);
+        textDetailManager.createOrUpdateTextDetail(textDetailEntity);
     }
 
     @Override
     public TextUserVo selectTextByTextReadDto(TextReadDto textReadDto) {
-        return textUserMapper.selectTextByTextReadDto(textReadDto);
+        return textUserManager.selectTextByTextReadDto(textReadDto);
     }
 
     @Override
     public TextUserEntity selectTextByDayUsrChar(TextReadDto textReadDto) {
-        return textUserMapper.selectTextByDayUsrChar(textReadDto);
+        return textUserManager.selectTextByDayUsrChar(textReadDto);
     }
 
     @Override
     public List<List<SoulCharVo>> selectSoulDiaryByUserAndYear(String years, Long userId) {
         List<List<SoulCharVo>> soulCharList = new ArrayList<>();
-        List<SoulCharDateVo> soulCharDateVos = textUserMapper.selectSoulDiaryByUserAndYear(years,userId);
+        List<SoulCharDateVo> soulCharDateVos = textUserManager.selectSoulDiaryByUserAndYear(years,userId);
         //12个月
         for(int i = 1;i<=12;i++) {
             List<SoulCharVo> soulCharVos = new ArrayList<>();

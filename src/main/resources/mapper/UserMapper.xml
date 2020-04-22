@@ -7,15 +7,16 @@
     </resultMap>
     <insert id="createOrUpdateUser" parameterType="com.hekiraku.gemini.domain.entity.UserEntity">
         insert into g_user
+        (user_id,identity_code,nick_name,phone,password,email,create_user_id,update_user_id)
         values
-        user_id=#{userId},
-        identity_code=#{identityCode},
-        nick_name=#{nickName},
-        phone=#{phone},
-        password=#{password},
-        email=#{email},
-        create_user_id=#{createUserId},
-        update_user_id=#{updateUserId}
+        ({userId},
+        #{identityCode},
+        #{nickName},
+        #{phone},
+        #{password},
+        #{email},
+        #{createUserId},
+        #{updateUserId})
         ON DUPLICATE KEY UPDATE
         nick_name=#{nickName},
         phone=#{phone},
@@ -36,4 +37,25 @@
         from g_user gu
         where gu.user_id = #{userId}
     </select>
+    <select id="selectByEmail" resultMap="userInfo">
+        select gu.user_id as userId,gu.*
+        from g_user gu
+        where gu.email = #{email}
+    </select>
+    <select id="selectByPhone" resultMap="userInfo">
+        select gu.user_id as userId,gu.*
+        from g_user gu
+        where gu.phone = #{phone}
+    </select>
+    <select id="selectByNickName" resultMap="userInfo">
+        select gu.user_id as userId,gu.*
+        from g_user gu
+        where gu.nick_name = #{nickName}
+    </select>
+    <insert id="addRoleForUser" parameterType="java.lang.Long">
+        insert into g_user_role
+        values
+        user_id=#{userId},
+        role_id=#{roleId}
+    </insert>
 </mapper>

@@ -14,12 +14,13 @@
     <!--生成或更新一条角色信息-->
     <insert id="createOrUpdateRole" parameterType="com.hekiraku.gemini.domain.entity.RoleEntity">
         insert into g_role
+        (role_id,role_code,role_name,create_user_id,update_user_id)
         values
-        role_id=#{roleId},
-        role_code=#{roleCode},
-        role_name=#{roleName},
-        create_user_id=#{createUserId},
-        update_user_id=#{updateUserId}
+        (#{roleId},
+        #{roleCode},
+        #{roleName},
+        #{createUserId},
+        #{updateUserId})
         ON DUPLICATE KEY UPDATE
         role_name=#{roleName},
         update_user_id=#{updateUserId},
@@ -31,6 +32,5 @@
         select *
         from g_role gr
         where gr.role_code = #{roleCode}
-        and gr.delete_flag = 0;
     </select>
 </mapper>

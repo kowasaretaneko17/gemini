@@ -4,6 +4,8 @@ import com.hekiraku.gemini.domain.entity.UserEntity;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import org.apache.ibatis.annotations.*;
 
+import java.util.List;
+
 /**
  * 构建组：大道金服科技部
  * 作者:weiyimeng
@@ -25,5 +27,5 @@ public interface UserMapper {
 
     int createOrUpdateUser(UserEntity userEntity);
 
-    int addRoleForUser(Long roleId,Long userId);
+    int addRoleForUser(Long roleId, Long userId);
 }

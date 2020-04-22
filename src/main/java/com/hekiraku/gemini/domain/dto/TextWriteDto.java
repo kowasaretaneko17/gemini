@@ -8,6 +8,7 @@
  **/
 package com.hekiraku.gemini.domain.dto;
 
+import com.hekiraku.gemini.domain.base.BaseEntity;
 import com.hekiraku.gemini.domain.base.SerializableEntity;
 import lombok.Getter;
 import lombok.Setter;
@@ -22,7 +23,7 @@ import java.util.Date;
  */
 @Setter
 @Getter
-public class TextWriteDto extends SerializableEntity {
+public class TextWriteDto extends BaseEntity {
     /**
      * 人格
      */

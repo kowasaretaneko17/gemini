@@ -1,5 +1,33 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hekiraku.gemini.mapper.TextSummaryMapper">
-
+    <resultMap id="textSummaryInfo" type="com.hekiraku.gemini.domain.vo.TextSummaryVo">
+        <collection property="textDetail" column="text_id" select="com.hekiraku.gemini.mapper.TextDetailMapper.selectByTextId"/>
+    </resultMap>
+    <select id="selectByTextId" resultMap="textSummaryInfo">
+        select *,
+        gts.text_id as textId,
+        date_format(gts.create_time,'%Y-%m-%d') as createDay
+        from g_text_summary gts
+        where gts.text_id = #{textId}
+    </select>
+    <insert id="createTextSummary" parameterType="com.hekiraku.gemini.domain.entity.TextSummaryEntity">
+        insert into g_text_summary
+        (text_id,text_title,text_summary,soul_char,create_user_id,update_user_id)
+        values
+        (#{textId},
+        #{textTitle},
+        #{textSummary},
+        #{soulChar},
+        #{createUserId},
+        #{updateUserId})
+    </insert>
+    <update id="updateTextSummary" parameterType="com.hekiraku.gemini.domain.entity.TextSummaryEntity">
+        update g_text_summary
+        set
+        update_user_id=#{updateUserId},
+        text_title=#{textTitle},
+        text_summary=#{textSummary}
+        where text_id=#{textId}
+    </update>
 </mapper>

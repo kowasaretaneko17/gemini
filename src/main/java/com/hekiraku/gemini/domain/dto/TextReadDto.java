@@ -37,5 +37,5 @@ public class TextReadDto extends SerializableEntity {
     /**
      * 日期
      */
-    private Date createDay;
+    private String createDay;
 }

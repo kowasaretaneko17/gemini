@@ -24,12 +24,15 @@ public interface TextDetailMapper {
     /**
      * 根据文章id获取文章详情
      */
-    @SelectProvider(type= TextDetailDynaSqlProvider.class,method = "selectByTextId")
     TextDetailEntity selectByTextId(Long textId);
 
     /**
-     * 插入或更新
+     * 插入
      */
-    @SelectProvider(type= TextDetailDynaSqlProvider.class,method = "createOrUpdateTextDetail")
-    int createOrUpdateTextDetail(TextDetailEntity textDetailEntity);
+    int createTextDetail(TextDetailEntity textDetailEntity);
+    /**
+     * 更新
+     */
+    int updateTextDetail(TextDetailEntity textDetailEntity);
+
 }

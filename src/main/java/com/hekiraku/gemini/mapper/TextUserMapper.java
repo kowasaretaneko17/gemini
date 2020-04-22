@@ -21,26 +21,26 @@ public interface TextUserMapper {
     /**
      * 插入一篇日记
      */
-    @InsertProvider(type = TextUserDynaSqlProvider.class, method = "createOrUpdateTextUser")
-    int createOrUpdateTextUser(TextUserEntity textRecordEntity);
+    int createTextUser(TextUserEntity textUserEntity);
+
+    /**
+     * 更新一篇日记
+     * @param textUserEntity
+     * @return
+     */
+    int updateTextUser(TextUserEntity textUserEntity);
 
     /**
      * 获取日记
      */
-    @SelectProvider(type = TextUserDynaSqlProvider.class,method = "selectTextByDayUsrChar")
-    @Results(id = "textSummary",value = {
-            @Result(property = "textSummary",column = "textId",javaType = TextDetailVo.class,many = @Many(select = "com.hekiraku.gemini.mapper.TextSummary.selectByTextId"))
-    })
     public TextUserVo selectTextByTextReadDto(TextReadDto textReadDto);
     /**
      * 根据日期，用户编号，人格状态获取日记
      */
-    @SelectProvider(type = TextUserDynaSqlProvider.class, method = "selectTextByDayUsrChar")
     TextUserEntity selectTextByDayUsrChar(TextReadDto textReadDto);
 
     /**
      * 获取全年的写了日记的日期，及性格，用做展示
      */
-    @SelectProvider(type = TextUserDynaSqlProvider.class, method = "selectSoulDiaryByUserAndYear")
-    List<SoulCharDateVo> selectSoulDiaryByUserAndYear(String years, Long userNum);
+    List<SoulCharDateVo> selectSoulDiaryByUserAndYear(String years, Long userId);
 }

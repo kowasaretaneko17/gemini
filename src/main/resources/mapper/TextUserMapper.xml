@@ -1,5 +1,52 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.hekiraku.gemini.mapper.TextUserMapper">
-
+    <resultMap id="textInfo" type="com.hekiraku.gemini.domain.vo.TextUserVo">
+        <collection property="textSummaryVos" column="text_id" select="com.hekiraku.gemini.mapper.TextSummaryMapper.selectByTextId"/>
+    </resultMap>
+    <resultMap id="soulCharDateInfo" type="com.hekiraku.gemini.domain.vo.SoulCharDateVo">
+    </resultMap>
+    <resultMap id="textUserEntity" type="com.hekiraku.gemini.domain.entity.TextUserEntity">
+    </resultMap>
+    <select id="selectTextByTextReadDto" resultMap="textInfo">
+        select *,gtu.text_id
+        from g_text_user gtu
+        where gtu.user_id = #{userId}
+        and date_format(gtu.create_time,'%Y-%m-%d') = #{createDay}
+        and soul_char = #{soulChar}
+    </select>
+    <insert id="createTextUser" parameterType="com.hekiraku.gemini.domain.entity.TextUserEntity">
+        insert into g_text_user
+        (user_id,text_id,soul_char,create_user_id,update_user_id)
+        values
+        (#{userId},
+        #{textId},
+        #{soulChar},
+        #{createUserId},
+        #{updateUserId})
+    </insert>
+    <update id="updateTextUser" parameterType="com.hekiraku.gemini.domain.entity.TextUserEntity">
+        update g_text_user
+        set
+        update_user_id=#{updateUserId}
+        where text_id=#{textId}
+    </update>
+    <!--根据用户与年份获取日记记录-->
+    <select id="selectSoulDiaryByUserAndYear" resultMap="soulCharDateInfo">
+        select soul_char,
+        DAY(create_time) as `day`,
+        MONTH(create_time) as `month`,
+        YEAR(create_time) as `year`
+        from g_text_user
+        where
+        user_id=#{userId}
+        and YEAR(create_time) = #{years}
+    </select>
+    <select id="selectTextByDayUsrChar" resultMap="textUserEntity">
+        select *
+        from g_text_user gtu
+        where gtu.user_id = #{userId}
+        and date_format(gtu.create_time,'%Y-%m-%d') = #{createDay}
+        and soul_char = #{soulChar}
+    </select>
 </mapper>

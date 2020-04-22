@@ -21,13 +21,12 @@ public interface TextRecordManager {
      * @return
      */
     void createOrUpdateText(TextWriteDto textWriteDto);
-
     /**
      * 根据日期，用户编号，人格状态获取日记
      */
     TextUserVo selectTextByTextReadDto(TextReadDto textReadDto);
     /**
-     *
+     * 根据日期，用户编号，人格状态获取日记
      */
     TextUserEntity selectTextByDayUsrChar(TextReadDto textReadDto);
      /**

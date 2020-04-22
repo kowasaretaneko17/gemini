@@ -14,12 +14,13 @@
     <!--生成或更新一条资源信息-->
     <insert id="createOrUpdateResource" parameterType="com.hekiraku.gemini.domain.entity.ResourceEntity">
         insert into g_resource
+        (resource_id,resource_code,resource_name,create_user_id,update_user_id)
         values
-        resource_id=#{resourceId},
-        resource_code=#{resourceCode},
-        resource_name=#{resourceName},
-        create_user_id=#{createUserId},
-        update_user_id=#{updateUserId}
+        (#{resourceId},
+        #{resourceCode},
+        #{resourceName},
+        #{createUserId},
+        #{updateUserId})
         ON DUPLICATE KEY UPDATE
         resource_name=#{resourceName},
         update_user_id=#{updateUserId},

@@ -26,6 +26,8 @@ import java.util.Date;
 import java.util.List;
 import java.util.Optional;
 
+import static com.hekiraku.gemini.utils.EntityUtil.setCommonField;
+
 /**
  * 构建组：大道金服科技部
  * 作者:weiyimeng
@@ -51,25 +53,28 @@ public class TextRecordServiceImpl implements TextRecordService {
     public ApiResult<TextUserVo> writeRecord(TextWriteDto textWriteDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
         Long userId = userInfoVo.getUserId();
+        textWriteDto.setUserId(userId);
         String createDay = Optional.ofNullable(textWriteDto.getCreateDay()).orElse(LocalDate.now().toString());
         textWriteDto.setCreateDay(createDay);
         Validate.notEmpty(textWriteDto.getSoulChar(),"人格信息不能为空");
-        TextReadDto textReadDto = BeanUtils.copyProperties(TextReadDto.class,textWriteDto);
+        TextReadDto textReadDto = new TextReadDto();
+        BeanUtils.copyNotNullProperties(textReadDto,textWriteDto);
         TextUserEntity textUserEntity = textRecordManager.selectTextByDayUsrChar(textReadDto);
         if(textUserEntity==null){
             Long textId = SnowFlakeUtils.nextId();
+            textWriteDto.setTextId(textId);
+        }else {
+            textWriteDto.setTextId(textUserEntity.getTextId());
         }
         //如果没有就新增
-        Long textId = textUserEntity.getTextId();
-        textWriteDto.setUserId(userId);
-        textWriteDto.setTextId(textId);
+        setCommonField(textWriteDto);
         textRecordManager.createOrUpdateText(textWriteDto);
         return ApiResult.successMsg("成功创建/更新日记");
     }
 
     /**
      * 根据日期，人格，和用户num获取日记
-     * @param textRecordDto
+     * @param
      * @return
      * @throws Exception
      */
