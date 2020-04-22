@@ -8,12 +8,7 @@
  **/
 package com.hekiraku.gemini.mapper;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
-import com.hekiraku.gemini.domain.vo.TextDetailVo;
 import com.hekiraku.gemini.domain.vo.TextSummaryVo;
-import com.hekiraku.gemini.mapper.provider.TextSummaryDynaSqlProvider;
-import org.apache.ibatis.annotations.*;
-
-import java.util.List;
 
 /**
  * 文章简述表

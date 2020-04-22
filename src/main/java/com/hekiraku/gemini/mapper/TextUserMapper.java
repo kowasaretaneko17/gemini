@@ -3,10 +3,7 @@ package com.hekiraku.gemini.mapper;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
-import com.hekiraku.gemini.domain.vo.TextDetailVo;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
-import com.hekiraku.gemini.mapper.provider.TextUserDynaSqlProvider;
-import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 

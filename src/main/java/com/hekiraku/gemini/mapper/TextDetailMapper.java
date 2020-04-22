@@ -9,9 +9,6 @@
 package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.domain.entity.TextDetailEntity;
-import com.hekiraku.gemini.mapper.provider.TextDetailDynaSqlProvider;
-import org.apache.ibatis.annotations.Select;
-import org.apache.ibatis.annotations.SelectProvider;
 
 /**
  * 文章详情表
