@@ -45,10 +45,10 @@ public class JWTUtil {
      * @return 是否正确
      * token中只存放userNum保障用户信息，userName其实虽然是账号唯一，但是其实账号也应该保护起来，不要暴露，还是唯一编码吧。
      */
-    public static ApiResult verify(String token, String userNum, String secret) {
+    public static ApiResult verify(String token, Long userId, String secret) {
         try {
             Algorithm algorithm = Algorithm.HMAC256(secret);
-            JWTVerifier verifier = JWT.require(algorithm).withClaim("userNum", userNum).build();
+            JWTVerifier verifier = JWT.require(algorithm).withClaim("userId", userId).build();
             DecodedJWT jwt = verifier.verify(token);
             return ApiResult.successMsg("token检验正确");
         } catch (Exception e) {
@@ -74,10 +74,10 @@ public class JWTUtil {
     /**
      * 获取token中的userId
      */
-    public static String getUserId(String token) {
+    public static Long getUserId(String token) {
         try {
             DecodedJWT jwt = JWT.decode(token);
-            return jwt.getClaim("userId").asString();
+            return jwt.getClaim("userId").asLong();
         } catch (JWTDecodeException e) {
             log.error("获取token中用户编码信息异常:{}", e);
             return null;
@@ -95,8 +95,6 @@ public class JWTUtil {
             Date date = new Date(System.currentTimeMillis() + (Long.parseLong(tokenExpireTime) * 60 * 1000));
             //密码MD5加密
             Algorithm algorithm = Algorithm.HMAC256(userInfoVo.getPassword());
-            // usernum信息
-            //删掉.withClaim("userName", userInfoVo.getUserName())，只在token中带上userNum就可以了
             return JWT.create()
                     .withClaim("userId", userInfoVo.getUserId()).withExpiresAt(date).sign(algorithm);
         } catch (Exception e) {

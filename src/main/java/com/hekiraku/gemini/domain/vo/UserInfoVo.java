@@ -5,12 +5,11 @@ import com.hekiraku.gemini.domain.base.SerializableEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
+import org.apache.commons.collections.CollectionUtils;
 
 import java.io.Serializable;
-import java.util.HashSet;
-import java.util.Iterator;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
+import java.util.stream.Collectors;
 
 /**
  * 构建组：大道金服科技部
@@ -44,31 +43,19 @@ public class UserInfoVo extends SerializableEntity {
     private Integer lock;
     @JsonIgnore
     private List<RoleVo> roles;
-    @ApiModelProperty(name = "setRoles",notes = "角色信息",dataType = "Set<String>")
-    public Set<String> getSetRoles(){
-        Set<String> setRoles = new HashSet<>();
-        if(roles.isEmpty()||roles==null){
-            return setRoles;
-        }
-        Iterator<RoleVo> listRoles = roles.iterator();
-        while(listRoles.hasNext()){
-            RoleVo roleVo = listRoles.next();
-            setRoles.add(roleVo.getRoleName());
-        }
-        return setRoles;
+    @ApiModelProperty(name = "setRoles",notes = "角色信息",dataType = "Set<RoleVo>")
+    public Set<RoleVo> getSetRoles(){
+        return roles.stream().collect(Collectors.toSet());
     }
-    @ApiModelProperty(name = "SetResources",notes = "资源信息",dataType = "Set<String>")
-    public Set<String> getSetResources(){
-        Set<String> setResources = new HashSet<>();
-        if(roles.isEmpty()||roles==null){
-            return setResources;
+    @ApiModelProperty(name = "SetResources",notes = "资源信息",dataType = "Set<ResourceVo>")
+    public Set<ResourceVo> getSetResources(){
+        if(CollectionUtils.isEmpty(roles)){
+            return new HashSet<ResourceVo>();
         }
-        Iterator<RoleVo> listRoles = roles.iterator();
-        while(listRoles.hasNext()){
-            RoleVo roleVo = listRoles.next();
-            setResources.addAll(roleVo.getSetResources());
+        Set<ResourceVo> resourceVos = new HashSet<>();
+        for(RoleVo roleVo :roles){
+            resourceVos.addAll(roleVo.getSetResources());
         }
-        return setResources;
+        return resourceVos;
     }
-
 }

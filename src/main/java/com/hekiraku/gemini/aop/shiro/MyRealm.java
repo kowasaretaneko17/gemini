@@ -5,6 +5,8 @@ import com.auth0.jwt.exceptions.TokenExpiredException;
 import com.hekiraku.gemini.aop.jwt.JWTToken;
 import com.hekiraku.gemini.aop.jwt.JWTUtil;
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.domain.vo.ResourceVo;
+import com.hekiraku.gemini.domain.vo.RoleVo;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.mapper.UserMapper;
 import lombok.extern.slf4j.Slf4j;
@@ -16,6 +18,8 @@ import org.apache.shiro.subject.PrincipalCollection;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.redis.core.RedisTemplate;
 import org.springframework.util.StringUtils;
+
+import java.util.stream.Collectors;
 
 import static java.lang.Long.getLong;
 
@@ -46,12 +50,12 @@ public class MyRealm extends AuthorizingRealm {
      */
     @Override
     protected AuthorizationInfo doGetAuthorizationInfo(PrincipalCollection principals) {
-        String userId = JWTUtil.getUserId(principals.toString());
+        Long userId = JWTUtil.getUserId(principals.toString());
         SimpleAuthorizationInfo auth = new SimpleAuthorizationInfo();
         try {
-            UserInfoVo vo = this.userMapper.selectByUserId(getLong(userId));
-            auth.setRoles(vo.getSetRoles());
-            auth.setStringPermissions((vo.getSetResources()));
+            UserInfoVo vo = this.userMapper.selectByUserId(userId);
+            auth.setRoles(vo.getSetRoles().stream().map(RoleVo::getRoleCode).collect(Collectors.toSet()));
+            auth.setStringPermissions((vo.getSetResources().stream().map(ResourceVo::getResourceCode).collect(Collectors.toSet())));
         } catch (Exception e) {
             log.error("授权认证出现异常：{}",e);
         }
@@ -69,8 +73,8 @@ public class MyRealm extends AuthorizingRealm {
     protected AuthenticationInfo doGetAuthenticationInfo(AuthenticationToken auth) throws AuthenticationException {
         String token = (String) auth.getCredentials();
         // 解密获得userName，用于和数据库进行对比
-        String userId = JWTUtil.getUserId(token);
-        UserInfoVo vo = this.userMapper.selectByUserId(getLong(userId));
+        Long userId = JWTUtil.getUserId(token);
+        UserInfoVo vo = this.userMapper.selectByUserId(userId);
         String redisUserInfo = (String) redisTemplate.opsForValue().get("token_jwt_" + userId);
 
         ApiResult result = JWTUtil.verify(token, userId, vo.getPassword());

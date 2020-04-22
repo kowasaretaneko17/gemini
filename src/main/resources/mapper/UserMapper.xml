@@ -31,4 +31,9 @@
         from g_user gu
         where gu.identity_code = #{identityCode}
     </select>
+    <select id="selectByUserId" resultMap="userInfo">
+        select gu.user_id as userId,gu.*
+        from g_user gu
+        where gu.user_id = #{userId}
+    </select>
 </mapper>

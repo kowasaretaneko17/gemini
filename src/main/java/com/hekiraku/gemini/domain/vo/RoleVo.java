@@ -9,6 +9,7 @@ import java.util.HashSet;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Set;
+import java.util.stream.Collectors;
 
 /**
  * 构建组：大道金服科技部
@@ -38,16 +39,7 @@ public class RoleVo extends SerializableEntity {
     @JsonIgnore
     private List<ResourceVo> resources;
     @JsonIgnore
-    public Set<String> getSetResources(){
-        Set<String> setRoles = new HashSet<>();
-        if(resources.isEmpty()||resources==null){
-            return setRoles;
-        }
-        Iterator<ResourceVo> listRoles = resources.iterator();
-        while(listRoles.hasNext()){
-            ResourceVo roleVo = listRoles.next();
-            setRoles.add(roleVo.getResourceName());
-        }
-        return setRoles;
+    public Set<ResourceVo> getSetResources(){
+        return resources.stream().collect(Collectors.toSet());
     }
 }

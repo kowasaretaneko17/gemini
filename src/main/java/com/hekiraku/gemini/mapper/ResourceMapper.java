@@ -2,8 +2,6 @@ package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.domain.entity.ResourceEntity;
 import com.hekiraku.gemini.domain.vo.ResourceVo;
-import com.hekiraku.gemini.mapper.provider.ResourceDynaSqlProvider;
-import org.apache.ibatis.annotations.SelectProvider;
 
 import java.util.List;
 

@@ -2,10 +2,7 @@ package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.domain.entity.UserEntity;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;
-import com.hekiraku.gemini.mapper.provider.UserDynaSqlProvider;
 import org.apache.ibatis.annotations.*;
-
-import java.util.List;
 
 /**
  * 构建组：大道金服科技部
@@ -16,18 +13,14 @@ import java.util.List;
  */
 public interface UserMapper {
 
-    @ResultMap("userMap")
     UserInfoVo selectByUserId(Long userId);
 
     UserInfoVo selectByIdentityCode(String identityCode);
 
-    @ResultMap("userMap")
     UserInfoVo selectByNickName(String nickName);
 
-    @ResultMap("userMap")
     UserInfoVo selectByPhone(String phone);
 
-    @ResultMap("userMap")
     UserInfoVo selectByEmail(String email);
 
     int createOrUpdateUser(UserEntity userEntity);

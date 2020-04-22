@@ -2,8 +2,6 @@ package com.hekiraku.gemini.mapper;
 
 import com.hekiraku.gemini.domain.entity.RoleEntity;
 import com.hekiraku.gemini.domain.vo.RoleVo;
-import com.hekiraku.gemini.mapper.provider.RoleDynaSqlProvider;
-import org.apache.ibatis.annotations.*;
 
 import java.util.List;
 
