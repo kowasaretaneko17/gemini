@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.controller;
+package com.hekiraku.gemini.controller.user;
 
 import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;

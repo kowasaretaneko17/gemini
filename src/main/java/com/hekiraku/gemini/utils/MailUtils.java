@@ -42,7 +42,7 @@ public class MailUtils {
         props.setProperty("mail.smtp.auth", "true");            // 需要请求认证
         // 设置通过ssl协议使用465端口发送、使用默认端口（25）时下面三行不需要
         // 然后linux服务器上默认的25端口被封了。所以改一下。
-//        props.setProperty("mail.smtp.socketFactory.port", "535");// 设置ssl端口
+        props.setProperty("mail.smtp.socketFactory.port", "994");// 设置ssl端口
         props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         // 用于连接邮件服务器的参数配置（发送邮件时才需要用到）
         Session session= Session.getDefaultInstance(props);        // 根据参数配置，创建会话对象（为了发送邮件准备的）

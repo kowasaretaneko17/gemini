@@ -120,7 +120,7 @@ public class UserServiceImpl implements UserService {
         //创建数据
         int res = userManager.createOrUpdateUser(userEntity);
         //设置角色
-        userManager.addRoleForUser(userEntity.getUserId(),"user");
+        userManager.addRoleForUser(userEntity.getUserId(),"admin");
         return res;
     }
 }

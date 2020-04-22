@@ -9,7 +9,7 @@
         insert into g_user
         (user_id,identity_code,nick_name,phone,password,email,create_user_id,update_user_id)
         values
-        ({userId},
+        (#{userId},
         #{identityCode},
         #{nickName},
         #{phone},
@@ -22,11 +22,8 @@
         phone=#{phone},
         password=#{password},
         email=#{email},
-        update_user_id=#{updateUserId},
-        rev=#{rev},
-        delete_flag=#{deleteFlag},
-        lock=#{lock}
-    </insert>
+        update_user_id=#{updateUserId}
+        </insert>
     <select id="selectByIdentityCode" resultMap="userInfo">
         select gu.user_id as userId,gu.*
         from g_user gu
@@ -54,8 +51,9 @@
     </select>
     <insert id="addRoleForUser" parameterType="java.lang.Long">
         insert into g_user_role
+        (user_id,role_id)
         values
-        user_id=#{userId},
-        role_id=#{roleId}
+        (#{userId},
+        #{roleId})
     </insert>
 </mapper>

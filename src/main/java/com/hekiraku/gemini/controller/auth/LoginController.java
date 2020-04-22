@@ -1,4 +1,4 @@
-package com.hekiraku.gemini.controller;
+package com.hekiraku.gemini.controller.auth;
 
 import com.alibaba.fastjson.JSON;
 import com.google.code.kaptcha.impl.DefaultKaptcha;
@@ -133,7 +133,7 @@ public class LoginController {
                 return ApiResult.successMsg("验证不通过，请检查验证码");
             }
             UserEntity userEntity = UserEntity.builder().build();
-            BeanUtils.copyProperties(userEntity,userInfoDto);
+            BeanUtils.copyNotNullProperties(userEntity,userInfoDto);
             Long userId = SnowFlakeUtils.nextId();
             userEntity.setUserId(userId);
             userService.createOrUpdateUser(userEntity);

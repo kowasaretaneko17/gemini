@@ -1,5 +1,6 @@
 package com.hekiraku.gemini.controller;
 
+import com.hekiraku.gemini.controller.user.UserController;
 import lombok.extern.slf4j.Slf4j;
 import org.junit.runner.RunWith;
 import org.springframework.beans.factory.annotation.Autowired;
