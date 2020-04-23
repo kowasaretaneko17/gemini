@@ -8,11 +8,19 @@
  **/
 package com.hekiraku.gemini.controller.community;
 
+import com.github.pagehelper.PageInfo;
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
+import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
+import com.hekiraku.gemini.service.TextRecordService;
 import io.swagger.annotations.Api;
 import lombok.extern.slf4j.Slf4j;
+import org.bouncycastle.jcajce.provider.symmetric.TEA;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
+
+import static com.hekiraku.gemini.common.enums.CommunityResultEnums.C_TEXT_OPEN;
 
 /**
  * @author bytedance<bytedance @ bytedance.com>
@@ -24,8 +32,15 @@ import org.springframework.web.bind.annotation.*;
 @RequestMapping("/community")
 @Slf4j
 public class CommunityController {
+    @Autowired
+    TextRecordService textRecordService;
     @PostMapping("getOpenText")
-    public ApiResult getOpenText(){
-        return null;
+    public ApiResult<PageInfo<TextSummaryEntity>> getOpenText(@RequestBody PageParamsDto pageParamsDto){
+        try{
+            return textRecordService.selectOpenTextByCreateDayAndSoulChar(TextReadDto.builder().build(),pageParamsDto);
+        } catch (Exception e) {
+            log.error("获取社区当天开放日及失败,异常为：{}",e);
+            return ApiResult.buildFail(C_TEXT_OPEN.getCode(),C_TEXT_OPEN.getDesc());
+        }
     }
 }

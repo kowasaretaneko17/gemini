@@ -1,5 +1,8 @@
 package com.hekiraku.gemini.manager.impl;
 
+import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
+import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
 import com.hekiraku.gemini.domain.entity.TextDetailEntity;
@@ -13,24 +16,16 @@ import com.hekiraku.gemini.manager.TextDetailManager;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.manager.TextSummaryManager;
 import com.hekiraku.gemini.manager.TextUserManager;
-import com.hekiraku.gemini.mapper.TextDetailMapper;
-import com.hekiraku.gemini.mapper.TextSummaryMapper;
-import com.hekiraku.gemini.mapper.TextUserMapper;
 import com.hekiraku.gemini.utils.BeanUtils;
-import io.swagger.annotations.ApiModelProperty;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Collection;
 import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
-
-import static com.hekiraku.gemini.utils.EntityUtil.setCommonField;
-
 /**
  * 构建组：大道金服科技部
  * 作者:weiyimeng
@@ -114,10 +109,13 @@ public class TextRecordManagerImpl implements TextRecordManager {
     }
 
     @Override
-    public List<TextSummaryVo> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto) {
+    public PageInfo<TextSummaryEntity> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) {
+        if (pageParamsDto != null && pageParamsDto.getPageNum() > 0 && pageParamsDto.getPageSize() > 0) {
+            PageHelper.startPage(pageParamsDto.getPageNum(), pageParamsDto.getPageSize());
+        }else {
+            return new PageInfo<TextSummaryEntity>();
+        }
         List<TextSummaryEntity> textSummaryEntities = textSummaryManager.selectOpenTextByCreateDayAndSoulChar(textReadDto);
-        List<TextSummaryVo> textSummaryVos =Collections.EMPTY_LIST;
-        return textSummaryVos;
-
+        return new PageInfo<>(textSummaryEntities);
     }
 }

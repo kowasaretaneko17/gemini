@@ -1,7 +1,9 @@
 package com.hekiraku.gemini.service.impl;
 
+import com.github.pagehelper.PageInfo;
 import com.hekiraku.gemini.aop.threadLocal.SessionLocal;
 import com.hekiraku.gemini.common.ApiResult;
+import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
@@ -14,6 +16,7 @@ import com.hekiraku.gemini.service.UserService;
 import com.hekiraku.gemini.utils.BeanUtils;
 import com.hekiraku.gemini.utils.SnowFlakeUtils;
 import net.bytebuddy.asm.Advice;
+import org.apache.commons.collections.CollectionUtils;
 import org.apache.commons.lang3.Validate;
 import org.joda.time.DateTime;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -83,10 +86,14 @@ public class TextRecordServiceImpl implements TextRecordService {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
         textReadDto.setUserId(userInfoVo.getUserId());
         TextUserVo textUserVo = textRecordManager.selectTextByTextReadDto(textReadDto);
-        if(textUserVo==null){
-            return ApiResult.successMsg("没有日记");
-        }
         return ApiResult.buildSuccessNormal("成功获取日记",textUserVo);
 
+    }
+
+    @Override
+    public ApiResult<PageInfo<TextSummaryEntity>> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) throws Exception {
+        textReadDto.setCreateDay(LocalDate.now().toString());
+        PageInfo<TextSummaryEntity> textSummaryEntityPageInfo = textRecordManager.selectOpenTextPageByCreateDayAndSoulChar(textReadDto,pageParamsDto);
+        return ApiResult.buildSuccessNormal("成功获取公开日记",textSummaryEntityPageInfo);
     }
 }

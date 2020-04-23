@@ -1,7 +1,10 @@
 package com.hekiraku.gemini.manager;
 
+import com.github.pagehelper.PageInfo;
+import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
+import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.SoulCharVo;
 import com.hekiraku.gemini.domain.vo.TextSummaryVo;
@@ -34,8 +37,9 @@ public interface TextRecordManager {
      * 获取全年的写了日记的日期，及性格，用做展示
      */
     List<List<SoulCharVo>> selectSoulDiaryByUserAndYear(String years, Long userId);
-    /**
-     * 社区用：根据日期，人格查找当天开放日记
+     /**
+     * 分页：社区用：根据日期，人格查找当天开放日记
      */
-    List<TextSummaryVo> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto);
+    PageInfo<TextSummaryEntity> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto);
+
 }

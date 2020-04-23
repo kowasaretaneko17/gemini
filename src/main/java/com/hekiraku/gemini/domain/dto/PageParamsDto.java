@@ -9,35 +9,21 @@
 package com.hekiraku.gemini.domain.dto;
 
 import com.hekiraku.gemini.domain.base.SerializableEntity;
-import lombok.Builder;
 import lombok.Getter;
 import lombok.Setter;
-import lombok.ToString;
-
-import java.io.Serializable;
-import java.util.Date;
 
 /**
- * 读日记传参
- *
  * @author bytedance<bytedance @ bytedance.com>
- * @task
- * @date 04/17/2020
+ * @task 分页参数
+ * @date 04/23/2020 11:19 上午
  */
-@Getter
 @Setter
-@Builder
-public class TextReadDto extends SerializableEntity {
-    /**
-     * 人格
-     */
-    private String soulChar;
-    /**
-     * 用户id
-     */
-    private Long userId;
-    /**
-     * 日期
-     */
-    private String createDay;
+@Getter
+public class PageParamsDto extends SerializableEntity {
+    private int pageNum;
+    private int pageSize;
+    public PageParamsDto(){
+        this.pageNum=1;
+        this.pageSize=10;
+    }
 }
