@@ -27,7 +27,7 @@ public class RoleVo extends SerializableEntity {
     /**
      * 角色id
      */
-    private Long roleId;
+    private String roleId;
     /**
      * 角色编码
      */

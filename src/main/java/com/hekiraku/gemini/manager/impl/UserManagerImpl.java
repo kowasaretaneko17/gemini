@@ -8,6 +8,8 @@ import com.hekiraku.gemini.mapper.UserMapper;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
+import static java.lang.Long.getLong;
+
 /**
  * 构建组：gemini星云总线技术总局
  * 作者:hekiraku
@@ -54,7 +56,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public int addRoleForUser(Long userId, String roleName) {
-        Long roleId = roleMapper.selectByRoleCode(roleName).getRoleId();
+        Long roleId = getLong(roleMapper.selectByRoleCode(roleName).getRoleId());
         return userMapper.addRoleForUser(roleId,userId);
     }
 }

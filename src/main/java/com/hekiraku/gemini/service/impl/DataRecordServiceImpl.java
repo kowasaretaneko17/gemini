@@ -13,6 +13,8 @@ import org.springframework.util.StringUtils;
 
 import java.util.List;
 
+import static java.lang.Long.getLong;
+
 /**
  * 根据日期/性格等获取相应的数据
  * 主要是个人页面上的日期记录获取
@@ -28,7 +30,7 @@ public class DataRecordServiceImpl implements DataRecordService {
     public ApiResult getYearsDiary(String years){
         String year = StringUtils.isEmpty(years)?new DateTime().year().toString():years;
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
-        Long userId = userInfoVo.getUserId();
+        Long userId = getLong(userInfoVo.getUserId());
         List<List<SoulCharVo>> result = textRecordManager.selectSoulDiaryByUserAndYear(year,userId);
         return ApiResult.buildSuccessNormal("获取全年记录成功",result);
     }

@@ -21,7 +21,7 @@ public class ResourceVo extends SerializableEntity {
     /**
      * 资源id
      */
-    private Long resourceId;
+    private String resourceId;
     /**
      * 资源编码
      */

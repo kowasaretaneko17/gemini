@@ -31,6 +31,7 @@ import java.util.List;
 import java.util.Optional;
 
 import static com.hekiraku.gemini.utils.EntityUtil.setCommonField;
+import static java.lang.Long.getLong;
 
 /**
  * 构建组：gemini星云总线技术总局
@@ -56,7 +57,7 @@ public class TextRecordServiceImpl implements TextRecordService {
     @Transactional
     public ApiResult<TextUserVo> writeRecord(TextWriteDto textWriteDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
-        Long userId = userInfoVo.getUserId();
+        Long userId = getLong(userInfoVo.getUserId());
         textWriteDto.setUserId(userId);
         String createDay = Optional.ofNullable(textWriteDto.getCreateDay()).orElse(LocalDate.now().toString());
         textWriteDto.setCreateDay(createDay);
@@ -85,7 +86,7 @@ public class TextRecordServiceImpl implements TextRecordService {
     @Override
     public ApiResult<TextUserVo> readRecord(TextReadDto textReadDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
-        textReadDto.setUserId(userInfoVo.getUserId());
+        textReadDto.setUserId(getLong(userInfoVo.getUserId()));
         TextUserVo textUserVo = textRecordManager.selectTextByTextReadDto(textReadDto);
         return ApiResult.buildSuccessNormal("成功获取日记",textUserVo);
 
