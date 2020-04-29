@@ -6,9 +6,9 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
 /**
- * 构建组：大道金服科技部
- * 作者:weiyimeng
- * 邮箱:weiyimeng@ddjf.com.cn
+ * 构建组：gemini星云总线技术总局
+ * 作者:hekiraku
+ * 邮箱:hekiraku@foxmail.com
  * 日期:2019/1/23
  * 功能说明：
  */

@@ -1,7 +1,7 @@
 /**
  * *****************************************************
- * Copyright (C) 2020 bytedance.com. All Rights Reserved
- * This file is part of bytedance EA project.
+ * Copyright (C) 2020 geminiif.com.cn. All Rights Reserved
+ * This file is part of gemini center tech project.
  * Unauthorized copy of this file, via any medium is strictly prohibited.
  * Proprietary and Confidential.
  * ****************************************************
@@ -23,7 +23,7 @@ import org.springframework.web.bind.annotation.*;
 import static com.hekiraku.gemini.common.enums.CommunityResultEnums.C_TEXT_OPEN;
 
 /**
- * @author bytedance<bytedance @ bytedance.com>
+ * @author hekiraku<hekiraku@foxmail.com>
  * @task 社区
  * @date 04/22/2020 6:35 下午
  */
@@ -43,4 +43,5 @@ public class CommunityController {
             return ApiResult.buildFail(C_TEXT_OPEN.getCode(),C_TEXT_OPEN.getDesc());
         }
     }
+
 }

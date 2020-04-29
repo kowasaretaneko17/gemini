@@ -36,8 +36,8 @@ import static com.hekiraku.gemini.utils.DESUtils.MD5;
 
 /**
  * 构建组：
- * 作者:weiyimeng
- * 邮箱:weiyimeng@ddjf.com.cn
+ * 作者:hekiraku
+ * 邮箱:hekiraku@foxmail.com
  * 日期:2019/1/23
  * 功能说明：
  */

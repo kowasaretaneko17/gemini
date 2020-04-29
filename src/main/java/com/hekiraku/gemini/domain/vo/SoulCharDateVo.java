@@ -1,7 +1,7 @@
 /**
  * *****************************************************
- * Copyright (C) 2020 bytedance.com. All Rights Reserved
- * This file is part of bytedance EA project.
+ * Copyright (C) 2020 geminiif.com.cn. All Rights Reserved
+ * This file is part of gemini center tech project.
  * Unauthorized copy of this file, via any medium is strictly prohibited.
  * Proprietary and Confidential.
  * ****************************************************
@@ -17,7 +17,7 @@ import java.io.Serializable;
 /**
  * 按照bealoon值，拿到全年的写日记记录
  *
- * @author bytedance<bytedance @ bytedance.com>
+ * @author hekiraku<hekiraku@foxmail.com>
  * @date 03/23/2020 11:55 上午
  */
 

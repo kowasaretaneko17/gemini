@@ -1,7 +1,7 @@
 /**
  * *****************************************************
- * Copyright (C) 2020 bytedance.com. All Rights Reserved
- * This file is part of bytedance EA project.
+ * Copyright (C) 2020 geminiif.com.cn. All Rights Reserved
+ * This file is part of gemini center tech project.
  * Unauthorized copy of this file, via any medium is strictly prohibited.
  * Proprietary and Confidential.
  * ****************************************************
@@ -12,7 +12,7 @@ import com.hekiraku.gemini.domain.base.BaseEntity;
 import lombok.*;
 
 /**
- * @author weiyimeng<weiyimeng @ bytedance.com>
+ * @author hekiraku<hekiraku @ geminiif.com.cn>
  * @task
  * @date 04/17/2020
  */

@@ -6,6 +6,7 @@ import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
+import com.hekiraku.gemini.domain.entity.TextDetailEntity;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
@@ -32,9 +33,9 @@ import java.util.Optional;
 import static com.hekiraku.gemini.utils.EntityUtil.setCommonField;
 
 /**
- * 构建组：大道金服科技部
- * 作者:weiyimeng
- * 邮箱:weiyimeng@ddjf.com.cn
+ * 构建组：gemini星云总线技术总局
+ * 作者:hekiraku
+ * 邮箱:hekiraku@foxmail.com
  * 日期:2019/4/4
  * 功能说明：
  */
@@ -95,5 +96,11 @@ public class TextRecordServiceImpl implements TextRecordService {
         textReadDto.setCreateDay(LocalDate.now().toString());
         PageInfo<TextSummaryEntity> textSummaryEntityPageInfo = textRecordManager.selectOpenTextPageByCreateDayAndSoulChar(textReadDto,pageParamsDto);
         return ApiResult.buildSuccessNormal("成功获取公开日记",textSummaryEntityPageInfo);
+    }
+
+    @Override
+    public ApiResult<TextDetailEntity> selectTextDetailByTextId(Long textId) {
+        TextDetailEntity textDetailEntity = textRecordManager.selectTextDetailByTextId(textId);
+        return ApiResult.buildSuccessNormal("成功获取公开日记",textDetailEntity);
     }
 }

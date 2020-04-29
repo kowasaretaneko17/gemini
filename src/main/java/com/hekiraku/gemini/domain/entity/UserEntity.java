@@ -5,8 +5,8 @@ import lombok.*;
 
 /**
  * 构建组：游荡的野指针
- * 作者:weiyimeng
- * 邮箱:weiyimeng@bytedance.com
+ * 作者:hekiraku
+ * 邮箱:hekiraku@geminiif.com.cn
  * 日期:2019/3/22
  * 功能说明：
  */

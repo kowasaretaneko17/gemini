@@ -1,7 +1,7 @@
 /**
  * *****************************************************
- * Copyright (C) 2020 bytedance.com. All Rights Reserved
- * This file is part of bytedance EA project.
+ * Copyright (C) 2020 geminiif.com.cn. All Rights Reserved
+ * This file is part of gemini center tech project.
  * Unauthorized copy of this file, via any medium is strictly prohibited.
  * Proprietary and Confidential.
  * ****************************************************
@@ -16,7 +16,7 @@ import lombok.Setter;
 import java.io.Serializable;
 
 /**
- * @author weiyimeng<weiyimeng @ bytedance.com>
+ * @author hekiraku<hekiraku @ geminiif.com.cn>
  * @task 简单基础信息类
  * @date 04/17/2020
  */

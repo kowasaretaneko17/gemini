@@ -5,6 +5,7 @@ import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
+import com.hekiraku.gemini.domain.entity.TextDetailEntity;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.TextSummaryVo;
@@ -13,9 +14,9 @@ import com.hekiraku.gemini.domain.vo.TextUserVo;
 import java.util.List;
 
 /**
- * 构建组：大道金服科技部
- * 作者:weiyimeng
- * 邮箱:weiyimeng@ddjf.com.cn
+ * 构建组：gemini星云总线技术总局
+ * 作者:hekiraku
+ * 邮箱:hekiraku@foxmail.com
  * 日期:2019/4/4
  * 功能说明：
  */
@@ -32,4 +33,8 @@ public interface TextRecordService {
      * 社区用：根据日期，人格查找当天开放日记
      */
     ApiResult<PageInfo<TextSummaryEntity>> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) throws Exception;
+    /**
+     * 社区用：根据textId获取当天开放日记
+     */
+    ApiResult<TextDetailEntity> selectTextDetailByTextId(Long textId);
 }

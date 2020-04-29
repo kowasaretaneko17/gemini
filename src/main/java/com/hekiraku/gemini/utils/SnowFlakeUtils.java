@@ -1,7 +1,7 @@
 /**
  * *****************************************************
- * Copyright (C) 2020 bytedance.com. All Rights Reserved
- * This file is part of bytedance EA project.
+ * Copyright (C) 2020 geminiif.com.cn. All Rights Reserved
+ * This file is part of gemini center tech project.
  * Unauthorized copy of this file, via any medium is strictly prohibited.
  * Proprietary and Confidential.
  * ****************************************************
@@ -11,7 +11,7 @@ package com.hekiraku.gemini.utils;
 /**
  * 雪花发号器
  *
- * @author bytedance<bytedance @ bytedance.com>
+ * @author hekiraku<hekiraku@foxmail.com>
  * @date 03/25/2020 6:47 下午
  */
 /**
