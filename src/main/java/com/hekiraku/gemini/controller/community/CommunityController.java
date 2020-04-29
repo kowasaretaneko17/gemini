@@ -37,7 +37,7 @@ public class CommunityController {
     @PostMapping("getOpenText")
     public ApiResult<PageInfo<TextSummaryEntity>> getOpenText(@RequestBody PageParamsDto pageParamsDto){
         try{
-            return textRecordService.selectOpenTextByCreateDayAndSoulChar(TextReadDto.builder().build(),pageParamsDto);
+            return textRecordService.selectOpenTextByCreateDayAndSoulChar(new TextReadDto(),pageParamsDto);
         } catch (Exception e) {
             log.error("获取社区当天开放日及失败,异常为：{}",e);
             return ApiResult.buildFail(C_TEXT_OPEN.getCode(),C_TEXT_OPEN.getDesc());

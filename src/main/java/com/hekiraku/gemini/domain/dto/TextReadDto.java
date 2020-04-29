@@ -23,7 +23,6 @@ import java.util.Date;
  */
 @Getter
 @Setter
-@Builder
 @NoArgsConstructor
 public class TextReadDto extends SerializableEntity {
     /**
