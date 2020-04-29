@@ -9,10 +9,7 @@
 package com.hekiraku.gemini.domain.dto;
 
 import com.hekiraku.gemini.domain.base.SerializableEntity;
-import lombok.Builder;
-import lombok.Getter;
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 import java.io.Serializable;
 import java.util.Date;
@@ -27,6 +24,7 @@ import java.util.Date;
 @Getter
 @Setter
 @Builder
+@NoArgsConstructor
 public class TextReadDto extends SerializableEntity {
     /**
      * 人格

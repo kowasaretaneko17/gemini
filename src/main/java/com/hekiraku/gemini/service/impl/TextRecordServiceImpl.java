@@ -60,7 +60,7 @@ public class TextRecordServiceImpl implements TextRecordService {
         String createDay = Optional.ofNullable(textWriteDto.getCreateDay()).orElse(LocalDate.now().toString());
         textWriteDto.setCreateDay(createDay);
         Validate.notEmpty(textWriteDto.getSoulChar(),"人格信息不能为空");
-        TextReadDto textReadDto = TextReadDto.builder().build();
+        TextReadDto textReadDto = new TextReadDto();
         BeanUtils.copyNotNullProperties(textReadDto,textWriteDto);
         TextUserEntity textUserEntity = textRecordManager.selectTextByDayUsrChar(textReadDto);
         if(textUserEntity==null){
