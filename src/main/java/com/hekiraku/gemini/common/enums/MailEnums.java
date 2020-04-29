@@ -7,8 +7,9 @@ public enum MailEnums {
     /**---邮箱+授权码---*/
     /**碧落君*/
     M_HEKIRAKU_SOURCE("1239407570@qq.com","knbvunquuxemggfe"),
-    /**gemini官方邮箱*/
-    M_GEMINI_SOURCE("gemini_rule001@163.com","HUGMTRWVMRGKTCSI"),
+    /**gemini官方163邮箱*/
+    M_GEMINI_SOURCE("gemini_rule001@163.com","RFBVIIUCUASGKNXG"),
+
     /**---邮箱+授权码---*/
 
 

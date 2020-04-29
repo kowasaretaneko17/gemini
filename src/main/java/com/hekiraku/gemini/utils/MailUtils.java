@@ -23,6 +23,7 @@ import java.util.Optional;
 import java.util.Properties;
 
 import static com.hekiraku.gemini.common.enums.MailEnums.M_GEMINI_SOURCE;
+import static com.hekiraku.gemini.common.enums.MailEnums.M_HEKIRAKU_SOURCE;
 
 /**
  * 邮件发送工具
@@ -36,13 +37,14 @@ public class MailUtils {
         // 1. 创建一封邮件
         Properties props = new Properties();
         props.setProperty("mail.transport.protocol", "smtp");   // 使用的协议（JavaMail规范要求）
-//        props.setProperty("mail.smtp.host", "smtp.qq.com");   // qq 发件人的邮箱的 SMTP 服务器地址
-        props.setProperty("mail.smtp.host", "smtp.163.com");   // 163 发件人的邮箱的 SMTP 服务器地址
+        props.setProperty("mail.smtp.host", "smtp.qq.com");   // qq 发件人的邮箱的 SMTP 服务器地址
+//        props.setProperty("mail.smtp.host", "smtp.163.com");   // 163 发件人的邮箱的 SMTP 服务器地址
 
         props.setProperty("mail.smtp.auth", "true");            // 需要请求认证
         // 设置通过ssl协议使用465端口发送、使用默认端口（25）时下面三行不需要
         // 然后linux服务器上默认的25端口被封了。所以改一下。
-        props.setProperty("mail.smtp.socketFactory.port", "994");// 设置ssl端口
+        props.setProperty("mail.smtp.port","465");
+        props.setProperty("mail.smtp.socketFactory.port", "465");// 设置ssl端口
         props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         // 用于连接邮件服务器的参数配置（发送邮件时才需要用到）
         Session session= Session.getDefaultInstance(props);        // 根据参数配置，创建会话对象（为了发送邮件准备的）
@@ -98,7 +100,7 @@ public class MailUtils {
             //           (5) 如果以上几点都确定无误, 到邮件服务器网站查找帮助。
             //
             //    PS_03: 仔细看log, 认真看log, 看懂log, 错误原因都在log已说明。
-            transport.connect(M_GEMINI_SOURCE.getCode(), M_GEMINI_SOURCE.getDesc());
+            transport.connect(M_HEKIRAKU_SOURCE.getCode(), M_HEKIRAKU_SOURCE.getDesc());
 
             // 6. 发送邮件, 发到所有的收件地址, message.getAllRecipients() 获取到的是在创建邮件对象时添加的所有收件人, 抄送人, 密送人
             transport.sendMessage(message, message.getAllRecipients());
@@ -130,7 +132,7 @@ public class MailUtils {
     }
     public static void main(String[] args){
         MailDto mailDto = new MailDto();
-        mailDto.setMailSource("gemini_rule001@163.com");
+        mailDto.setMailSource("1239407570@qq.com");
         mailDto.setMailTarget("1239407570@qq.com");
         mailDto.setSubject("test-gemini");
         mailDto.setContent("验证码：123456");
