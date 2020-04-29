@@ -9,6 +9,7 @@
 package com.hekiraku.gemini.domain.dto;
 
 import com.hekiraku.gemini.domain.base.SerializableEntity;
+import io.swagger.annotations.ApiModelProperty;
 import lombok.*;
 
 import java.io.Serializable;
@@ -28,13 +29,16 @@ public class TextReadDto extends SerializableEntity {
     /**
      * 人格
      */
+    @ApiModelProperty(required = true,notes = "人格",example = "omote或者ura")
     private String soulChar;
     /**
      * 用户id
      */
+    @ApiModelProperty(required = false,notes = "用户id",example = "不用传")
     private Long userId;
     /**
      * 日期
      */
+    @ApiModelProperty(required = true,notes = "创建日期",example = "格式 yyyy-MM-dd")
     private String createDay;
 }
