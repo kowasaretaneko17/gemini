@@ -6,12 +6,9 @@ import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
 import com.hekiraku.gemini.domain.entity.TextDetailEntity;
-import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
-import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.vo.TextSummaryVo;
+import com.hekiraku.gemini.domain.vo.TextDetailVo;
+import com.hekiraku.gemini.domain.vo.TextSummaryEntityVo;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
-
-import java.util.List;
 
 /**
  * 构建组：gemini星云总线技术总局
@@ -31,10 +28,11 @@ public interface TextRecordService {
     ApiResult<TextUserVo> readRecord(TextReadDto textReadDto) throws Exception;
     /**
      * 社区用：根据日期，人格查找当天开放日记
+     * @return
      */
-    ApiResult<PageInfo<TextSummaryEntity>> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) throws Exception;
+    ApiResult<PageInfo<TextSummaryEntityVo>> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) throws Exception;
     /**
      * 社区用：根据textId获取当天开放日记
      */
-    ApiResult<TextDetailEntity> selectTextDetailByTextId(Long textId);
+    ApiResult<TextDetailVo> selectTextDetailByTextId(Long textId);
 }

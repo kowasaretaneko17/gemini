@@ -9,6 +9,7 @@
 package com.hekiraku.gemini.manager;
 
 import com.hekiraku.gemini.domain.entity.TextDetailEntity;
+import com.hekiraku.gemini.domain.vo.TextDetailVo;
 
 /**
  * @author hekiraku<hekiraku@foxmail.com>
@@ -26,6 +27,6 @@ public interface TextDetailManager {
      * @param textId
      * @return
      */
-    TextDetailEntity selectByTextId(Long textId);
+    TextDetailVo selectByTextId(Long textId);
 
 }

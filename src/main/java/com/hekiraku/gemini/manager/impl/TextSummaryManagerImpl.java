@@ -10,6 +10,7 @@ package com.hekiraku.gemini.manager.impl;
 
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
+import com.hekiraku.gemini.domain.vo.TextSummaryEntityVo;
 import com.hekiraku.gemini.manager.TextSummaryManager;
 import com.hekiraku.gemini.mapper.TextSummaryMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -38,7 +39,7 @@ public class TextSummaryManagerImpl implements TextSummaryManager {
     }
 
     @Override
-    public List<TextSummaryEntity> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto) {
+    public List<TextSummaryEntityVo> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto) {
         return textSummaryMapper.selectOpenTextByCreateDayAndSoulChar(textReadDto);
     }
 }

@@ -10,6 +10,7 @@ package com.hekiraku.gemini.manager;
 
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
+import com.hekiraku.gemini.domain.vo.TextSummaryEntityVo;
 
 import java.util.List;
 
@@ -29,6 +30,6 @@ public interface TextSummaryManager {
      * @param textReadDto
      * @return
      */
-    List<TextSummaryEntity> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto);
+    List<TextSummaryEntityVo> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto);
 
 }

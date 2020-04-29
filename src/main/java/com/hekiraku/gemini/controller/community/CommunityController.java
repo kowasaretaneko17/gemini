@@ -14,6 +14,8 @@ import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.entity.TextDetailEntity;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
+import com.hekiraku.gemini.domain.vo.TextDetailVo;
+import com.hekiraku.gemini.domain.vo.TextSummaryEntityVo;
 import com.hekiraku.gemini.service.TextRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -40,7 +42,7 @@ public class CommunityController {
 
     @PostMapping("getOpenText")
     @ApiOperation(value = "获取社区当天开放日记", notes = "分页，参数是页码和每页展示数量")
-    public ApiResult<PageInfo<TextSummaryEntity>> getOpenText(@RequestBody PageParamsDto pageParamsDto){
+    public ApiResult<PageInfo<TextSummaryEntityVo>> getOpenText(@RequestBody PageParamsDto pageParamsDto){
         try{
             return textRecordService.selectOpenTextByCreateDayAndSoulChar(new TextReadDto(),pageParamsDto);
         } catch (Exception e) {
@@ -50,7 +52,7 @@ public class CommunityController {
     }
     @GetMapping("getTextDetail")
     @ApiOperation(value = "获取日记详情", notes = "传参是textId，可以通过日记列表获取，form-data格式")
-    public ApiResult<TextDetailEntity> getTextDetail(Long textId){
+    public ApiResult<TextDetailVo> getTextDetail(Long textId){
         try{
             return textRecordService.selectTextDetailByTextId(textId);
         }catch (Exception e){

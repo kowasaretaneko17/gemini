@@ -4,12 +4,8 @@ import com.github.pagehelper.PageInfo;
 import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
-import com.hekiraku.gemini.domain.entity.TextDetailEntity;
-import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.vo.SoulCharVo;
-import com.hekiraku.gemini.domain.vo.TextSummaryVo;
-import com.hekiraku.gemini.domain.vo.TextUserVo;
+import com.hekiraku.gemini.domain.vo.*;
 
 import java.util.List;
 
@@ -41,14 +37,14 @@ public interface TextRecordManager {
      /**
      * 分页：社区用：根据日期，人格查找当天开放日记
      */
-    PageInfo<TextSummaryEntity> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto);
+    PageInfo<TextSummaryEntityVo> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto);
 
     /**
      * 根据textId获取用户日记
      * @param textId
      * @return
      */
-    TextDetailEntity selectTextDetailByTextId(Long textId);
+    TextDetailVo selectTextDetailByTextId(Long textId);
 
 
 }

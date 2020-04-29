@@ -9,6 +9,7 @@
 package com.hekiraku.gemini.manager.impl;
 
 import com.hekiraku.gemini.domain.entity.TextDetailEntity;
+import com.hekiraku.gemini.domain.vo.TextDetailVo;
 import com.hekiraku.gemini.manager.TextDetailManager;
 import com.hekiraku.gemini.mapper.TextDetailMapper;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -35,7 +36,7 @@ public class TextDetailManagerImpl implements TextDetailManager {
     }
 
     @Override
-    public TextDetailEntity selectByTextId(Long textId) {
+    public TextDetailVo selectByTextId(Long textId) {
         return textDetailMapper.selectByTextId(textId);
     }
 

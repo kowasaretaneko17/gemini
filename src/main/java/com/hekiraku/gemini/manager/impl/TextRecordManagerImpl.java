@@ -8,10 +8,7 @@ import com.hekiraku.gemini.domain.dto.TextWriteDto;
 import com.hekiraku.gemini.domain.entity.TextDetailEntity;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
-import com.hekiraku.gemini.domain.vo.SoulCharDateVo;
-import com.hekiraku.gemini.domain.vo.SoulCharVo;
-import com.hekiraku.gemini.domain.vo.TextSummaryVo;
-import com.hekiraku.gemini.domain.vo.TextUserVo;
+import com.hekiraku.gemini.domain.vo.*;
 import com.hekiraku.gemini.manager.TextDetailManager;
 import com.hekiraku.gemini.manager.TextRecordManager;
 import com.hekiraku.gemini.manager.TextSummaryManager;
@@ -23,7 +20,6 @@ import org.springframework.transaction.annotation.Transactional;
 
 import java.time.YearMonth;
 import java.util.ArrayList;
-import java.util.Collections;
 import java.util.List;
 import java.util.stream.Collectors;
 /**
@@ -109,18 +105,18 @@ public class TextRecordManagerImpl implements TextRecordManager {
     }
 
     @Override
-    public PageInfo<TextSummaryEntity> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) {
+    public PageInfo<TextSummaryEntityVo> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) {
         if (pageParamsDto != null && pageParamsDto.getPageNum() > 0 && pageParamsDto.getPageSize() > 0) {
             PageHelper.startPage(pageParamsDto.getPageNum(), pageParamsDto.getPageSize());
         }else {
-            return new PageInfo<TextSummaryEntity>();
+            return new PageInfo<TextSummaryEntityVo>();
         }
-        List<TextSummaryEntity> textSummaryEntities = textSummaryManager.selectOpenTextByCreateDayAndSoulChar(textReadDto);
+        List<TextSummaryEntityVo> textSummaryEntities = textSummaryManager.selectOpenTextByCreateDayAndSoulChar(textReadDto);
         return new PageInfo<>(textSummaryEntities);
     }
 
     @Override
-    public TextDetailEntity selectTextDetailByTextId(Long textId) {
+    public TextDetailVo selectTextDetailByTextId(Long textId) {
         return textDetailManager.selectByTextId(textId);
     }
 }
