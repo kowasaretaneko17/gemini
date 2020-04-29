@@ -5,9 +5,8 @@ import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
-import com.hekiraku.gemini.domain.entity.TextDetailEntity;
+import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.vo.TextDetailVo;
-import com.hekiraku.gemini.domain.vo.TextSummaryEntityVo;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
 
 /**
@@ -30,7 +29,7 @@ public interface TextRecordService {
      * 社区用：根据日期，人格查找当天开放日记
      * @return
      */
-    ApiResult<PageInfo<TextSummaryEntityVo>> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) throws Exception;
+    ApiResult<PageInfo<TextSummaryEntity>> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) throws Exception;
     /**
      * 社区用：根据textId获取当天开放日记
      */

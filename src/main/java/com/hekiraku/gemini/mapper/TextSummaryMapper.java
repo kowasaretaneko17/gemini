@@ -9,7 +9,6 @@
 package com.hekiraku.gemini.mapper;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
-import com.hekiraku.gemini.domain.vo.TextSummaryEntityVo;
 import com.hekiraku.gemini.domain.vo.TextSummaryVo;
 
 import java.util.List;
@@ -50,6 +49,6 @@ public interface TextSummaryMapper {
     /**
      * 根据创建日期和人格查找日记
      */
-    List<TextSummaryEntityVo> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto);
+    List<TextSummaryEntity> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto);
 
 }

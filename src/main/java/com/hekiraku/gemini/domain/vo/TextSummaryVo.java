@@ -25,7 +25,7 @@ public class TextSummaryVo extends SerializableEntity {
     /**
      * 文章id
      */
-    private String textId;
+    private Long textId;
     /**
      * 文章标题
      */

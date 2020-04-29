@@ -56,7 +56,7 @@ public class UserManagerImpl implements UserManager {
 
     @Override
     public int addRoleForUser(Long userId, String roleName) {
-        Long roleId = getLong(roleMapper.selectByRoleCode(roleName).getRoleId());
+        Long roleId = roleMapper.selectByRoleCode(roleName).getRoleId();
         return userMapper.addRoleForUser(roleId,userId);
     }
 }

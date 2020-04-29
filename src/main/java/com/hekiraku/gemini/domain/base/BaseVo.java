@@ -25,12 +25,10 @@ import java.util.Date;
 @Setter
 @NoArgsConstructor
 public class BaseVo extends SerializableEntity{
-    /**主键*/
-    protected Long id;
     /**创建人id*/
-    protected String createUserId;
+    protected Long createUserId;
     /**更新人id*/
-    protected String updateUserId;
+    protected Long updateUserId;
     /**记录创建时间*/
     protected Date createTime;
     /**记录更新时间*/

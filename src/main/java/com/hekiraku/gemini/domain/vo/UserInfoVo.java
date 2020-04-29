@@ -29,7 +29,7 @@ public class UserInfoVo extends SerializableEntity {
     @ApiModelProperty(notes = "账户",example = "zhangsan")
     private String identityCode;
     @ApiModelProperty(notes = "用户编码",example = "448170509163560960")
-    private String userId;
+    private Long userId;
     @JsonIgnore
     @ApiModelProperty(notes = "密码",example = "12345",hidden = true)
     private String password;

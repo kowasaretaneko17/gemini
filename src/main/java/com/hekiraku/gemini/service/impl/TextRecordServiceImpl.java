@@ -6,10 +6,9 @@ import com.hekiraku.gemini.common.ApiResult;
 import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
-import com.hekiraku.gemini.domain.entity.TextDetailEntity;
+import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.TextDetailVo;
-import com.hekiraku.gemini.domain.vo.TextSummaryEntityVo;
 import com.hekiraku.gemini.domain.vo.TextUserVo;
 import com.hekiraku.gemini.domain.vo.UserInfoVo;
 import com.hekiraku.gemini.manager.TextRecordManager;
@@ -52,7 +51,7 @@ public class TextRecordServiceImpl implements TextRecordService {
     @Transactional
     public ApiResult<TextUserVo> writeRecord(TextWriteDto textWriteDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
-        Long userId = getLong(userInfoVo.getUserId());
+        Long userId = userInfoVo.getUserId();
         textWriteDto.setUserId(userId);
         String createDay = Optional.ofNullable(textWriteDto.getCreateDay()).orElse(LocalDate.now().toString());
         textWriteDto.setCreateDay(createDay);
@@ -81,16 +80,16 @@ public class TextRecordServiceImpl implements TextRecordService {
     @Override
     public ApiResult<TextUserVo> readRecord(TextReadDto textReadDto) throws Exception {
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
-        textReadDto.setUserId(getLong(userInfoVo.getUserId()));
+        textReadDto.setUserId(userInfoVo.getUserId());
         TextUserVo textUserVo = textRecordManager.selectTextByTextReadDto(textReadDto);
         return ApiResult.buildSuccessNormal("成功获取日记",textUserVo);
 
     }
 
     @Override
-    public ApiResult<PageInfo<TextSummaryEntityVo>> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) throws Exception {
+    public ApiResult<PageInfo<TextSummaryEntity>> selectOpenTextByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) throws Exception {
         textReadDto.setCreateDay(LocalDate.now().toString());
-        PageInfo<TextSummaryEntityVo> textSummaryEntityPageInfo = textRecordManager.selectOpenTextPageByCreateDayAndSoulChar(textReadDto,pageParamsDto);
+        PageInfo<TextSummaryEntity> textSummaryEntityPageInfo = textRecordManager.selectOpenTextPageByCreateDayAndSoulChar(textReadDto,pageParamsDto);
         return ApiResult.buildSuccessNormal("成功获取公开日记",textSummaryEntityPageInfo);
     }
 

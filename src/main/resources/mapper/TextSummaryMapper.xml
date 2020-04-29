@@ -4,7 +4,7 @@
     <resultMap id="textSummaryInfo" type="com.hekiraku.gemini.domain.vo.TextSummaryVo">
         <collection property="textDetail" column="text_id" select="com.hekiraku.gemini.mapper.TextDetailMapper.selectByTextId"/>
     </resultMap>
-    <resultMap id="textSummaryEntityVo" type="com.hekiraku.gemini.domain.vo.TextSummaryEntityVo">
+    <resultMap id="textSummaryEntity" type="com.hekiraku.gemini.domain.entity.TextSummaryEntity">
     </resultMap>
     <select id="selectByTextId" resultMap="textSummaryInfo">
         select *,
@@ -32,7 +32,7 @@
         text_summary=#{textSummary}
         where text_id=#{textId}
     </update>
-    <select id="selectOpenTextByCreateDayAndSoulChar" resultMap="textSummaryEntityVo">
+    <select id="selectOpenTextByCreateDayAndSoulChar" resultMap="textSummaryEntity">
         select *
         from g_text_summary
         where

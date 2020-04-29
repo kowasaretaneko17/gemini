@@ -30,7 +30,7 @@ public class DataRecordServiceImpl implements DataRecordService {
     public ApiResult getYearsDiary(String years){
         String year = StringUtils.isEmpty(years)?new DateTime().year().toString():years;
         UserInfoVo userInfoVo = SessionLocal.getUserInfo();
-        Long userId = getLong(userInfoVo.getUserId());
+        Long userId = userInfoVo.getUserId();
         List<List<SoulCharVo>> result = textRecordManager.selectSoulDiaryByUserAndYear(year,userId);
         return ApiResult.buildSuccessNormal("获取全年记录成功",result);
     }

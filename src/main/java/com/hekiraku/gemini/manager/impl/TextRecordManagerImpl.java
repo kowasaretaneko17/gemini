@@ -105,13 +105,13 @@ public class TextRecordManagerImpl implements TextRecordManager {
     }
 
     @Override
-    public PageInfo<TextSummaryEntityVo> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) {
+    public PageInfo<TextSummaryEntity> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto) {
         if (pageParamsDto != null && pageParamsDto.getPageNum() > 0 && pageParamsDto.getPageSize() > 0) {
             PageHelper.startPage(pageParamsDto.getPageNum(), pageParamsDto.getPageSize());
         }else {
-            return new PageInfo<TextSummaryEntityVo>();
+            return new PageInfo<TextSummaryEntity>();
         }
-        List<TextSummaryEntityVo> textSummaryEntities = textSummaryManager.selectOpenTextByCreateDayAndSoulChar(textReadDto);
+        List<TextSummaryEntity> textSummaryEntities = textSummaryManager.selectOpenTextByCreateDayAndSoulChar(textReadDto);
         return new PageInfo<>(textSummaryEntities);
     }
 

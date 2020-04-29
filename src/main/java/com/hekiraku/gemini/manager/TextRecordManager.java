@@ -4,6 +4,7 @@ import com.github.pagehelper.PageInfo;
 import com.hekiraku.gemini.domain.dto.PageParamsDto;
 import com.hekiraku.gemini.domain.dto.TextReadDto;
 import com.hekiraku.gemini.domain.dto.TextWriteDto;
+import com.hekiraku.gemini.domain.entity.TextSummaryEntity;
 import com.hekiraku.gemini.domain.entity.TextUserEntity;
 import com.hekiraku.gemini.domain.vo.*;
 
@@ -36,8 +37,9 @@ public interface TextRecordManager {
     List<List<SoulCharVo>> selectSoulDiaryByUserAndYear(String years, Long userId);
      /**
      * 分页：社区用：根据日期，人格查找当天开放日记
-     */
-    PageInfo<TextSummaryEntityVo> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto);
+      * @return
+      */
+    PageInfo<TextSummaryEntity> selectOpenTextPageByCreateDayAndSoulChar(TextReadDto textReadDto, PageParamsDto pageParamsDto);
 
     /**
      * 根据textId获取用户日记
