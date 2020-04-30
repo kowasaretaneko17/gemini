@@ -9,10 +9,8 @@
 package com.hekiraku.gemini.domain.base;
 
 import com.alibaba.fastjson.annotation.JSONField;
-import com.alibaba.fastjson.serializer.JSONSerializable;
 import com.fasterxml.jackson.databind.annotation.JsonSerialize;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
-import javafx.util.converter.LongStringConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
