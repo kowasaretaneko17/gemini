@@ -38,20 +38,4 @@ public class GeminiApplication implements WebMvcConfigurer {
         registry.addInterceptor(new HttpInterceptor()).addPathPatterns("/**");
         log.info("离开方法addInterceptors");
     }*/
-    @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
-        MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
-        ObjectMapper objectMapper = new ObjectMapper();
-        //如果属性为空""或者null都不序列化，返回的json中没有这个字段，对移动端更省流量
-        objectMapper.setSerializationInclusion(JsonInclude.Include.NON_EMPTY);
-        SimpleModule simpleModule = new SimpleModule();
-        //配置Long型转化为String的规则
-        simpleModule.addSerializer(Long.class, new ToStringSerializer());
-        simpleModule.addSerializer(Long.TYPE, new ToStringSerializer());
-        //配置BigInteger型转化为String的规则
-        simpleModule.addSerializer(BigInteger.class, new ToStringSerializer());
-        objectMapper.registerModule(simpleModule);
-        converter.setObjectMapper(objectMapper);
-        converters.add(converter);
-    }
 }
