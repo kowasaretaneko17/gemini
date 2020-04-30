@@ -8,13 +8,17 @@
  **/
 package com.hekiraku.gemini.domain.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hekiraku.gemini.domain.base.SerializableEntity;
 import lombok.*;
-
 /**
- * @author hekiraku<hekiraku@foxmail.com>
- * @task
- * @date 04/17/2020 6:34 下午
+ * 构建组：gemini星云总线技术总局
+ * 作者:hekiraku
+ * 邮箱:hekiraku@foxmail.com
+ * 日期:2019/3/22
+ * 功能说明：
  */
 @Getter
 @Setter
@@ -25,6 +29,7 @@ public class TextSummaryVo extends SerializableEntity {
     /**
      * 文章id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long textId;
     /**
      * 文章标题

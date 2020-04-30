@@ -1,5 +1,8 @@
 package com.hekiraku.gemini.domain.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hekiraku.gemini.domain.base.SerializableEntity;
 import lombok.*;
 
@@ -21,6 +24,7 @@ public class ResourceVo extends SerializableEntity {
     /**
      * 资源id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long resourceId;
     /**
      * 资源编码

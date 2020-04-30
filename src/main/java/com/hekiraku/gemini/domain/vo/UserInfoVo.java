@@ -1,6 +1,9 @@
 package com.hekiraku.gemini.domain.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hekiraku.gemini.domain.base.SerializableEntity;
 import io.swagger.annotations.ApiModel;
 import io.swagger.annotations.ApiModelProperty;
@@ -29,6 +32,7 @@ public class UserInfoVo extends SerializableEntity {
     @ApiModelProperty(notes = "账户",example = "zhangsan")
     private String identityCode;
     @ApiModelProperty(notes = "用户编码",example = "448170509163560960")
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long userId;
     @JsonIgnore
     @ApiModelProperty(notes = "密码",example = "12345",hidden = true)

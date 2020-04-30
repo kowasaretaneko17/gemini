@@ -8,6 +8,11 @@
  **/
 package com.hekiraku.gemini.domain.base;
 
+import com.alibaba.fastjson.annotation.JSONField;
+import com.alibaba.fastjson.serializer.JSONSerializable;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import javafx.util.converter.LongStringConverter;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.Setter;
@@ -26,8 +31,10 @@ import java.util.Date;
 @NoArgsConstructor
 public class BaseVo extends SerializableEntity{
     /**创建人id*/
+    @JsonSerialize(using = ToStringSerializer.class)
     protected Long createUserId;
     /**更新人id*/
+    @JsonSerialize(using = ToStringSerializer.class)
     protected Long updateUserId;
     /**记录创建时间*/
     protected Date createTime;

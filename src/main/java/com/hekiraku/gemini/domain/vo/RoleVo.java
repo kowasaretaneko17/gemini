@@ -1,6 +1,9 @@
 package com.hekiraku.gemini.domain.vo;
 
+import com.alibaba.fastjson.annotation.JSONField;
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.fasterxml.jackson.databind.annotation.JsonSerialize;
+import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
 import com.hekiraku.gemini.domain.base.SerializableEntity;
 import lombok.*;
 
@@ -27,6 +30,7 @@ public class RoleVo extends SerializableEntity {
     /**
      * 角色id
      */
+    @JsonSerialize(using = ToStringSerializer.class)
     private Long roleId;
     /**
      * 角色编码
