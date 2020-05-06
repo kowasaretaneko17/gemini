@@ -29,7 +29,6 @@ public class TextSummaryVo extends SerializableEntity {
     /**
      * 文章id
      */
-    @JsonSerialize(using = ToStringSerializer.class)
     private Long textId;
     /**
      * 文章标题

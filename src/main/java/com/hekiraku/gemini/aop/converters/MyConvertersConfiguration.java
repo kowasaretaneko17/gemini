@@ -12,11 +12,15 @@ import com.fasterxml.jackson.annotation.JsonInclude;
 import com.fasterxml.jackson.databind.ObjectMapper;
 import com.fasterxml.jackson.databind.module.SimpleModule;
 import com.fasterxml.jackson.databind.ser.std.ToStringSerializer;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration;
+import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurerAdapter;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -29,9 +33,10 @@ import java.util.List;
  * 功能说明：全局类型转换器
  * 需要configuration的注解，把它当作一个配置类；
  * 需要继承 WebMvcConfigurationSupport ，把配置装配进去
+ * 实现这个WebMvcConfigurer类貌似一直无效；
  */
 @Configuration
-public class MyConverters implements WebMvcConfigurer {
+public class MyConvertersConfiguration extends WebMvcConfigurationSupport {
     //重写jackson的转换器方法，添加自定义的规则
     @Override
     public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
@@ -50,4 +55,5 @@ public class MyConverters implements WebMvcConfigurer {
         //加在转换器最前面，不然不生效了。
         converters.add(0,converter);
     }
+
 }

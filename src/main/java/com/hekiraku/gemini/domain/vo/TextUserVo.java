@@ -22,6 +22,6 @@ import java.util.List;
 @ToString
 @ApiModel(value = "TextUserVo",description = "日记返回信息")
 public class TextUserVo extends SerializableEntity {
-    private String userId;
+    private Long userId;
     private List<TextSummaryVo> textSummaryVos;
 }
