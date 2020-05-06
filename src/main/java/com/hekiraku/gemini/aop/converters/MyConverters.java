@@ -16,6 +16,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.http.converter.HttpMessageConverter;
 import org.springframework.http.converter.json.MappingJackson2HttpMessageConverter;
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 import java.math.BigInteger;
 import java.util.List;
@@ -30,10 +31,10 @@ import java.util.List;
  * 需要继承 WebMvcConfigurationSupport ，把配置装配进去
  */
 @Configuration
-public class MyConverters extends WebMvcConfigurationSupport {
+public class MyConverters implements WebMvcConfigurer {
     //重写jackson的转换器方法，添加自定义的规则
     @Override
-    public void configureMessageConverters(List<HttpMessageConverter<?>> converters) {
+    public void extendMessageConverters(List<HttpMessageConverter<?>> converters) {
         MappingJackson2HttpMessageConverter converter = new MappingJackson2HttpMessageConverter();
         ObjectMapper objectMapper = new ObjectMapper();
         //如果属性为空""或者null都不序列化，返回的json中没有这个字段，对移动端更省流量
@@ -46,6 +47,7 @@ public class MyConverters extends WebMvcConfigurationSupport {
         simpleModule.addSerializer(BigInteger.class, new ToStringSerializer());
         objectMapper.registerModule(simpleModule);
         converter.setObjectMapper(objectMapper);
-        converters.add(converter);
+        //加在转换器最前面，不然不生效了。
+        converters.add(0,converter);
     }
 }
