@@ -27,8 +27,6 @@ import java.util.List;
 @EnableSwagger2
 @Slf4j
 public class GeminiApplication implements WebMvcConfigurer {
-    @Autowired
-    private HttpMessageConverters httpMessageConverters;
 
     public static void main(String[] args) {
         SpringApplication.run(GeminiApplication.class, args);

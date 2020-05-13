@@ -9,6 +9,7 @@ import org.springframework.web.servlet.config.annotation.ResourceHandlerRegistry
 import org.springframework.web.servlet.config.annotation.WebMvcConfigurationSupport;
 
 
+import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 import springfox.documentation.builders.ApiInfoBuilder;
 import springfox.documentation.builders.PathSelectors;
 import springfox.documentation.builders.RequestHandlerSelectors;
@@ -34,7 +35,7 @@ import static com.google.common.collect.Lists.newArrayList;
 @EnableSwagger2
 @ComponentScan(basePackages = {"com.hekiraku.gemini.controller"})
 @Configuration
-public class Swagger2 extends WebMvcConfigurationSupport{
+public class Swagger2 implements WebMvcConfigurer {
 
     @Bean
     public Docket createRestApi() {
