@@ -9,6 +9,8 @@ public enum MailEnums {
     M_HEKIRAKU_SOURCE("1239407570@qq.com","knbvunquuxemggfe"),
     /**gemini官方163邮箱*/
     M_GEMINI_SOURCE("gemini_rule001@163.com","RFBVIIUCUASGKNXG"),
+    /**官方qq邮箱*/
+    M_GEMINI_QQ_SOURCE("gemini_rule@qq.com","vdpnkkdxlfqxcjjb"),
 
     /**---邮箱+授权码---*/
 
