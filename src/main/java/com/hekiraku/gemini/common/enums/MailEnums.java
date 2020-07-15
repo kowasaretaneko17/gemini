@@ -20,7 +20,7 @@ public enum MailEnums {
     /**花鸽子（昵称配置）*/
     M_WANLLY_TARGET_INFO("1510381250@qq.com","wanlly"),
     /**官方qq邮箱*/
-    M_GEMINI_QQ_TARGET_INFO("gemini_rule@foxmail.com","gemini星云总局"),
+    M_GEMINI_QQ_TARGET_INFO("gemini_rule@foxmail.com","gemini星云总线技术总局"),
     /**---邮箱+昵称---*/
 
     /**---场合+主题标语---*/
