@@ -10,8 +10,7 @@ public enum MailEnums {
     /**gemini官方163邮箱*/
     M_GEMINI_SOURCE("gemini_rule001@163.com","RFBVIIUCUASGKNXG"),
     /**官方qq邮箱*/
-    M_GEMINI_QQ_SOURCE("gemini_rule@qq.com","vdpnkkdxlfqxcjjb"),
-
+    M_GEMINI_QQ_SOURCE("gemini_rule@foxmail.com","qhwypnxtlpvlfbge"),
     /**---邮箱+授权码---*/
 
 
@@ -20,6 +19,8 @@ public enum MailEnums {
     M_HEKIRAKU_TARGET_INFO("1239407570@qq.com","hekiraku"),
     /**花鸽子（昵称配置）*/
     M_WANLLY_TARGET_INFO("1510381250@qq.com","wanlly"),
+    /**官方qq邮箱*/
+    M_GEMINI_QQ_TARGET_INFO("gemini_rule@foxmail.com","gemini星云总局"),
     /**---邮箱+昵称---*/
 
     /**---场合+主题标语---*/

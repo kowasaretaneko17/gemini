@@ -46,7 +46,8 @@ public class MailUtils {
         props.setProperty("mail.smtp.socketFactory.port", "465");// 设置ssl端口
         props.setProperty("mail.smtp.socketFactory.class", "javax.net.ssl.SSLSocketFactory");
         // 用于连接邮件服务器的参数配置（发送邮件时才需要用到）
-        Session session= Session.getDefaultInstance(props);        // 根据参数配置，创建会话对象（为了发送邮件准备的）
+        //不能用default方法，不然会501
+        Session session= Session.getInstance(props);        // 根据参数配置，创建会话对象（为了发送邮件准备的）
         session.setDebug(true);//查看log
         MimeMessage message = new MimeMessage(session);     // 创建邮件对象
         OutputStream out = null;
@@ -60,7 +61,7 @@ public class MailUtils {
         //    真正要发送时, 邮箱必须是真实有效的邮箱。
 
         try {
-            message.setFrom(new InternetAddress(mailDto.getMailSource(), mailDto.getMailSourceNickName(), "UTF-8"));
+            message.setFrom(new InternetAddress(M_GEMINI_QQ_TARGET_INFO.getCode(), M_GEMINI_QQ_TARGET_INFO.getDesc(), "UTF-8"));
 
             // 3. To: 收件人
             message.setRecipient(MimeMessage.RecipientType.TO, new InternetAddress(mailDto.getMailTarget(), mailDto.getMailTargetNickName(), "UTF-8"));
@@ -131,7 +132,6 @@ public class MailUtils {
     }
     public static void main(String[] args){
         MailDto mailDto = new MailDto();
-        mailDto.setMailSource("1239407570@qq.com");
         mailDto.setMailTarget("1239407570@qq.com");
         mailDto.setSubject("test-gemini");
         mailDto.setContent("验证码：123456");
