@@ -31,6 +31,7 @@ import java.awt.image.BufferedImage;
 import java.io.ByteArrayOutputStream;
 
 import static com.hekiraku.gemini.common.enums.AuthResultEnums.*;
+import static com.hekiraku.gemini.common.enums.MailEnums.M_GEMINI_QQ_TARGET_INFO;
 import static com.hekiraku.gemini.common.enums.MailEnums.M_HEKIRAKU_SOURCE;
 import static com.hekiraku.gemini.utils.DESUtils.MD5;
 
@@ -157,7 +158,7 @@ public class LoginController {
         }
         int code = CheckCodeUtils.sixLength();
         MailDto mailDto = new MailDto();
-        mailDto.setMailSource(M_HEKIRAKU_SOURCE.getCode());
+        mailDto.setMailSource(M_GEMINI_QQ_TARGET_INFO.getCode());
         mailDto.setMailTarget(email);
         mailDto.setSubject("欢迎注册gemini星云总线");
         mailDto.setContent("您的注册验证码是：     "+ code);
