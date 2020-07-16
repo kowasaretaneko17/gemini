@@ -71,7 +71,7 @@ public class TextRecordController {
     @ApiOperation(value = "查看全年有日记的天数", notes = "传参：年份")
     @PostMapping("/getYearsDiary")
     @ApiResponses({
-            @ApiResponse(code = 10002,message = "读取日记错误",response = ApiResult.class)
+            @ApiResponse(code = 10003,message = "获取全年日记信息错误",response = ApiResult.class)
     })
     public ApiResult<List<List<SoulCharVo>>> getYearsDiary(String years){
         try{

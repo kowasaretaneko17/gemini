@@ -17,6 +17,8 @@ import com.hekiraku.gemini.domain.vo.TextDetailVo;
 import com.hekiraku.gemini.service.TextRecordService;
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
@@ -39,6 +41,9 @@ public class CommunityController {
 
     @PostMapping("getOpenText")
     @ApiOperation(value = "获取社区当天开放日记", notes = "分页，参数是页码和每页展示数量")
+    @ApiResponses({
+            @ApiResponse(code = 11001,message = "获取社区当天开放日期失败",response = ApiResult.class)
+    })
     public ApiResult<PageInfo<TextSummaryEntity>> getOpenText(@RequestBody PageParamsDto pageParamsDto){
         try{
             return textRecordService.selectOpenTextByCreateDayAndSoulChar(new TextReadDto(),pageParamsDto);
@@ -49,6 +54,9 @@ public class CommunityController {
     }
     @GetMapping("getTextDetail")
     @ApiOperation(value = "获取日记详情", notes = "传参是textId，可以通过日记列表获取，form-data格式")
+    @ApiResponses({
+            @ApiResponse(code = 11002,message = "获取日记详情失败",response = ApiResult.class)
+    })
     public ApiResult<TextDetailVo> getTextDetail(Long textId){
         try{
             return textRecordService.selectTextDetailByTextId(textId);
