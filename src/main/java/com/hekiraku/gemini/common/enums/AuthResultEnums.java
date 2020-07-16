@@ -21,7 +21,10 @@ public enum AuthResultEnums {
     AUTH_REGISTER("80007","注册失败"),
     AUTH_USERNAME("80008","已存在用户名"),
     AUTH_MAIL("80009","已存在邮箱"),
-    AUTH_PHONE("80010","已存在手机号");
+    AUTH_PHONE("80010","已存在手机号"),
+    AUTH_CHECK_CODE("80011","验证码验证失败"),
+    AUTH_MAIL_NONE("80012","邮箱不能为空"),
+    AUTH_MAIL_CODE_SEND("80013","发送验证码失败");
     /**---鉴权返回码80000-80999---*/
 
     private String code;

@@ -74,13 +74,27 @@ public class ApiResult<T> implements Serializable {
         apiResultDto.setSuccess(Boolean.TRUE);
         apiResultDto.setCode(N_SUCCESS.getCode());
         apiResultDto.setMessage(msg);
+        apiResultDto.setData(null);
         return apiResultDto;
     }
+    /**
+     * 构建请求成功，但业务状态失败的情况
+     */
+    public static ApiResult buildSuccessButCode(String code,String msg) {
+        ApiResult apiResultDto = new ApiResult();
+        apiResultDto.setSuccess(Boolean.TRUE);
+        apiResultDto.setCode(code);
+        apiResultDto.setMessage(msg);
+        apiResultDto.setData(null);
+        return apiResultDto;
+    }
+
     public static ApiResult buildFail(String code, String message) {
         ApiResult apiResultDto = new ApiResult();
         apiResultDto.setSuccess(Boolean.FALSE);
         apiResultDto.setCode(code);
         apiResultDto.setMessage(message);
+        apiResultDto.setData(null);
         return apiResultDto;
     }
     public static <T> ApiResult<T> buildFailNormal(String code, String message,T data) {

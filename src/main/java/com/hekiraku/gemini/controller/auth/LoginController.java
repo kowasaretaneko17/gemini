@@ -55,18 +55,18 @@ public class LoginController {
 
     @Autowired
     private DefaultKaptcha producer;
-
-    @ApiOperation(value = "未登录", notes = "未登录")
-    @GetMapping("/notLogin")
-    public ApiResult notLogin() {
-        return ApiResult.successMsg("您尚未登陆");
-    }
-
-    @ApiOperation(value = "无权限", notes = "无权限")
-    @GetMapping("/notRole")
-    public ApiResult notRole() {
-        return ApiResult.successMsg("您没有权限！");
-    }
+//
+//    @ApiOperation(value = "未登录", notes = "未登录")
+//    @GetMapping("/notLogin")
+//    public ApiResult notLogin() {
+//        return ApiResult.successMsg("您尚未登陆");
+//    }
+//
+//    @ApiOperation(value = "无权限", notes = "无权限")
+//    @GetMapping("/notRole")
+//    public ApiResult notRole() {
+//        return ApiResult.successMsg("您没有权限！");
+//    }
 
     @ApiOperation(value = "登出", notes = "登出")
     @GetMapping("/logout")
@@ -89,13 +89,14 @@ public class LoginController {
             @ApiResponse(code = 80001,message = "用户名或密码错误",response = ApiResult.class)
     })
     public ApiResult login(@RequestBody UserInfoDto userInfoDto) {
+
+        log.info("登录,参数为：",userInfoDto.toString());
+        String identityCode=userInfoDto.getIdentityCode();
         try {
-            log.info("登录,参数为：",userInfoDto.toString());
-            String identityCode=userInfoDto.getIdentityCode();
             UserInfoVo userInfoVo = userMapper.selectByIdentityCode(identityCode);
             String password = MD5(MD5(userInfoDto.getPassword()+"gemini_hekiraku_wanlly"));
             if(null == userInfoVo || !userInfoVo.getPassword().equals(password)){
-                return ApiResult.buildFail(AUTH_LOGIN_PARAM.getCode(), AUTH_LOGIN_PARAM.getDesc());
+                return ApiResult.buildSuccessButCode(AUTH_LOGIN_PARAM.getCode(), AUTH_LOGIN_PARAM.getDesc());
             } else {
                 String tokenStr = JWTUtil.sign(userInfoVo);
                 //相当于存入token的时候，同时存入了用户的基本信息在redis里面，然后之后在redis没有过期的时候，可以直接去redis里面拿，不用解析token，也不用threadLocal。
@@ -108,7 +109,7 @@ public class LoginController {
             log.error("登录失败，参数:{},异常：{}",userInfoDto,e);
             return ApiResult.buildFail(AUTH_LOGIN.getCode(), AUTH_LOGIN.getDesc());
         }finally {
-            LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,userMapper.selectByIdentityCode(userInfoDto.getIdentityCode()).getUserId().toString(),LogActiveNameEnums.LOG_LOGIN,"登录");
+            LogAgent.log(LogActiveProjectEnums.GEMINI,LogActiveTypeEnums.SYSTEM,identityCode,LogActiveNameEnums.LOG_LOGIN,"登录");
         }
     }
     /**
@@ -117,21 +118,19 @@ public class LoginController {
     @PostMapping("/register")
     @ApiOperation(value = "注册", notes = "用户注册接口")
     @ApiResponses({
-            @ApiResponse(code = 80002,message = "用户名重复",response = ApiResult.class),
-            @ApiResponse(code = 80003,message = "邮箱重复",response = ApiResult.class),
-            @ApiResponse(code = 80004,message = "手机号重复",response = ApiResult.class)
+            @ApiResponse(code = 80007,message = "注册失败",response = ApiResult.class),
+            @ApiResponse(code = 80009,message = "已存在邮箱",response = ApiResult.class),
+            @ApiResponse(code = 80011,message = "验证码验证失败",response = ApiResult.class)
     })
     public ApiResult register(@RequestBody @Valid UserInfoDto userInfoDto){
         try {
             //检查邮箱是否存在
             if(userMapper.selectByEmail(userInfoDto.getEmail())!=null){
-                return ApiResult.successMsg("邮箱已存在");
+                return ApiResult.buildSuccessButCode(AUTH_MAIL.getCode(),AUTH_MAIL.getDesc());
             }
-            if(StringUtils.isEmpty(userInfoDto.getCheckCode())){
-                return ApiResult.successMsg("请填写验证码");
-            }
-            if(!userService.signCheckCode(userInfoDto.getEmail(),userInfoDto.getCheckCode())){
-                return ApiResult.successMsg("验证不通过，请检查验证码");
+            //验证验证码是否正确
+            if(StringUtils.isEmpty(userInfoDto.getCheckCode())||!userService.signCheckCode(userInfoDto.getEmail(),userInfoDto.getCheckCode())){
+                return ApiResult.buildSuccessButCode(AUTH_CHECK_CODE.getCode(),AUTH_CHECK_CODE.getDesc());
             }
             UserEntity userEntity = UserEntity.builder().build();
             BeanUtils.copyNotNullProperties(userEntity,userInfoDto);
@@ -151,20 +150,30 @@ public class LoginController {
      * 需要验证邮箱验证码
      */
     @PostMapping("/checkEmail")
-    @ApiOperation(value = "邮箱验证", notes = "邮箱验证接口")
+    @ApiOperation(value = "邮箱验证码发送接口", notes = "邮箱验证码发送接口")
+    @ApiResponses({
+            @ApiResponse(code = 80012,message = "邮箱不能为空",response = ApiResult.class),
+            @ApiResponse(code = 80013,message = "发送验证码失败",response = ApiResult.class)
+
+    })
     public ApiResult checkEmail(String email){
         if(StringUtils.isEmpty(email)){
-            return ApiResult.successMsg("邮箱不能为空");
+            return ApiResult.buildSuccessButCode(AUTH_MAIL_NONE.getCode(),AUTH_MAIL_NONE.getDesc());
         }
-        int code = CheckCodeUtils.sixLength();
-        MailDto mailDto = new MailDto();
-        mailDto.setMailSource(M_GEMINI_QQ_TARGET_INFO.getCode());
-        mailDto.setMailTarget(email);
-        mailDto.setSubject("欢迎注册gemini星云总线");
-        mailDto.setContent("您的注册验证码是：     "+ code);
-        MailUtils.sendMail(mailDto);
-        userService.addCheckCode(email,String.valueOf(code));
-        return ApiResult.successMsg("发送成功");
+        try {
+            int code = CheckCodeUtils.sixLength();
+            MailDto mailDto = new MailDto();
+            mailDto.setMailSource(M_GEMINI_QQ_TARGET_INFO.getCode());
+            mailDto.setMailTarget(email);
+            mailDto.setSubject("欢迎注册gemini星云总线");
+            mailDto.setContent("您的注册验证码是：     " + code);
+            MailUtils.sendMail(mailDto);
+            userService.addCheckCode(email, String.valueOf(code));
+            return ApiResult.successMsg("发送成功");
+        }catch (Exception e){
+            log.error("邮箱验证码发送失败：",e);
+            return ApiResult.buildFail(AUTH_MAIL_CODE_SEND.getCode(),AUTH_MAIL_CODE_SEND.getDesc());
+        }
     }
 
     /**
@@ -174,7 +183,7 @@ public class LoginController {
      */
     @PostMapping("/captcha")
     @ResponseBody
-    @ApiOperation(value = "验证码", notes = "生成图片验证码")
+    @ApiOperation(value = "生成图片验证码", notes = "生成图片验证码")
     @ApiResponses({
             @ApiResponse(code = 80005,message = "生成验证码失败",response = ApiResult.class)
     })
